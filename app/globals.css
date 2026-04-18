@@ -1,0 +1,64 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Base ────────────────────────────────── */
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background-color: #09090B; /* zinc-950 */
+  color: #F4F4F5;            /* zinc-100 */
+}
+
+/* ── Focus ring ──────────────────────────── */
+:focus-visible {
+  outline: 2px solid #1D4ED8;
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* ── FAQ accordion ───────────────────────── */
+details summary {
+  list-style: none;
+  cursor: pointer;
+}
+details summary::-webkit-details-marker {
+  display: none;
+}
+
+/* ── SVG animations ──────────────────────── */
+@keyframes draw-line {
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes pulse-live {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.35; }
+}
+
+@keyframes fade-in-kf {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.svg-line-anim {
+  animation: draw-line 2.4s cubic-bezier(0.4, 0, 0.2, 1) 0.6s forwards;
+}
+
+.svg-pulse-anim {
+  animation: pulse-live 2s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .svg-line-anim  { animation: none; stroke-dashoffset: 0; }
+  .svg-pulse-anim { animation: none; }
+}
+
+/* ── Scrollbar (subtle) ──────────────────── */
+::-webkit-scrollbar        { width: 5px; }
+::-webkit-scrollbar-track  { background: #09090B; }
+::-webkit-scrollbar-thumb  { background: #3F3F46; border-radius: 3px; }
