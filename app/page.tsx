@@ -8,9 +8,7 @@ import { PainPoint } from '@/components/PainPoint'
 import { PackageCard } from '@/components/PackageCard'
 import { FAQItem } from '@/components/FAQItem'
 
-/* ──────────────────────────────────────────────────────────
-   DATA
-─────────────────────────────────────────────────────────── */
+/* ── DATA ────────────────────────────────────────────────── */
 
 const painPointsData = [
   {
@@ -34,17 +32,17 @@ const packagesData = [
   {
     name: 'Small',
     duration: '3 săptămâni',
-    description: 'Pentru un singur proces simplu care are nevoie de digitalizare.',
+    description: 'Pentru un singur proces care are nevoie de claritate.',
     examples: [
       'Pontaj digital per tură',
-      'Formular de raport de producție',
+      'Raport de producție zilnic automat',
       'Mini-dashboard cu 3–5 indicatori live',
     ],
     price: 'de la 3.000 €',
     steps: [
       { phase: 'Discovery', duration: '3 zile' },
-      { phase: 'Build', duration: '2 săpt.' },
-      { phase: 'Handover', duration: '2 zile' },
+      { phase: 'Construcție', duration: '2 săpt.' },
+      { phase: 'Predare', duration: '2 zile' },
     ],
     featured: false,
     ctaHref: '#contact',
@@ -52,18 +50,18 @@ const packagesData = [
   {
     name: 'Medium',
     duration: '6 săptămâni',
-    description: 'Pentru un flux complet cross-departament.',
+    description: 'Pentru un departament sau un flux complet.',
     examples: [
-      'CRM intern pentru echipa de vânzări B2B',
+      'CRM intern pentru echipa de vânzări',
       'Sistem de stocuri cu alertare automată',
-      'Portal de comenzi de producție',
+      'Portal de comenzi pentru clienți recurenți',
     ],
     price: 'de la 6.000 €',
     steps: [
       { phase: 'Discovery', duration: '1 săpt.' },
       { phase: 'Prototip', duration: '1 săpt.' },
-      { phase: 'Build', duration: '3 săpt.' },
-      { phase: 'Handover', duration: '1 săpt.' },
+      { phase: 'Construcție', duration: '3 săpt.' },
+      { phase: 'Predare', duration: '1 săpt.' },
     ],
     featured: true,
     ctaHref: '#contact',
@@ -71,18 +69,18 @@ const packagesData = [
   {
     name: 'Large',
     duration: '10 săptămâni',
-    description: 'Pentru ecosisteme cu integrări multiple sau 3+ module.',
+    description: 'Pentru toată firma — producție, stocuri și vânzări conectate.',
     examples: [
-      'Platformă de producție cu module integrate',
-      'ERP-light cu stocuri, vânzări și raportare',
-      'Platformă de distribuție cu tracking live',
+      'Platformă completă cu producție, stocuri și vânzări',
+      'ERP simplificat cu raportare automată',
+      'Sistem de distribuție cu urmărire în timp real',
     ],
     price: 'de la 10.000 €',
     steps: [
       { phase: 'Discovery', duration: '2 săpt.' },
       { phase: 'Prototip', duration: '1 săpt.' },
-      { phase: 'Build', duration: '6 săpt.' },
-      { phase: 'Handover', duration: '1 săpt.' },
+      { phase: 'Construcție', duration: '6 săpt.' },
+      { phase: 'Predare', duration: '1 săpt.' },
     ],
     featured: false,
     ctaHref: '#contact',
@@ -93,22 +91,22 @@ const appTypesData = [
   {
     Icon: Monitor,
     title: 'Dashboard live pentru producție',
-    body: 'Status pe ture, OEE, productivitate per mașină sau linie, pontaj digital. Datele intră de la operatori sau direct din utilaje — tu le vezi pe loc, fără să întrebi pe nimeni.',
+    body: 'Status pe ture, productivitate per linie, pontaj digital. Datele intră de la operatori — tu le vezi pe loc, fără să întrebi pe nimeni.',
   },
   {
     Icon: Package,
-    title: 'Sistem de stocuri cross-depozit',
-    body: 'Vizibilitate pe mai multe locații în același timp. Alerte automate la stoc minim, trasabilitate per lot, intrări și ieșiri validate. Managerul de logistică știe situația înainte să întrebe.',
+    title: 'Evidența stocurilor pe mai multe depozite',
+    body: 'Un singur loc unde vezi tot — nu mai suni la Cluj ca să afli ce ai în magazie. Alerte automate la stoc minim, intrări și ieșiri validate.',
   },
   {
     Icon: Users,
-    title: 'CRM intern pentru vânzări B2B',
-    body: 'Pipeline vizual, istoricul complet al clientului, target-uri pe agent și rapoarte de teren. Echipa introduce date pe mobil, directorul vede situația live pe desktop.',
+    title: 'CRM intern pentru agenții de vânzări',
+    body: 'Toți agenții tăi, toate ofertele și clienții, într-un singur loc — nu în telefoanele fiecăruia. Agentul introduce date pe mobil, directorul vede situația live pe desktop.',
   },
   {
     Icon: BarChart2,
-    title: 'Raportare automată multi-departament',
-    body: 'Date din SAP, Excel sau sisteme custom — agregate automat, raport săptămânal generat fără intervenție umană. Format consistent, disponibil în dashboard sau trimis pe email.',
+    title: 'Rapoarte săptămânale automate',
+    body: 'Luni dimineața ai raportul gata — nu mai aștepți până miercuri să strângi datele. Format consistent, același număr de fiecare dată, trimis automat pe email.',
   },
 ]
 
@@ -126,71 +124,80 @@ const faqData = [
   {
     question: 'Ce se întâmplă după livrare?',
     answer:
-      'Includem 3 luni de suport post-launch: bugfix-uri, ajustări minore și o sesiune de training cu echipa care folosește aplicația. Dacă vrei funcționalități noi ulterior, lucrăm pe bază de retainer sau proiect nou separat.',
+      'Includem 3 luni de suport după predare: corectăm orice problemă apărută, facem ajustări minore și organizăm o sesiune de training cu echipa ta. Dacă vrei funcționalități noi mai târziu, discutăm un proiect separat.',
   },
   {
     question: 'Al cui e codul?',
     answer:
-      'Al tău, 100%, din prima zi. Codul stă în repository-ul tău, documentat. Fără lock-in față de noi. Dacă mâine decizi să lucrezi cu altcineva sau să angajezi un developer intern, ai tot ce îți trebuie.',
+      'Al tău, 100%, din prima zi. Codul stă pe serverele tale sau pe un hosting la alegerea ta, documentat. Nu ești legat de noi. Dacă mâine decizi să lucrezi cu altcineva sau să angajezi un programator în firmă, ai tot ce îți trebuie.',
   },
   {
-    question: 'Cum lucrați cu ERP-ul nostru existent?',
+    question: 'Funcționează cu ce avem deja în firmă?',
     answer:
-      'Nu înlocuim ERP-ul — îl completăm. Construim integrări via API sau import/export de date acolo unde ERP-ul nu acoperă. Dacă ERP-ul nu are API (se întâmplă), lucrăm cu exporturile lui de date sau cu accesul direct la baza de date.',
+      'Nu înlocuim ce aveți deja — completăm ce lipsește. Ne conectăm la ERP-ul vostru, la fișierele Excel sau la orice alt program care poate exporta date. Dacă ceva nu se poate conecta direct, găsim o cale să luăm datele din el.',
   },
   {
     question: 'De ce să vă aleg pe voi?',
     answer:
-      'Scope fix, preț fix, termen fix — trei lucruri pe care puțini le garantează. Discovery-ul structurat și plătit ne forțează pe amândoi să clarificăm ce se construiește înainte să înceapă munca. Codul rămâne al tău. Dacă la livrare ceva lipsește față de specificație, îl adăugăm fără cost suplimentar.',
+      'Scope fix, preț fix, termen fix — trei lucruri pe care puțini le garantează. Discovery-ul structurat și plătit ne forțează pe amândoi să clarificăm ce se construiește înainte să înceapă munca. Codul rămâne al tău. Dacă la livrare ceva lipsește față de ce s-a agreat, îl adăugăm fără cost suplimentar.',
   },
 ]
 
-/* ──────────────────────────────────────────────────────────
-   SHARED COMPONENTS
-─────────────────────────────────────────────────────────── */
+/* ── ANIMATION HELPERS ───────────────────────────────────── */
 
-function AppLogo({
-  dark = true,
-  size = 'sm',
-}: {
-  dark?: boolean
-  size?: 'sm' | 'lg'
-}) {
-  const mutedFill = dark ? '#3F3F46' : '#D4D4D8'
+function makeVariants(shouldReduce: boolean) {
+  const y = shouldReduce ? 0 : 20
+  return {
+    container: {
+      hidden: {},
+      visible: { transition: { staggerChildren: shouldReduce ? 0 : 0.1 } },
+    },
+    item: {
+      hidden: { opacity: 0, y },
+      visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' as const } },
+    },
+    section: {
+      hidden: { opacity: 0, y },
+      visible: { opacity: 1, y: 0, transition: { duration: 0.55, ease: 'easeOut' as const } },
+    },
+  }
+}
+
+const VP = { once: true, margin: '-100px' } as const
+
+/* ── LOGO ────────────────────────────────────────────────── */
+
+function AppLogo({ dark = true, size = 'sm' }: { dark?: boolean; size?: 'sm' | 'lg' }) {
   const textColor = dark ? '#F4F4F5' : '#18181B'
-  const svgSize = size === 'lg' ? 32 : 22
-  const sqSize = size === 'lg' ? 13.5 : 9.5
-  const sqGap = size === 'lg' ? 18 : 12.5
-  const textClass = size === 'lg' ? 'text-[22px]' : 'text-[15px]'
-  const dotClass =
-    size === 'lg'
-      ? 'inline-block w-[7px] h-[7px] bg-brand align-middle mx-[3px] translate-y-[-3px]'
-      : 'inline-block w-[5px] h-[5px] bg-brand align-middle mx-[2px] translate-y-[-2px]'
+  const textSizeClass = size === 'lg' ? 'text-[20px]' : 'text-[14px]'
+  const svgDim = size === 'lg' ? 24 : 17
+
   return (
-    <span className="inline-flex items-center gap-2.5" aria-label="app.up">
+    <span className="inline-flex items-center gap-2" aria-label="app.up">
       <svg
-        width={svgSize}
-        height={svgSize}
-        viewBox={`0 0 ${svgSize} ${svgSize}`}
+        width={svgDim}
+        height={svgDim}
+        viewBox="0 0 20 20"
         fill="none"
         aria-hidden="true"
       >
-        <rect x="0"     y="0"     width={sqSize} height={sqSize} rx="1.5" fill="#1D4ED8" />
-        <rect x={sqGap} y="0"     width={sqSize} height={sqSize} rx="1.5" fill={mutedFill} />
-        <rect x="0"     y={sqGap} width={sqSize} height={sqSize} rx="1.5" fill={mutedFill} />
-        <rect x={sqGap} y={sqGap} width={sqSize} height={sqSize} rx="1.5" fill={mutedFill} />
+        {/* Upward-right arrow: diagonal stem + L-cap */}
+        <line x1="3" y1="17" x2="15" y2="5" stroke="#1D4ED8" strokeWidth="2.5" strokeLinecap="round" />
+        <line x1="7" y1="5"  x2="15" y2="5" stroke="#1D4ED8" strokeWidth="2.5" strokeLinecap="round" />
+        <line x1="15" y1="5" x2="15" y2="13" stroke="#1D4ED8" strokeWidth="2.5" strokeLinecap="round" />
       </svg>
       <span
-        className={`${textClass} font-semibold tracking-tight leading-none select-none`}
+        className={`${textSizeClass} font-semibold tracking-tight leading-none select-none`}
         style={{ color: textColor }}
       >
-        app
-        <span className={dotClass} aria-hidden="true" />
-        up
+        app.
+        <span className="font-mono font-bold" style={{ color: '#1D4ED8' }}>up</span>
       </span>
     </span>
   )
 }
+
+/* ── ICONS ───────────────────────────────────────────────── */
 
 function WhatsAppIcon({ className = 'w-4 h-4' }: { className?: string }) {
   return (
@@ -199,6 +206,87 @@ function WhatsAppIcon({ className = 'w-4 h-4' }: { className?: string }) {
     </svg>
   )
 }
+
+/* ── GROWTH ARROW ────────────────────────────────────────── */
+
+function GrowthArrow() {
+  const shouldReduce = useReducedMotion() ?? false
+
+  const lineInit = shouldReduce
+    ? { pathLength: 1 as number, opacity: 1 }
+    : { pathLength: 0 as number, opacity: 0 }
+  const lineTarget = { pathLength: 1 as number, opacity: 1 }
+
+  return (
+    <svg
+      viewBox="0 0 260 72"
+      width="260"
+      height="72"
+      fill="none"
+      aria-hidden="true"
+      className="overflow-visible"
+    >
+      <line x1="0" y1="60" x2="260" y2="60" stroke="#27272A" strokeWidth="0.75" />
+      <line x1="0" y1="42" x2="260" y2="42" stroke="#27272A" strokeWidth="0.75" />
+      <line x1="0" y1="24" x2="260" y2="24" stroke="#27272A" strokeWidth="0.75" />
+
+      <path
+        d="M 10 60 L 55 52 L 100 55 L 145 42 L 190 30 L 235 14 L 248 8 L 248 62 Z"
+        fill="#1D4ED8"
+        fillOpacity="0.05"
+      />
+
+      <motion.path
+        d="M 10 60 L 55 52 L 100 55 L 145 42 L 190 30 L 235 14 L 248 8"
+        stroke="#3F3F46"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        initial={lineInit}
+        whileInView={lineTarget}
+        viewport={VP}
+        transition={shouldReduce ? { duration: 0 } : { duration: 2, ease: 'easeInOut' }}
+      />
+
+      <motion.path
+        d="M 190 30 L 235 14 L 248 8"
+        stroke="#1D4ED8"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        initial={lineInit}
+        whileInView={lineTarget}
+        viewport={VP}
+        transition={shouldReduce ? { duration: 0 } : { duration: 0.7, delay: 1.7, ease: 'easeOut' }}
+      />
+
+      <motion.path
+        d="M 238 4 L 248 8 L 242 18"
+        stroke="#1D4ED8"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        initial={lineInit}
+        whileInView={lineTarget}
+        viewport={VP}
+        transition={shouldReduce ? { duration: 0 } : { duration: 0.3, delay: 2.3, ease: 'easeOut' }}
+      />
+
+      <motion.circle
+        cx="248"
+        cy="8"
+        r="3.5"
+        fill="#1D4ED8"
+        initial={shouldReduce ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0 }}
+        whileInView={{ opacity: 1, scale: 1 }}
+        viewport={VP}
+        transition={shouldReduce ? { duration: 0 } : { duration: 0.3, delay: 2.5 }}
+      />
+    </svg>
+  )
+}
+
+/* ── DASHBOARD VISUAL ────────────────────────────────────── */
 
 function DashboardVisual() {
   return (
@@ -209,37 +297,32 @@ function DashboardVisual() {
       role="img"
       className="w-full max-w-[520px] mx-auto lg:mx-0"
     >
-      {/* Frame */}
       <rect width="440" height="320" rx="8" fill="#18181B" stroke="#3F3F46" strokeWidth="1" />
-      {/* Chrome bar */}
       <rect width="440" height="36" rx="8" fill="#27272A" />
       <rect y="28" width="440" height="8" fill="#27272A" />
       <circle cx="18" cy="18" r="4.5" fill="#52525B" />
       <circle cx="32" cy="18" r="4.5" fill="#52525B" />
       <circle cx="46" cy="18" r="4.5" fill="#52525B" />
-      {/* URL bar */}
       <rect x="68" y="12" width="188" height="12" rx="6" fill="#3F3F46" />
-      {/* LIVE indicator */}
       <circle cx="392" cy="18" r="4" fill="#22C55E" className="svg-pulse-anim" />
       <text x="400" y="22" fontSize="8" fill="#22C55E" fontFamily="monospace" fontWeight="600">LIVE</text>
-      {/* KPI 1 */}
+
       <rect x="12" y="48" width="130" height="64" rx="4" fill="#27272A" stroke="#3F3F46" strokeWidth="1" />
       <rect x="22" y="57" width="52" height="6" rx="2" fill="#52525B" />
       <rect x="22" y="69" width="72" height="14" rx="2" fill="#E4E4E7" />
       <rect x="22" y="90" width="36" height="8" rx="2" fill="#1D4ED8" />
-      {/* KPI 2 */}
+
       <rect x="154" y="48" width="130" height="64" rx="4" fill="#27272A" stroke="#3F3F46" strokeWidth="1" />
       <rect x="164" y="57" width="64" height="6" rx="2" fill="#52525B" />
       <rect x="164" y="69" width="56" height="14" rx="2" fill="#E4E4E7" />
       <rect x="164" y="90" width="44" height="8" rx="2" fill="#22C55E" fillOpacity="0.7" />
-      {/* KPI 3 */}
+
       <rect x="296" y="48" width="132" height="64" rx="4" fill="#27272A" stroke="#3F3F46" strokeWidth="1" />
       <rect x="306" y="57" width="48" height="6" rx="2" fill="#52525B" />
       <rect x="306" y="69" width="80" height="14" rx="2" fill="#E4E4E7" />
       <rect x="306" y="90" width="32" height="8" rx="2" fill="#EAB308" fillOpacity="0.7" />
-      {/* Chart area */}
+
       <rect x="12" y="124" width="276" height="124" rx="4" fill="#27272A" stroke="#3F3F46" strokeWidth="1" />
-      {/* Grid lines */}
       <line x1="22" y1="153" x2="278" y2="153" stroke="#3F3F46" strokeWidth="0.5" />
       <line x1="22" y1="173" x2="278" y2="173" stroke="#3F3F46" strokeWidth="0.5" />
       <line x1="22" y1="193" x2="278" y2="193" stroke="#3F3F46" strokeWidth="0.5" />
@@ -247,13 +330,12 @@ function DashboardVisual() {
       <rect x="22" y="150" width="16" height="4" rx="1" fill="#3F3F46" />
       <rect x="22" y="170" width="16" height="4" rx="1" fill="#3F3F46" />
       <rect x="22" y="190" width="16" height="4" rx="1" fill="#3F3F46" />
-      {/* Area fill */}
+
       <path
         d="M 48,232 L 82,216 L 116,209 L 150,196 L 184,187 L 218,172 L 252,158 L 270,148 L 270,238 L 48,238 Z"
         fill="#1D4ED8"
         fillOpacity="0.07"
       />
-      {/* Animated chart line */}
       <path
         d="M 48,232 L 82,216 L 116,209 L 150,196 L 184,187 L 218,172 L 252,158 L 270,148"
         fill="none"
@@ -266,12 +348,12 @@ function DashboardVisual() {
         className="svg-line-anim"
       />
       <circle cx="270" cy="148" r="3.5" fill="#1D4ED8" />
-      {/* X-axis labels */}
+
       <rect x="44" y="244" width="18" height="4" rx="1" fill="#3F3F46" />
       <rect x="110" y="244" width="18" height="4" rx="1" fill="#3F3F46" />
       <rect x="176" y="244" width="18" height="4" rx="1" fill="#3F3F46" />
       <rect x="242" y="244" width="18" height="4" rx="1" fill="#3F3F46" />
-      {/* Right status panel */}
+
       <rect x="300" y="124" width="128" height="124" rx="4" fill="#27272A" stroke="#3F3F46" strokeWidth="1" />
       <rect x="310" y="133" width="60" height="6" rx="2" fill="#52525B" />
       <line x1="300" y1="148" x2="428" y2="148" stroke="#3F3F46" strokeWidth="0.5" />
@@ -287,7 +369,7 @@ function DashboardVisual() {
       <circle cx="316" cy="233" r="3.5" fill="#22C55E" />
       <rect x="325" y="228" width="68" height="6" rx="2" fill="#71717A" />
       <rect x="325" y="237" width="52" height="4" rx="1" fill="#3F3F46" />
-      {/* Bottom bar */}
+
       <rect x="12" y="260" width="416" height="48" rx="4" fill="#27272A" stroke="#3F3F46" strokeWidth="1" />
       <rect x="22" y="271" width="60" height="5" rx="2" fill="#52525B" />
       <rect x="22" y="280" width="48" height="8" rx="2" fill="#1D4ED8" fillOpacity="0.7" />
@@ -301,9 +383,7 @@ function DashboardVisual() {
   )
 }
 
-/* ──────────────────────────────────────────────────────────
-   NAV
-─────────────────────────────────────────────────────────── */
+/* ── NAV ─────────────────────────────────────────────────── */
 
 function Nav() {
   const [scrolled, setScrolled] = useState(false)
@@ -359,25 +439,11 @@ function Nav() {
   )
 }
 
-/* ──────────────────────────────────────────────────────────
-   HERO
-─────────────────────────────────────────────────────────── */
+/* ── HERO ────────────────────────────────────────────────── */
 
 function HeroSection() {
   const shouldReduce = useReducedMotion() ?? false
-
-  const container = {
-    hidden: {},
-    visible: { transition: { staggerChildren: shouldReduce ? 0 : 0.13 } },
-  }
-  const item = {
-    hidden: { opacity: 0, y: shouldReduce ? 0 : 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.55, ease: [0.25, 0.1, 0.25, 1] },
-    },
-  }
+  const { container, item } = makeVariants(shouldReduce)
 
   return (
     <section
@@ -385,12 +451,10 @@ function HeroSection() {
       aria-labelledby="hero-heading"
       className="relative overflow-hidden bg-zinc-950 pt-28 pb-20 sm:pt-36 sm:pb-28"
     >
-      {/* Subtle dot grid */}
       <div
         className="absolute inset-0 bg-grid-dark bg-grid-sm opacity-40 pointer-events-none"
         aria-hidden="true"
       />
-      {/* Blue radial highlight */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
@@ -402,41 +466,35 @@ function HeroSection() {
 
       <div className="relative max-w-6xl mx-auto px-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-          {/* Copy */}
-          <motion.div
-            variants={container}
-            initial="hidden"
-            animate="visible"
-          >
+          <motion.div variants={container} initial="hidden" animate="visible">
             <motion.p
               variants={item}
-              className="font-mono text-xs tracking-widest uppercase text-zinc-500 mb-6"
+              className="font-mono text-xs tracking-widest uppercase text-zinc-400 mb-6"
             >
               Pentru producție și distribuție
             </motion.p>
+
             <motion.h1
               id="hero-heading"
               variants={item}
               className="text-[1.85rem] sm:text-4xl lg:text-[2.5rem] font-semibold tracking-tight leading-[1.13] text-zinc-50 mb-6"
             >
-              Directorii de producție
+              Datele din firmă,
               <br />
-              decidă pe date live,
+              în timp real —
               <br />
-              nu pe rapoarte de vineri.
+              nu în raportul de vineri.
             </motion.h1>
+
             <motion.p
               variants={item}
               className="text-base sm:text-lg text-zinc-400 leading-relaxed mb-10 max-w-[440px]"
             >
-              Construim dashboarduri și sisteme interne pentru firme din
-              producție și distribuție. Livrare în 3–10 săptămâni, preț
-              stabilit înainte să scriem o linie de cod.
+              Construim aplicații interne pentru firme din producție și
+              distribuție. Preț fix, termen fix, fără surprize pe parcurs.
             </motion.p>
-            <motion.div
-              variants={item}
-              className="flex flex-col sm:flex-row gap-3"
-            >
+
+            <motion.div variants={item} className="flex flex-col sm:flex-row gap-3">
               <a
                 href="https://wa.me/40700000000"
                 target="_blank"
@@ -453,15 +511,10 @@ function HeroSection() {
             </motion.div>
           </motion.div>
 
-          {/* Dashboard visual */}
           <motion.div
             initial={{ opacity: 0, y: shouldReduce ? 0 : 24 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{
-              duration: 0.7,
-              delay: shouldReduce ? 0 : 0.5,
-              ease: [0.25, 0.1, 0.25, 1],
-            }}
+            transition={{ duration: 0.7, delay: shouldReduce ? 0 : 0.5, ease: 'easeOut' }}
           >
             <DashboardVisual />
           </motion.div>
@@ -471,11 +524,12 @@ function HeroSection() {
   )
 }
 
-/* ──────────────────────────────────────────────────────────
-   PROBLEMA
-─────────────────────────────────────────────────────────── */
+/* ── PROBLEMA ────────────────────────────────────────────── */
 
 function ProblemaSection() {
+  const shouldReduce = useReducedMotion() ?? false
+  const { container, item, section } = makeVariants(shouldReduce)
+
   return (
     <section
       id="problema"
@@ -483,35 +537,54 @@ function ProblemaSection() {
       className="bg-zinc-900 py-20 sm:py-28 border-t border-zinc-800"
     >
       <div className="max-w-6xl mx-auto px-6">
-        <p className="font-mono text-xs tracking-widest uppercase text-zinc-500 mb-5">
-          Problema
-        </p>
-        <h2
-          id="problema-heading"
-          className="text-2xl sm:text-3xl font-semibold tracking-tight text-zinc-50 max-w-xl mb-4"
+        <motion.div
+          variants={section}
+          initial="hidden"
+          whileInView="visible"
+          viewport={VP}
+          className="mb-14"
         >
-          Firmele din producție și distribuție au date.
-          <br />
-          Problema e că le primesc prea târziu.
-        </h2>
-        <p className="text-zinc-400 text-sm sm:text-base max-w-lg mb-14">
-          Nu e o problemă de volum. E o problemă de când ajung.
-        </p>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <p className="font-mono text-xs tracking-widest uppercase text-zinc-400 mb-5">
+            Problema
+          </p>
+          <h2
+            id="problema-heading"
+            className="text-2xl sm:text-3xl font-semibold tracking-tight text-zinc-50 max-w-xl mb-4"
+          >
+            Firmele din producție și distribuție au date.
+            <br />
+            Problema e că le primesc prea târziu.
+          </h2>
+          <p className="text-zinc-400 text-sm sm:text-base max-w-lg mb-8">
+            Nu e o problemă de volum. E o problemă de când ajung.
+          </p>
+          <GrowthArrow />
+        </motion.div>
+
+        <motion.div
+          variants={container}
+          initial="hidden"
+          whileInView="visible"
+          viewport={VP}
+          className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4"
+        >
           {painPointsData.map((p) => (
-            <PainPoint key={p.number} {...p} />
+            <motion.div key={p.number} variants={item}>
+              <PainPoint {...p} />
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   )
 }
 
-/* ──────────────────────────────────────────────────────────
-   PACHETE
-─────────────────────────────────────────────────────────── */
+/* ── PACHETE ─────────────────────────────────────────────── */
 
 function PacheteSection() {
+  const shouldReduce = useReducedMotion() ?? false
+  const { container, item, section } = makeVariants(shouldReduce)
+
   return (
     <section
       id="pachete"
@@ -519,36 +592,54 @@ function PacheteSection() {
       className="bg-zinc-50 py-20 sm:py-28 border-t border-zinc-200"
     >
       <div className="max-w-6xl mx-auto px-6">
-        <p className="font-mono text-xs tracking-widest uppercase text-zinc-600 mb-5">
-          Pachete și proces
-        </p>
-        <h2
-          id="pachete-heading"
-          className="text-2xl sm:text-3xl font-semibold tracking-tight text-zinc-900 max-w-2xl mb-4"
+        <motion.div
+          variants={section}
+          initial="hidden"
+          whileInView="visible"
+          viewport={VP}
+          className="mb-14"
         >
-          Scope fix, preț fix, termen fix.
-          <br />
-          Stabilite după o săptămână de discovery.
-        </h2>
-        <p className="text-zinc-600 text-sm sm:text-base max-w-lg mb-14">
-          Nu scriem o linie de cod înainte să știm exact ce construim.
-          Discovery-ul e plătit și creditat integral în proiect dacă continuăm.
-        </p>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          <p className="font-mono text-xs tracking-widest uppercase text-zinc-600 mb-5">
+            Pachete și proces
+          </p>
+          <h2
+            id="pachete-heading"
+            className="text-2xl sm:text-3xl font-semibold tracking-tight text-zinc-900 max-w-2xl mb-4"
+          >
+            Scope fix, preț fix, termen fix.
+            <br />
+            Stabilite după o săptămână de discovery.
+          </h2>
+          <p className="text-zinc-600 text-sm sm:text-base max-w-lg">
+            Nu scriem o linie de cod înainte să știm exact ce construim.
+            Discovery-ul e plătit și creditat integral în proiect dacă continuăm.
+          </p>
+        </motion.div>
+
+        <motion.div
+          variants={container}
+          initial="hidden"
+          whileInView="visible"
+          viewport={VP}
+          className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5"
+        >
           {packagesData.map((pkg) => (
-            <PackageCard key={pkg.name} {...pkg} />
+            <motion.div key={pkg.name} variants={item} className="h-full">
+              <PackageCard {...pkg} />
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   )
 }
 
-/* ──────────────────────────────────────────────────────────
-   CE CONSTRUIM
-─────────────────────────────────────────────────────────── */
+/* ── CE CONSTRUIM ────────────────────────────────────────── */
 
 function CeConstruimSection() {
+  const shouldReduce = useReducedMotion() ?? false
+  const { container, item, section } = makeVariants(shouldReduce)
+
   return (
     <section
       id="ce-construim"
@@ -556,24 +647,40 @@ function CeConstruimSection() {
       className="bg-zinc-900 py-20 sm:py-28 border-t border-zinc-800"
     >
       <div className="max-w-6xl mx-auto px-6">
-        <p className="font-mono text-xs tracking-widest uppercase text-zinc-500 mb-5">
-          Ce construim
-        </p>
-        <h2
-          id="ce-construim-heading"
-          className="text-2xl sm:text-3xl font-semibold tracking-tight text-zinc-50 max-w-xl mb-4"
+        <motion.div
+          variants={section}
+          initial="hidden"
+          whileInView="visible"
+          viewport={VP}
+          className="mb-14"
         >
-          Aplicații pentru procesele care consumă
-          <br className="hidden sm:block" />
-          cel mai mult timp în producție și distribuție.
-        </h2>
-        <p className="text-zinc-500 text-sm sm:text-base max-w-lg mb-14">
-          Nu generice. Construite pe specificațiile tale, cu logica procesului tău.
-        </p>
-        <div className="grid sm:grid-cols-2 gap-4">
+          <p className="font-mono text-xs tracking-widest uppercase text-zinc-400 mb-5">
+            Ce construim
+          </p>
+          <h2
+            id="ce-construim-heading"
+            className="text-2xl sm:text-3xl font-semibold tracking-tight text-zinc-50 max-w-xl mb-4"
+          >
+            Aplicații pentru procesele care consumă
+            <br className="hidden sm:block" />
+            cel mai mult timp în producție și distribuție.
+          </h2>
+          <p className="text-zinc-400 text-sm sm:text-base max-w-lg">
+            Nu generice. Construite pe specificațiile tale, cu logica procesului tău.
+          </p>
+        </motion.div>
+
+        <motion.div
+          variants={container}
+          initial="hidden"
+          whileInView="visible"
+          viewport={VP}
+          className="grid sm:grid-cols-2 gap-4"
+        >
           {appTypesData.map(({ Icon, title, body }) => (
-            <div
+            <motion.div
               key={title}
+              variants={item}
               className="border border-zinc-800 rounded-lg p-6 hover:border-zinc-700 transition-colors duration-200"
             >
               <div className="inline-flex items-center justify-center w-9 h-9 rounded-md bg-zinc-800 border border-zinc-700 mb-4">
@@ -583,19 +690,20 @@ function CeConstruimSection() {
                 {title}
               </h3>
               <p className="text-sm text-zinc-400 leading-relaxed">{body}</p>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   )
 }
 
-/* ──────────────────────────────────────────────────────────
-   FAQ
-─────────────────────────────────────────────────────────── */
+/* ── FAQ ─────────────────────────────────────────────────── */
 
 function FAQSection() {
+  const shouldReduce = useReducedMotion() ?? false
+  const { section } = makeVariants(shouldReduce)
+
   return (
     <section
       id="faq"
@@ -603,34 +711,50 @@ function FAQSection() {
       className="bg-white py-20 sm:py-28 border-t border-zinc-200"
     >
       <div className="max-w-6xl mx-auto px-6">
-        <p className="font-mono text-xs tracking-widest uppercase text-zinc-600 mb-5">
-          Întrebări frecvente
-        </p>
-        <h2
-          id="faq-heading"
-          className="text-2xl sm:text-3xl font-semibold tracking-tight text-zinc-900 max-w-xl mb-14"
+        <motion.div
+          variants={section}
+          initial="hidden"
+          whileInView="visible"
+          viewport={VP}
+          className="mb-14"
         >
-          Ce întreabă antreprenorii înainte să înceapă o colaborare.
-        </h2>
-        <div className="max-w-2xl">
-          {faqData.map((item) => (
+          <p className="font-mono text-xs tracking-widest uppercase text-zinc-600 mb-5">
+            Întrebări frecvente
+          </p>
+          <h2
+            id="faq-heading"
+            className="text-2xl sm:text-3xl font-semibold tracking-tight text-zinc-900 max-w-xl"
+          >
+            Ce întreabă antreprenorii înainte să înceapă o colaborare.
+          </h2>
+        </motion.div>
+
+        <motion.div
+          variants={section}
+          initial="hidden"
+          whileInView="visible"
+          viewport={VP}
+          className="max-w-2xl"
+        >
+          {faqData.map((faqItem) => (
             <FAQItem
-              key={item.question}
-              question={item.question}
-              answer={item.answer}
+              key={faqItem.question}
+              question={faqItem.question}
+              answer={faqItem.answer}
             />
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   )
 }
 
-/* ──────────────────────────────────────────────────────────
-   ABOUT
-─────────────────────────────────────────────────────────── */
+/* ── ECHIPA ──────────────────────────────────────────────── */
 
 function AboutSection() {
+  const shouldReduce = useReducedMotion() ?? false
+  const { section } = makeVariants(shouldReduce)
+
   return (
     <section
       id="echipa"
@@ -638,47 +762,54 @@ function AboutSection() {
       className="bg-zinc-50 py-20 sm:py-28 border-t border-zinc-200"
     >
       <div className="max-w-6xl mx-auto px-6">
-        <p className="font-mono text-xs tracking-widest uppercase text-zinc-600 mb-5">
-          Echipa
-        </p>
-        <h2
-          id="about-heading"
-          className="text-2xl sm:text-3xl font-semibold tracking-tight text-zinc-900 mb-8"
+        <motion.div
+          variants={section}
+          initial="hidden"
+          whileInView="visible"
+          viewport={VP}
         >
-          Tehnici, nu consultanți.
-        </h2>
-        <p className="text-zinc-700 text-sm sm:text-base leading-[1.75] max-w-2xl">
-          Suntem o echipă mică — 3 oameni cu experiență în software pentru
-          producție și logistică. Am lucrat anterior cu sisteme de management
-          al producției, ERP-uri și platforme de distribuție înainte să
-          construim app.up. Nu vindem produse generice adaptate forțat.
-          Fiecare proiect începe cu o săptămână de discovery în care mapăm
-          procesele reale, nu cele din organigramă. Scriem cod, nu slide-uri.
-        </p>
-        <div className="mt-12 grid grid-cols-1 sm:grid-cols-3 gap-8 max-w-lg">
-          {[
-            { stat: '6', label: 'Proiecte livrate' },
-            { stat: '3–10', label: 'Săptămâni per proiect' },
-            { stat: '100%', label: 'Ownership cod la client' },
-          ].map(({ stat, label }) => (
-            <div key={label} className="border-t-2 border-brand pt-4">
-              <p className="font-mono text-2xl font-semibold text-zinc-900">
-                {stat}
-              </p>
-              <p className="text-sm text-zinc-500 mt-1">{label}</p>
-            </div>
-          ))}
-        </div>
+          <p className="font-mono text-xs tracking-widest uppercase text-zinc-600 mb-5">
+            Echipa
+          </p>
+          <h2
+            id="about-heading"
+            className="text-2xl sm:text-3xl font-semibold tracking-tight text-zinc-900 mb-8"
+          >
+            Tehnici, nu consultanți.
+          </h2>
+          <p className="text-zinc-700 text-sm sm:text-base leading-[1.75] max-w-2xl mb-12">
+            Suntem o echipă mică cu experiență în software pentru producție și
+            logistică. Am lucrat cu sisteme de gestiune a producției, ERP-uri și
+            platforme de distribuție înainte să construim app.up. Nu vindem
+            produse generice adaptate forțat. Fiecare proiect începe cu o
+            săptămână de discovery în care mapăm procesele reale, nu cele din
+            organigramă. Scriem cod, nu slide-uri.
+          </p>
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 max-w-lg">
+            {[
+              { stat: '3–10', label: 'Săptămâni de la discovery la predare' },
+              { stat: '100%', label: 'Codul rămâne al tău' },
+              { stat: '3 luni', label: 'Suport și training inclus' },
+            ].map(({ stat, label }) => (
+              <div key={label} className="border-t-2 border-brand pt-4">
+                <p className="font-mono text-2xl font-semibold text-zinc-900">{stat}</p>
+                <p className="text-sm text-zinc-500 mt-1">{label}</p>
+              </div>
+            ))}
+          </div>
+        </motion.div>
       </div>
     </section>
   )
 }
 
-/* ──────────────────────────────────────────────────────────
-   CTA FINAL
-─────────────────────────────────────────────────────────── */
+/* ── CTA FINAL ───────────────────────────────────────────── */
 
 function CTASection() {
+  const shouldReduce = useReducedMotion() ?? false
+  const { section } = makeVariants(shouldReduce)
+
   return (
     <section
       id="contact"
@@ -686,46 +817,51 @@ function CTASection() {
       className="bg-zinc-950 py-20 sm:py-28 border-t border-zinc-800"
     >
       <div className="max-w-6xl mx-auto px-6 text-center">
-        <h2
-          id="cta-heading"
-          className="text-2xl sm:text-[2.25rem] font-semibold tracking-tight text-zinc-50 max-w-2xl mx-auto leading-tight mb-5"
+        <motion.div
+          variants={section}
+          initial="hidden"
+          whileInView="visible"
+          viewport={VP}
         >
-          Gata să vezi ce se întâmplă în firma ta, în timp real?
-        </h2>
-        <p className="text-zinc-300 text-sm sm:text-base max-w-md mx-auto mb-10 leading-relaxed">
-          O discuție de 30 de minute e suficientă ca să înțelegem dacă putem
-          ajuta și cum ar arăta un proiect cu tine.
-        </p>
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-          <a
-            href="https://wa.me/40700000000"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center justify-center gap-2.5 bg-brand hover:bg-brand-hover text-white text-sm font-medium px-6 py-3 rounded-md transition-colors min-h-[44px] w-full sm:w-auto focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
+          <h2
+            id="cta-heading"
+            className="text-2xl sm:text-[2.25rem] font-semibold tracking-tight text-zinc-50 max-w-2xl mx-auto leading-tight mb-5"
           >
-            <WhatsAppIcon />
-            WhatsApp
-          </a>
-          <Button variant="outline" href="tel:+40700000000" className="w-full sm:w-auto">
-            <Phone className="w-4 h-4" aria-hidden="true" />
-            +40 7XX XXX XXX
-          </Button>
-          <Button variant="outline" href="mailto:contact@app.up" className="w-full sm:w-auto">
-            <Mail className="w-4 h-4" aria-hidden="true" />
-            contact@app.up
-          </Button>
-        </div>
-        <p className="mt-8 font-mono text-xs text-zinc-600">
-          Răspundem în maxim 24 de ore în zilele lucrătoare.
-        </p>
+            Vrei să știi ce se întâmplă în firma ta, fără să aștepți raportul de vineri?
+          </h2>
+          <p className="text-zinc-400 text-sm sm:text-base max-w-md mx-auto mb-10 leading-relaxed">
+            O discuție de 30 de minute e suficientă ca să înțelegem dacă putem
+            ajuta și cum ar arăta un proiect cu tine.
+          </p>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+            <a
+              href="https://wa.me/40700000000"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2.5 bg-brand hover:bg-brand-hover text-white text-sm font-medium px-6 py-3 rounded-md transition-colors min-h-[44px] w-full sm:w-auto focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
+            >
+              <WhatsAppIcon />
+              WhatsApp
+            </a>
+            <Button variant="outline" href="tel:+40700000000" className="w-full sm:w-auto">
+              <Phone className="w-4 h-4" aria-hidden="true" />
+              +40 7XX XXX XXX
+            </Button>
+            <Button variant="outline" href="mailto:contact@app.up" className="w-full sm:w-auto">
+              <Mail className="w-4 h-4" aria-hidden="true" />
+              contact@app.up
+            </Button>
+          </div>
+          <p className="mt-8 font-mono text-xs text-zinc-600">
+            Răspundem în maxim 24 de ore în zilele lucrătoare.
+          </p>
+        </motion.div>
       </div>
     </section>
   )
 }
 
-/* ──────────────────────────────────────────────────────────
-   FOOTER
-─────────────────────────────────────────────────────────── */
+/* ── FOOTER ──────────────────────────────────────────────── */
 
 function FooterSection() {
   return (
@@ -737,15 +873,13 @@ function FooterSection() {
             Aplicații interne custom pentru firme românești
           </p>
         </div>
-        <p className="font-mono text-xs text-zinc-700">© 2025 app.up</p>
+        <p className="font-mono text-xs text-zinc-700">© 2026 app.up</p>
       </div>
     </footer>
   )
 }
 
-/* ──────────────────────────────────────────────────────────
-   PAGE
-─────────────────────────────────────────────────────────── */
+/* ── PAGE ────────────────────────────────────────────────── */
 
 export default function Page() {
   return (

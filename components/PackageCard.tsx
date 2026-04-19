@@ -25,7 +25,7 @@ export function PackageCard({
 }: PackageCardProps) {
   return (
     <div
-      className={`relative flex flex-col rounded-lg border p-6 transition-colors duration-200 ${
+      className={`relative flex flex-col h-full rounded-lg border p-6 transition-colors duration-200 ${
         featured
           ? 'border-brand bg-zinc-900'
           : 'border-zinc-200 bg-white hover:border-zinc-300'
