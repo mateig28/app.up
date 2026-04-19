@@ -8,11 +8,18 @@ type Props = {
   tabs: Tab[]
   activeTab: string
   onTabChange: (id: string) => void
-  variant?: 'blue' | 'violet'
+  variant?: 'blue' | 'emerald'
 }
 
 export function TabSwitcher({ tabs, activeTab, onTabChange, variant = 'blue' }: Props) {
   const shouldReduce = useReducedMotion() ?? false
+
+  const isBlue = variant === 'blue'
+  const accentColor = isBlue ? '#3B82F6' : '#10B981'
+  const pillBg = isBlue ? '#3B82F6' : '#10B981'
+  const pillGlow = isBlue
+    ? '0 0 12px rgba(59,130,246,0.4)'
+    : '0 0 12px rgba(16,185,129,0.4)'
 
   const handleKeyDown = (e: React.KeyboardEvent, index: number) => {
     let nextIndex = index
@@ -25,16 +32,12 @@ export function TabSwitcher({ tabs, activeTab, onTabChange, variant = 'blue' }: 
     el?.focus()
   }
 
-  const pillGradient =
-    variant === 'blue'
-      ? 'linear-gradient(135deg, #3B82F6, #6366F1)'
-      : 'linear-gradient(135deg, #8B5CF6, #EC4899)'
-
   return (
     <div
       role="tablist"
       aria-label="Selectează serviciul"
-      className="relative inline-flex glass rounded-xl p-1 gap-0.5"
+      className="relative inline-flex rounded-xl p-1 gap-0.5"
+      style={{ background: '#0D1117', border: '1px solid #1E2530' }}
     >
       {tabs.map((tab, i) => {
         const isActive = activeTab === tab.id
@@ -47,20 +50,23 @@ export function TabSwitcher({ tabs, activeTab, onTabChange, variant = 'blue' }: 
             tabIndex={isActive ? 0 : -1}
             onClick={() => onTabChange(tab.id)}
             onKeyDown={(e) => handleKeyDown(e, i)}
-            className="relative px-6 py-2.5 text-sm font-medium rounded-lg transition-colors duration-150 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-400 min-h-[40px] min-w-[140px]"
-            style={{ color: isActive ? '#F8FAFC' : '#94A3B8' }}
+            className="relative px-6 py-2.5 text-sm font-medium rounded-lg transition-colors duration-150 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 min-h-[40px] min-w-[140px]"
+            style={{
+              color: isActive ? '#F0F6FF' : '#8B97A8',
+              outlineColor: accentColor,
+            }}
           >
             {isActive &&
               (shouldReduce ? (
                 <div
                   className="absolute inset-0 rounded-lg"
-                  style={{ background: pillGradient }}
+                  style={{ background: pillBg, boxShadow: pillGlow }}
                 />
               ) : (
                 <motion.div
                   layoutId="tab-pill"
                   className="absolute inset-0 rounded-lg"
-                  style={{ background: pillGradient }}
+                  style={{ background: pillBg, boxShadow: pillGlow }}
                   transition={{ type: 'spring', bounce: 0.18, duration: 0.4 }}
                 />
               ))}

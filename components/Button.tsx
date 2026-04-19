@@ -1,59 +1,89 @@
 'use client'
 
+import { motion } from 'framer-motion'
 import type { ReactNode } from 'react'
 
-type Variant = 'gradient-blue' | 'gradient-violet' | 'ghost' | 'ghost-sm'
+type Variant = 'primary' | 'primary-emerald' | 'ghost' | 'ghost-sm'
 
 type Props = {
   variant?: Variant
   href?: string
-  onClick?: () => void
   children: ReactNode
   className?: string
-  'aria-label'?: string
-  target?: '_blank' | '_self'
+  onClick?: () => void
+  target?: string
   rel?: string
-  type?: 'button' | 'submit'
+  'aria-label'?: string
 }
 
-const BASE =
-  'inline-flex items-center justify-center gap-2 font-medium transition-all duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 min-h-[44px] px-5 py-2.5 text-sm rounded-lg active:scale-[0.98] select-none'
-
-const VARIANTS: Record<Variant, string> = {
-  'gradient-blue':
-    'bg-gradient-to-r from-blue-500 to-indigo-500 text-white glow-blue focus-visible:outline-blue-400',
-  'gradient-violet':
-    'bg-gradient-to-r from-violet-500 to-pink-500 text-white glow-violet focus-visible:outline-violet-400',
-  ghost:
-    'border border-white/10 text-slate-300 hover:border-white/20 hover:text-white bg-white/[0.03] focus-visible:outline-white/40',
-  'ghost-sm':
-    'border border-white/10 text-slate-400 hover:border-white/18 hover:text-slate-200 bg-transparent text-xs min-h-[36px] px-4 py-2 focus-visible:outline-white/40',
+const STYLES: Record<Variant, string> = {
+  'primary': [
+    'inline-flex items-center justify-center gap-2',
+    'bg-[#3B82F6] hover:bg-[#2563EB] text-white',
+    'px-5 py-2.5 rounded-lg text-sm font-medium',
+    'transition-colors duration-200',
+    'min-h-[44px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-400',
+  ].join(' '),
+  'primary-emerald': [
+    'inline-flex items-center justify-center gap-2',
+    'bg-[#10B981] hover:bg-[#059669] text-white',
+    'px-5 py-2.5 rounded-lg text-sm font-medium',
+    'transition-colors duration-200',
+    'min-h-[44px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-400',
+  ].join(' '),
+  'ghost': [
+    'inline-flex items-center justify-center gap-2',
+    'border border-[#1E2530] text-[#8B97A8] hover:text-[#F0F6FF] hover:border-[#3B82F6]',
+    'px-5 py-2.5 rounded-lg text-sm font-medium',
+    'transition-colors duration-200',
+    'min-h-[44px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-400',
+  ].join(' '),
+  'ghost-sm': [
+    'inline-flex items-center justify-center gap-1.5',
+    'border border-[#1E2530] text-[#8B97A8] hover:text-[#F0F6FF] hover:border-[#3B82F6]',
+    'px-3 py-1.5 rounded-md text-xs font-medium',
+    'transition-colors duration-200',
+    'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-400',
+  ].join(' '),
 }
 
 export function Button({
-  variant = 'gradient-blue',
+  variant = 'ghost',
   href,
-  onClick,
   children,
   className = '',
-  'aria-label': ariaLabel,
+  onClick,
   target,
   rel,
-  type = 'button',
+  'aria-label': ariaLabel,
 }: Props) {
-  const classes = `${BASE} ${VARIANTS[variant]} ${className}`
+  const cls = `${STYLES[variant]} ${className}`
 
   if (href) {
     return (
-      <a href={href} className={classes} aria-label={ariaLabel} target={target} rel={rel}>
+      <motion.a
+        href={href}
+        className={cls}
+        target={target}
+        rel={rel}
+        aria-label={ariaLabel}
+        whileHover={{ scale: 1.02 }}
+        whileTap={{ scale: 0.98 }}
+      >
         {children}
-      </a>
+      </motion.a>
     )
   }
 
   return (
-    <button type={type} onClick={onClick} className={classes} aria-label={ariaLabel}>
+    <motion.button
+      className={cls}
+      onClick={onClick}
+      aria-label={ariaLabel}
+      whileHover={{ scale: 1.02 }}
+      whileTap={{ scale: 0.98 }}
+    >
       {children}
-    </button>
+    </motion.button>
   )
 }

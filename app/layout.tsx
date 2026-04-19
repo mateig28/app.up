@@ -1,6 +1,8 @@
 import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
 import './globals.css'
+import { CursorFollower } from '@/components/CursorFollower'
+import { LenisProvider } from '@/components/LenisProvider'
 
 const geistSans = Geist({
   subsets: ['latin'],
@@ -70,8 +72,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className="font-sans bg-[#0A0A0F] text-[#F8FAFC] antialiased">
-        {children}
+      <body className="font-sans antialiased" style={{ background: '#08090A', color: '#F0F6FF' }}>
+        <LenisProvider>
+          <CursorFollower />
+          {children}
+        </LenisProvider>
       </body>
     </html>
   )

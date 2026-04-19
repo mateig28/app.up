@@ -1,137 +1,85 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
-import { animate, motion, AnimatePresence, useReducedMotion } from 'framer-motion'
+import { AnimatePresence, motion, useReducedMotion, animate } from 'framer-motion'
 
-function AnimatedNumber({ to, duration = 1.8 }: { to: number; duration?: number }) {
+function AnimatedNumber({ to, suffix = '' }: { to: number; suffix?: string }) {
   const ref = useRef<HTMLSpanElement>(null)
-  const shouldReduce = useReducedMotion() ?? false
+  const shouldReduce = useReducedMotion()
 
   useEffect(() => {
-    if (!ref.current) return
     if (shouldReduce) {
-      ref.current.textContent = String(to)
+      if (ref.current) ref.current.textContent = `${to}${suffix}`
       return
     }
     const ctrl = animate(0, to, {
-      duration,
-      ease: 'easeOut',
+      duration: 1.4,
+      delay: 0.3,
+      ease: [0.16, 1, 0.3, 1],
       onUpdate(v) {
-        if (ref.current) ref.current.textContent = Math.round(v).toString()
+        if (ref.current) ref.current.textContent = `${Math.round(v)}${suffix}`
       },
     })
     return () => ctrl.stop()
-  }, [to, duration, shouldReduce])
+  }, [to, suffix, shouldReduce])
 
-  return <span ref={ref}>{shouldReduce ? to : 0}</span>
-}
-
-function KPICard({
-  label,
-  value,
-  suffix,
-  color,
-}: {
-  label: string
-  value: number
-  suffix: string
-  color: string
-}) {
-  return (
-    <div
-      className="rounded-lg p-3"
-      style={{
-        background: 'rgba(255,255,255,0.04)',
-        border: '1px solid rgba(255,255,255,0.06)',
-      }}
-    >
-      <p
-        className="font-mono text-[9px] uppercase tracking-widest mb-1.5"
-        style={{ color: 'rgba(148,163,184,0.55)' }}
-      >
-        {label}
-      </p>
-      <p className="text-base font-bold" style={{ color }}>
-        <AnimatedNumber to={value} />
-        {suffix}
-      </p>
-    </div>
-  )
+  return <span ref={ref}>0{suffix}</span>
 }
 
 function DashboardContent() {
   return (
-    <div className="p-4 space-y-3">
-      <div className="grid grid-cols-3 gap-2">
-        <KPICard label="Stoc Cluj" value={847} suffix=" buc" color="#3B82F6" />
-        <KPICard label="Prezență tură" value={94} suffix="%" color="#22C55E" />
-        <KPICard label="Comenzi azi" value={23} suffix=" liv." color="#8B5CF6" />
-      </div>
-
-      <div
-        className="rounded-lg p-3"
-        style={{
-          background: 'rgba(255,255,255,0.03)',
-          border: '1px solid rgba(255,255,255,0.05)',
-        }}
-      >
-        <p
-          className="font-mono text-[8px] uppercase tracking-widest mb-2"
-          style={{ color: 'rgba(148,163,184,0.45)' }}
-        >
-          Producție — ultimele 7 zile
-        </p>
-        <svg viewBox="0 0 220 48" className="w-full h-10">
-          <defs>
-            <linearGradient id="chartFill" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#3B82F6" stopOpacity="0.28" />
-              <stop offset="100%" stopColor="#3B82F6" stopOpacity="0" />
-            </linearGradient>
-          </defs>
-          <path
-            d="M0 42 L31 36 L62 38 L93 26 L124 20 L155 12 L186 6 L220 2 L220 48 L0 48Z"
-            fill="url(#chartFill)"
-          />
-          <path
-            d="M0 42 L31 36 L62 38 L93 26 L124 20 L155 12 L186 6 L220 2"
-            fill="none"
-            stroke="#3B82F6"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <circle cx="220" cy="2" r="3" fill="#3B82F6" />
-        </svg>
-      </div>
-
-      <div className="grid grid-cols-3 gap-2">
+    <div className="p-4">
+      <div className="grid grid-cols-3 gap-2 mb-4">
         {[
-          { label: 'Linie 1', val: '87%', ok: true },
-          { label: 'Linie 2', val: '72%', ok: false },
-          { label: 'Depozit', val: 'OK', ok: true },
-        ].map((s) => (
+          { label: 'Produse azi', value: 847, suffix: ' buc', color: '#3B82F6' },
+          { label: 'Calitate', value: 94, suffix: '%', color: '#10B981' },
+          { label: 'Livrări', value: 23, suffix: '', color: '#06B6D4' },
+        ].map(({ label, value, suffix, color }) => (
           <div
-            key={s.label}
-            className="rounded-md px-2 py-2 text-center"
-            style={{
-              background: 'rgba(255,255,255,0.03)',
-              border: '1px solid rgba(255,255,255,0.05)',
-            }}
+            key={label}
+            className="rounded-lg p-2.5"
+            style={{ background: '#0D1117', border: '1px solid #1E2530' }}
           >
-            <p
-              className="font-mono text-[7px] uppercase tracking-widest mb-1"
-              style={{ color: 'rgba(148,163,184,0.45)' }}
-            >
-              {s.label}
+            <p className="font-mono text-[8px] tracking-wider uppercase mb-1" style={{ color: '#8B97A8' }}>
+              {label}
             </p>
-            <p
-              className="text-xs font-semibold"
-              style={{ color: s.ok ? '#22C55E' : '#EAB308' }}
-            >
-              {s.val}
+            <p className="text-base font-bold" style={{ color }}>
+              <AnimatedNumber to={value} suffix={suffix} />
             </p>
           </div>
         ))}
+      </div>
+
+      <div className="rounded-lg p-3" style={{ background: '#0D1117', border: '1px solid #1E2530' }}>
+        <p className="font-mono text-[8px] tracking-wider uppercase mb-3" style={{ color: '#8B97A8' }}>
+          Producție ultimele 7 zile
+        </p>
+        <svg viewBox="0 0 220 56" width="100%" height="56" fill="none">
+          <defs>
+            <linearGradient id="chartFill" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#3B82F6" stopOpacity="0.15" />
+              <stop offset="100%" stopColor="#3B82F6" stopOpacity="0" />
+            </linearGradient>
+            <linearGradient id="chartLine" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stopColor="#3B82F6" />
+              <stop offset="100%" stopColor="#10B981" />
+            </linearGradient>
+          </defs>
+          <path
+            d="M 0 44 L 30 38 L 62 42 L 94 28 L 126 20 L 158 10 L 190 6 L 220 14 L 220 56 L 0 56 Z"
+            fill="url(#chartFill)"
+          />
+          <motion.path
+            d="M 0 44 L 30 38 L 62 42 L 94 28 L 126 20 L 158 10 L 190 6 L 220 14"
+            stroke="url(#chartLine)"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            initial={{ pathLength: 0, opacity: 0 }}
+            animate={{ pathLength: 1, opacity: 1 }}
+            transition={{ duration: 1.2, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+          />
+        </svg>
       </div>
     </div>
   )
@@ -139,148 +87,94 @@ function DashboardContent() {
 
 function SiteContent() {
   return (
-    <div
-      className="p-4"
-      style={{ background: 'linear-gradient(135deg, #0A0A0F 0%, #0F0A1E 100%)' }}
-    >
-      <div className="flex justify-between items-center mb-5 px-1">
-        <div
-          className="h-2.5 w-14 rounded-sm"
-          style={{ background: 'rgba(139,92,246,0.5)' }}
-        />
-        <div className="flex items-center gap-2">
-          <div className="h-2 w-8 rounded-sm" style={{ background: 'rgba(255,255,255,0.1)' }} />
-          <div className="h-2 w-8 rounded-sm" style={{ background: 'rgba(255,255,255,0.1)' }} />
+    <div className="p-4 space-y-3">
+      <div
+        className="rounded-lg p-4"
+        style={{ background: 'linear-gradient(135deg, #0F2444, #0A1628)', border: '1px solid rgba(59,130,246,0.15)' }}
+      >
+        <div className="h-2 w-3/4 rounded mb-2" style={{ background: 'rgba(59,130,246,0.4)' }} />
+        <div className="h-2 w-1/2 rounded mb-4" style={{ background: 'rgba(255,255,255,0.12)' }} />
+        <div className="flex gap-2">
+          <div className="h-6 w-16 rounded-md" style={{ background: '#3B82F6' }} />
           <div
-            className="h-5 w-14 rounded-md"
-            style={{
-              background: 'linear-gradient(135deg, #8B5CF6, #EC4899)',
-              opacity: 0.8,
-            }}
-          />
-        </div>
-      </div>
-
-      <div className="text-center mb-5">
-        <div
-          className="h-1.5 w-24 rounded-full mx-auto mb-2.5"
-          style={{ background: 'rgba(139,92,246,0.4)' }}
-        />
-        <div
-          className="h-4 rounded-md mx-auto mb-1.5"
-          style={{
-            width: '82%',
-            background: 'linear-gradient(135deg, rgba(139,92,246,0.6), rgba(236,72,153,0.6))',
-          }}
-        />
-        <div
-          className="h-4 rounded-md mx-auto mb-4"
-          style={{
-            width: '62%',
-            background: 'linear-gradient(135deg, rgba(139,92,246,0.3), rgba(236,72,153,0.3))',
-          }}
-        />
-        <div className="flex gap-2 justify-center">
-          <div
-            className="h-7 w-20 rounded-lg"
-            style={{
-              background: 'linear-gradient(135deg, #8B5CF6, #EC4899)',
-              opacity: 0.85,
-            }}
-          />
-          <div
-            className="h-7 w-16 rounded-lg"
-            style={{ border: '1px solid rgba(255,255,255,0.15)' }}
+            className="h-6 w-14 rounded-md"
+            style={{ background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.12)' }}
           />
         </div>
       </div>
 
       <div className="grid grid-cols-3 gap-1.5">
-        {[
-          'rgba(59,130,246,0.3)',
-          'rgba(139,92,246,0.3)',
-          'rgba(236,72,153,0.3)',
-        ].map((bg, i) => (
-          <div
-            key={i}
-            className="rounded-lg p-2"
-            style={{
-              background: 'rgba(255,255,255,0.04)',
-              border: '1px solid rgba(255,255,255,0.07)',
-            }}
-          >
-            <div className="w-4 h-4 rounded-md mb-1.5" style={{ background: bg }} />
-            <div
-              className="h-1.5 rounded-sm mb-1"
-              style={{ background: 'rgba(255,255,255,0.12)' }}
-            />
-            <div
-              className="h-1 rounded-sm"
-              style={{ width: '70%', background: 'rgba(255,255,255,0.06)' }}
-            />
+        {(['#3B82F6', '#06B6D4', '#10B981'] as const).map((c) => (
+          <div key={c} className="rounded-lg p-2" style={{ background: '#0D1117', border: '1px solid #1E2530' }}>
+            <div className="w-5 h-5 rounded mb-1.5" style={{ background: `${c}20`, border: `1px solid ${c}40` }} />
+            <div className="h-1.5 w-full rounded mb-1" style={{ background: 'rgba(255,255,255,0.08)' }} />
+            <div className="h-1.5 w-2/3 rounded" style={{ background: 'rgba(255,255,255,0.05)' }} />
           </div>
         ))}
+      </div>
+
+      <div className="rounded-lg p-3" style={{ background: '#0D1117', border: '1px solid #1E2530' }}>
+        <div className="h-1.5 w-1/3 rounded mb-2" style={{ background: 'rgba(255,255,255,0.1)' }} />
+        <div className="h-5 w-full rounded mb-1.5" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid #1E2530' }} />
+        <div className="h-5 w-full rounded mb-1.5" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid #1E2530' }} />
+        <div className="h-5 w-1/2 rounded" style={{ background: '#10B981' }} />
       </div>
     </div>
   )
 }
 
 export function BrowserMockup({ activeTab }: { activeTab: 'apps' | 'sites' }) {
-  const shouldReduce = useReducedMotion() ?? false
-
   return (
     <div
-      className="glass rounded-2xl overflow-hidden w-full max-w-[500px] mx-auto lg:mx-0"
+      className="rounded-xl overflow-hidden w-full"
       role="img"
       aria-label={
         activeTab === 'apps'
-          ? 'Previzualizare dashboard aplicație internă'
-          : 'Previzualizare site de prezentare'
+          ? 'Previzualizare dashboard de producție cu indicatori în timp real'
+          : 'Previzualizare site de prezentare profesional'
       }
+      style={{ background: '#0A0B0E', border: '1px solid #1E2530' }}
     >
       {/* Browser chrome */}
-      <div
-        className="flex items-center gap-3 px-4 py-3 border-b"
-        style={{
-          background: 'rgba(255,255,255,0.03)',
-          borderColor: 'rgba(255,255,255,0.06)',
-        }}
-      >
-        <div className="flex gap-1.5" aria-hidden="true">
-          <div className="w-3 h-3 rounded-full" style={{ background: 'rgba(239,68,68,0.45)' }} />
-          <div className="w-3 h-3 rounded-full" style={{ background: 'rgba(234,179,8,0.45)' }} />
-          <div className="w-3 h-3 rounded-full" style={{ background: 'rgba(34,197,94,0.45)' }} />
+      <div className="flex items-center gap-2 px-4 py-2.5" style={{ borderBottom: '1px solid #1E2530' }}>
+        <div className="flex gap-1.5">
+          {(['#EF4444', '#EAB308', '#22C55E'] as const).map((c) => (
+            <div key={c} className="w-2.5 h-2.5 rounded-full" style={{ background: c, opacity: 0.6 }} aria-hidden="true" />
+          ))}
         </div>
         <div
-          className="flex-1 rounded-md h-6 px-3 flex items-center"
-          style={{ background: 'rgba(255,255,255,0.05)' }}
+          className="flex-1 h-5 rounded-md mx-2 flex items-center px-2"
+          style={{ background: '#0D1117', border: '1px solid #1E2530' }}
         >
-          <span
-            className="font-mono text-[10px]"
-            style={{ color: 'rgba(148,163,184,0.45)' }}
-          >
-            {activeTab === 'apps' ? 'app.up.ro/dashboard' : 'exemplu-site.ro'}
-          </span>
-        </div>
-        <div className="flex items-center gap-1.5" aria-hidden="true">
-          <div className="w-2 h-2 rounded-full svg-pulse" style={{ background: '#22C55E' }} />
-          <span className="font-mono text-[9px]" style={{ color: 'rgba(34,197,94,0.65)' }}>
-            LIVE
+          <span className="font-mono text-[9px]" style={{ color: '#8B97A8' }}>
+            {activeTab === 'apps' ? 'dashboard.firma.ro' : 'firma-ta.ro'}
           </span>
         </div>
       </div>
 
-      {/* Content switcher */}
+      {/* Content */}
       <AnimatePresence mode="wait" initial={false}>
-        <motion.div
-          key={activeTab}
-          initial={shouldReduce ? { opacity: 1 } : { opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={shouldReduce ? { opacity: 1 } : { opacity: 0, y: -10 }}
-          transition={{ duration: 0.25, ease: 'easeOut' }}
-        >
-          {activeTab === 'apps' ? <DashboardContent /> : <SiteContent />}
-        </motion.div>
+        {activeTab === 'apps' ? (
+          <motion.div
+            key="dash"
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.25 }}
+          >
+            <DashboardContent />
+          </motion.div>
+        ) : (
+          <motion.div
+            key="site"
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.25 }}
+          >
+            <SiteContent />
+          </motion.div>
+        )}
       </AnimatePresence>
     </div>
   )

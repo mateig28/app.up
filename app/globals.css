@@ -4,14 +4,20 @@
 
 /* ── Base ────────────────────────────────────────────────── */
 html {
-  scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 body {
-  background-color: #0A0A0F;
-  color: #F8FAFC;
+  background-color: #08090A;
+  color: #F0F6FF;
+}
+
+/* Custom cursor — hide native on pointer: fine devices */
+@media (pointer: fine) {
+  html, a, button, [role="button"], [role="tab"], input, select, textarea {
+    cursor: none !important;
+  }
 }
 
 /* ── Focus ───────────────────────────────────────────────── */
@@ -21,47 +27,56 @@ body {
   border-radius: 4px;
 }
 
-/* ── Glass surfaces ──────────────────────────────────────── */
-.glass {
-  background: rgba(255, 255, 255, 0.04);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+/* ── Gradient text ───────────────────────────────────────── */
+.gradient-text {
+  background: linear-gradient(90deg, #3B82F6, #06B6D4, #10B981);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
 }
 
-@supports not (backdrop-filter: blur(1px)) {
-  .glass { background: rgba(15, 15, 30, 0.88); }
+.gradient-text-blue {
+  background: linear-gradient(135deg, #3B82F6, #06B6D4);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
 }
 
-.glass-nav {
-  background: rgba(10, 10, 15, 0.82);
+.gradient-text-emerald {
+  background: linear-gradient(135deg, #06B6D4, #10B981);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+/* ── Nav ─────────────────────────────────────────────────── */
+.nav-scrolled {
+  background: rgba(8, 9, 10, 0.92);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  border-bottom: 1px solid #1E2530;
 }
 
-@supports not (backdrop-filter: blur(1px)) {
-  .glass-nav { background: rgba(10, 10, 15, 0.97); }
+/* ── Cards ───────────────────────────────────────────────── */
+.card-dark {
+  background: #0D1117;
+  border: 1px solid #1E2530;
+  transition: border-color 0.2s ease;
 }
+.card-dark:hover { border-color: #3B82F6; }
 
-/* ── Gradient text ───────────────────────────────────────── */
-.gradient-text-blue {
-  background: linear-gradient(135deg, #3B82F6, #6366F1);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color: transparent;
+.card-colored {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: border-color 0.2s ease;
 }
+.card-colored-blue:hover  { border-color: rgba(59, 130, 246, 0.5); }
+.card-colored-emerald:hover { border-color: rgba(16, 185, 129, 0.5); }
 
-.gradient-text-violet {
-  background: linear-gradient(135deg, #8B5CF6, #EC4899);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color: transparent;
-}
-
-/* ── Animated gradient border ────────────────────────────── */
+/* ── Animated gradient border for featured cards ─────────── */
 @keyframes spin-border {
   from { transform: rotate(0deg); }
   to   { transform: rotate(360deg); }
@@ -69,46 +84,41 @@ body {
 
 .gradient-spin-blue {
   position: absolute;
-  background: conic-gradient(#3B82F6, #6366F1, #8B5CF6, #6366F1, #3B82F6);
+  background: conic-gradient(#3B82F6, #06B6D4, #10B981, #06B6D4, #3B82F6);
   animation: spin-border 5s linear infinite;
   transform-origin: center;
 }
 
-.gradient-spin-violet {
+.gradient-spin-emerald {
   position: absolute;
-  background: conic-gradient(#8B5CF6, #EC4899, #A855F7, #EC4899, #8B5CF6);
+  background: conic-gradient(#10B981, #06B6D4, #3B82F6, #06B6D4, #10B981);
   animation: spin-border 5s linear infinite;
   transform-origin: center;
 }
 
-/* ── Glow ────────────────────────────────────────────────── */
-.glow-blue {
-  box-shadow: 0 0 20px rgba(99, 102, 241, 0.4);
-  transition: box-shadow 0.2s ease;
+/* ── Cursor aura ─────────────────────────────────────────── */
+.cursor-aura {
+  width: 32px;
+  height: 32px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: width 0.2s ease, height 0.2s ease, border-color 0.2s ease, background 0.2s ease;
 }
-.glow-blue:hover { box-shadow: 0 0 36px rgba(99, 102, 241, 0.65); }
-
-.glow-violet {
-  box-shadow: 0 0 20px rgba(139, 92, 246, 0.4);
-  transition: box-shadow 0.2s ease;
-}
-.glow-violet:hover { box-shadow: 0 0 36px rgba(139, 92, 246, 0.65); }
-
-/* ── Card hover glow ─────────────────────────────────────── */
-.card-hover {
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
-}
-.card-hover:hover {
-  border-color: rgba(255, 255, 255, 0.15);
-  box-shadow: 0 0 24px rgba(99, 102, 241, 0.08);
+.cursor-aura.cursor-expanded {
+  width: 56px;
+  height: 56px;
+  border-color: rgba(59, 130, 246, 0.5);
+  background: rgba(59, 130, 246, 0.08);
 }
 
-/* ── SVG pulse ───────────────────────────────────────────── */
-@keyframes pulse-live {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.3; }
+/* ── SVG flow lines ──────────────────────────────────────── */
+@keyframes flow-line {
+  from { stroke-dashoffset: 24; }
+  to   { stroke-dashoffset: 0; }
 }
-.svg-pulse { animation: pulse-live 2s ease-in-out infinite; }
+.svg-flow {
+  stroke-dasharray: 4 8;
+  animation: flow-line 1.2s linear infinite;
+}
 
 /* ── FAQ accordion ───────────────────────────────────────── */
 details summary { list-style: none; cursor: pointer; }
@@ -116,13 +126,13 @@ details summary::-webkit-details-marker { display: none; }
 
 /* ── Scrollbar ───────────────────────────────────────────── */
 ::-webkit-scrollbar { width: 5px; }
-::-webkit-scrollbar-track { background: #0A0A0F; }
-::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 3px; }
+::-webkit-scrollbar-track { background: #08090A; }
+::-webkit-scrollbar-thumb { background: #1E2530; border-radius: 3px; }
 
 /* ── Reduced motion ──────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   .gradient-spin-blue,
-  .gradient-spin-violet { animation: none; }
-  .svg-pulse { animation: none; }
+  .gradient-spin-emerald { animation: none; }
+  .svg-flow { animation: none; stroke-dasharray: none; }
   html { scroll-behavior: auto; }
 }
