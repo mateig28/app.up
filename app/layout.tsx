@@ -16,30 +16,29 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://app.up.ro'),
-  title: 'app.up — Aplicații interne custom pentru producție și distribuție',
+  title: 'app.up — Aplicații interne și site-uri web pentru firme românești',
   description:
-    'Construim dashboarduri live și sisteme interne pentru firme din producție și distribuție. Scope fix, preț fix, termen fix. Livrare în 3–10 săptămâni.',
+    'Construim aplicații interne custom pentru producție și distribuție, și site-uri de prezentare profesionale. Preț fix, termen fix. Livrare în 3–10 săptămâni.',
   keywords: [
-    'aplicații interne',
-    'dashboard producție',
-    'sistem stocuri',
-    'CRM intern',
-    'software custom România',
+    'aplicații interne custom',
+    'dashboard producție România',
+    'site prezentare Next.js',
+    'software custom firme',
     'digitalizare producție',
+    'site web profesional rapid',
   ],
   openGraph: {
-    title: 'app.up — Aplicații interne custom pentru producție și distribuție',
+    title: 'app.up — Aplicații interne și site-uri web pentru firme românești',
     description:
-      'Construim dashboarduri live și sisteme interne pentru firme din producție și distribuție. Scope fix, preț fix, termen fix. Livrare în 3–10 săptămâni.',
+      'Aplicații interne pentru producție și distribuție. Site-uri de prezentare profesionale. Preț fix, termen fix.',
     type: 'website',
     locale: 'ro_RO',
     siteName: 'app.up',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'app.up — Aplicații interne custom pentru producție și distribuție',
-    description:
-      'Construim dashboarduri live și sisteme interne pentru firme din producție și distribuție. Scope fix, preț fix, termen fix.',
+    title: 'app.up — Aplicații interne și site-uri web',
+    description: 'Preț fix, termen fix. Livrare în 3–10 săptămâni.',
   },
   robots: { index: true, follow: true },
 }
@@ -49,39 +48,29 @@ const jsonLd = {
   '@type': 'ProfessionalService',
   name: 'app.up',
   description:
-    'Agenție de software care construiește aplicații interne custom pentru firme din producție și distribuție din România.',
-  areaServed: {
-    '@type': 'Country',
-    name: 'Romania',
-  },
+    'Agenție digitală care construiește aplicații interne custom și site-uri de prezentare pentru firme românești.',
+  areaServed: { '@type': 'Country', name: 'Romania' },
   serviceType: [
     'Aplicații interne custom',
     'Dashboarduri live pentru producție',
-    'Sisteme de stocuri',
-    'CRM intern',
-    'Raportare automată',
+    'Sisteme de stocuri și distribuție',
+    'Site-uri de prezentare Next.js',
+    'Landing pages',
   ],
   url: 'https://app.up.ro',
   email: 'contact@app.up',
 }
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html
-      lang="ro"
-      className={`${geistSans.variable} ${geistMono.variable}`}
-    >
+    <html lang="ro" className={`${geistSans.variable} ${geistMono.variable}`}>
       <head>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className="font-sans bg-zinc-950 text-zinc-100 antialiased">
+      <body className="font-sans bg-[#0A0A0F] text-[#F8FAFC] antialiased">
         {children}
       </body>
     </html>

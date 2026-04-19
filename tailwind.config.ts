@@ -11,21 +11,11 @@ const config: Config = {
         sans: ['var(--font-geist-sans)', 'system-ui', 'sans-serif'],
         mono: ['var(--font-geist-mono)', 'ui-monospace', 'monospace'],
       },
-      letterSpacing: {
-        tightest: '-0.04em',
-        tighter: '-0.03em',
-        tight: '-0.02em',
-      },
       colors: {
-        brand: '#1D4ED8',
-        'brand-hover': '#1E40AF',
-      },
-      backgroundImage: {
-        'grid-dark':
-          'linear-gradient(rgba(63,63,70,0.25) 1px, transparent 1px), linear-gradient(90deg, rgba(63,63,70,0.25) 1px, transparent 1px)',
-      },
-      backgroundSize: {
-        'grid-sm': '24px 24px',
+        'accent-blue':   '#3B82F6',
+        'accent-indigo': '#6366F1',
+        'accent-violet': '#8B5CF6',
+        'accent-pink':   '#EC4899',
       },
     },
   },

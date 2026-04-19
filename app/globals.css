@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ── Base ────────────────────────────────── */
+/* ── Base ────────────────────────────────────────────────── */
 html {
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
@@ -10,55 +10,119 @@ html {
 }
 
 body {
-  background-color: #09090B; /* zinc-950 */
-  color: #F4F4F5;            /* zinc-100 */
+  background-color: #0A0A0F;
+  color: #F8FAFC;
 }
 
-/* ── Focus ring ──────────────────────────── */
+/* ── Focus ───────────────────────────────────────────────── */
 :focus-visible {
-  outline: 2px solid #1D4ED8;
+  outline: 2px solid #3B82F6;
   outline-offset: 3px;
-  border-radius: 2px;
+  border-radius: 4px;
 }
 
-/* ── FAQ accordion ───────────────────────── */
-details summary {
-  list-style: none;
-  cursor: pointer;
-}
-details summary::-webkit-details-marker {
-  display: none;
-}
-
-/* ── SVG animations ──────────────────────── */
-@keyframes draw-line {
-  to { stroke-dashoffset: 0; }
+/* ── Glass surfaces ──────────────────────────────────────── */
+.glass {
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
+@supports not (backdrop-filter: blur(1px)) {
+  .glass { background: rgba(15, 15, 30, 0.88); }
+}
+
+.glass-nav {
+  background: rgba(10, 10, 15, 0.82);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+@supports not (backdrop-filter: blur(1px)) {
+  .glass-nav { background: rgba(10, 10, 15, 0.97); }
+}
+
+/* ── Gradient text ───────────────────────────────────────── */
+.gradient-text-blue {
+  background: linear-gradient(135deg, #3B82F6, #6366F1);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+.gradient-text-violet {
+  background: linear-gradient(135deg, #8B5CF6, #EC4899);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+/* ── Animated gradient border ────────────────────────────── */
+@keyframes spin-border {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+.gradient-spin-blue {
+  position: absolute;
+  background: conic-gradient(#3B82F6, #6366F1, #8B5CF6, #6366F1, #3B82F6);
+  animation: spin-border 5s linear infinite;
+  transform-origin: center;
+}
+
+.gradient-spin-violet {
+  position: absolute;
+  background: conic-gradient(#8B5CF6, #EC4899, #A855F7, #EC4899, #8B5CF6);
+  animation: spin-border 5s linear infinite;
+  transform-origin: center;
+}
+
+/* ── Glow ────────────────────────────────────────────────── */
+.glow-blue {
+  box-shadow: 0 0 20px rgba(99, 102, 241, 0.4);
+  transition: box-shadow 0.2s ease;
+}
+.glow-blue:hover { box-shadow: 0 0 36px rgba(99, 102, 241, 0.65); }
+
+.glow-violet {
+  box-shadow: 0 0 20px rgba(139, 92, 246, 0.4);
+  transition: box-shadow 0.2s ease;
+}
+.glow-violet:hover { box-shadow: 0 0 36px rgba(139, 92, 246, 0.65); }
+
+/* ── Card hover glow ─────────────────────────────────────── */
+.card-hover {
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.card-hover:hover {
+  border-color: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 0 24px rgba(99, 102, 241, 0.08);
+}
+
+/* ── SVG pulse ───────────────────────────────────────────── */
 @keyframes pulse-live {
   0%, 100% { opacity: 1; }
-  50%       { opacity: 0.35; }
+  50% { opacity: 0.3; }
 }
+.svg-pulse { animation: pulse-live 2s ease-in-out infinite; }
 
-@keyframes fade-in-kf {
-  from { opacity: 0; transform: translateY(14px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
+/* ── FAQ accordion ───────────────────────────────────────── */
+details summary { list-style: none; cursor: pointer; }
+details summary::-webkit-details-marker { display: none; }
 
-.svg-line-anim {
-  animation: draw-line 2.4s cubic-bezier(0.4, 0, 0.2, 1) 0.6s forwards;
-}
+/* ── Scrollbar ───────────────────────────────────────────── */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: #0A0A0F; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 3px; }
 
-.svg-pulse-anim {
-  animation: pulse-live 2s ease-in-out infinite;
-}
-
+/* ── Reduced motion ──────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
-  .svg-line-anim  { animation: none; stroke-dashoffset: 0; }
-  .svg-pulse-anim { animation: none; }
+  .gradient-spin-blue,
+  .gradient-spin-violet { animation: none; }
+  .svg-pulse { animation: none; }
+  html { scroll-behavior: auto; }
 }
-
-/* ── Scrollbar (subtle) ──────────────────── */
-::-webkit-scrollbar        { width: 5px; }
-::-webkit-scrollbar-track  { background: #09090B; }
-::-webkit-scrollbar-thumb  { background: #3F3F46; border-radius: 3px; }
