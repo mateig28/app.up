@@ -18,11 +18,19 @@ export function CursorFollower() {
   const auraRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    setIsDesktop(window.matchMedia('(pointer: fine)').matches)
+    const fine = window.matchMedia('(pointer: fine)').matches
+    setIsDesktop(fine)
   }, [])
 
   useEffect(() => {
     if (!isDesktop || shouldReduce) return
+
+    // Hide native cursor only when custom cursor is active
+    document.documentElement.style.setProperty('cursor', 'none', 'important')
+    const style = document.createElement('style')
+    style.id = 'cursor-hide'
+    style.textContent = '*, *::before, *::after { cursor: none !important; }'
+    document.head.appendChild(style)
 
     const move = (e: MouseEvent) => {
       mouseX.set(e.clientX)
@@ -50,6 +58,8 @@ export function CursorFollower() {
     document.addEventListener('mouseout', out)
 
     return () => {
+      document.documentElement.style.removeProperty('cursor')
+      document.getElementById('cursor-hide')?.remove()
       window.removeEventListener('mousemove', move)
       document.removeEventListener('mouseover', over)
       document.removeEventListener('mouseout', out)

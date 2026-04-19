@@ -13,12 +13,7 @@ body {
   color: #F0F6FF;
 }
 
-/* Custom cursor — hide native on pointer: fine devices */
-@media (pointer: fine) {
-  html, a, button, [role="button"], [role="tab"], input, select, textarea {
-    cursor: none !important;
-  }
-}
+/* cursor: none is applied via JS in CursorFollower only when active */
 
 /* ── Focus ───────────────────────────────────────────────── */
 :focus-visible {
