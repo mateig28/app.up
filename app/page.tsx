@@ -24,9 +24,9 @@ import { TestimonialCard } from '@/components/TestimonialCard'
 import { PainPoint } from '@/components/PainPoint'
 import { GrowthArrow } from '@/components/GrowthArrow'
 import { SectionDivider } from '@/components/SectionDivider'
-import { StickyScrollSection, type ScrollStep } from '@/components/StickyScrollSection'
+import { StickyScrollSection } from '@/components/StickyScrollSection'
 import { ScrollStats } from '@/components/ScrollStats'
-import { AppsMockup0, AppsMockup1, AppsMockup2, AppsMockup3, AppsMockup4 } from '@/components/AppsSteps'
+import { appsMockups } from '@/components/AppsMockups'
 import { SitesMockup0, SitesMockup1, SitesMockup2, SitesMockup3, SitesMockup4 } from '@/components/SitesSteps'
 
 /* ── COLOR CONSTANTS ─────────────────────────────────────── */
@@ -66,45 +66,45 @@ const painPoints = [
   },
 ]
 
-const APPS_STEPS: ScrollStep[] = [
+const APPS_STEPS = [
   {
     label: '01 / SITUAȚIA ACTUALĂ',
     title: 'Afli ce s-a întâmplat săptămâna trecută',
     description:
       'Directorul de producție trimite poze cu Excel-ul pe WhatsApp vineri seara. Tu iei decizii luni pe baza unor date de acum 7 zile. Nu știi ce stoc ai la depozitul din Cluj în momentul ăsta.',
-    mockup: <AppsMockup0 />,
+    mockup: appsMockups[0],
   },
   {
     label: '02 / PRIMA SĂPTĂMÂNĂ',
     title: 'Înțelegem firma ta, nu doar problema',
     description:
       'O săptămână lucrăm alături de echipa ta. Vedem cum circulă informația, unde se pierde timpul, ce decizii se iau fără date. La final îți prezentăm exact ce construim, cât costă și când e gata.',
-    mockup: <AppsMockup1 />,
+    mockup: appsMockups[1],
   },
   {
     label: '03 / CONSTRUCȚIE',
     title: 'Construim, testezi, ajustăm — săptămână cu săptămână',
     description:
       'Nu dispărem 3 luni. Fiecare săptămână ai acces la ce am construit. Feedback-ul tău intră direct în build.',
-    mockup: <AppsMockup2 />,
+    mockup: appsMockups[2],
   },
   {
     label: '04 / PREDARE',
     title: 'Aplicația ta, codul tău, echipa ta pregătită',
     description:
       'Predăm tot: aplicația funcțională, documentația, training pentru echipă. Codul îți aparține complet — nu plătești abonament lunar, nu depinzi de noi ca să funcționeze.',
-    mockup: <AppsMockup3 />,
+    mockup: appsMockups[3],
   },
   {
     label: '05 / DUPĂ LIVRARE',
     title: 'Deschizi aplicația și știi exact ce se întâmplă',
     description:
       'Stocul din Cluj, pontajul de azi, comenzile în așteptare — totul într-un singur loc, actualizat în timp real. Deciziile se iau cu date de acum 5 minute, nu de acum 7 zile.',
-    mockup: <AppsMockup4 />,
+    mockup: appsMockups[4],
   },
 ]
 
-const SITES_STEPS: ScrollStep[] = [
+const SITES_STEPS = [
   {
     label: '01 / SITUAȚIA ACTUALĂ',
     title: 'Ai un site, dar nu îți aduce nimic',
@@ -1151,10 +1151,10 @@ export default function Page() {
               exit="exit"
             >
               <StickyScrollSection
-                id="apps-story"
+                eyebrow="APLICAȚII INTERNE"
+                heading="De la Excel la vizibilitate în timp real"
                 steps={APPS_STEPS}
                 accent="#3B82F6"
-                bg={C.dark}
               />
               <ScrollStats
                 bg={C.dark}
@@ -1187,10 +1187,10 @@ export default function Page() {
               exit="exit"
             >
               <StickyScrollSection
-                id="sites-story"
+                eyebrow="SITE-URI WEB"
+                heading="Un site care lucrează pentru tine, nu doar există"
                 steps={SITES_STEPS}
                 accent="#10B981"
-                bg={C.dark}
               />
               <ScrollStats
                 bg={C.dark}
