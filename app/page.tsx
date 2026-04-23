@@ -24,6 +24,9 @@ import { TestimonialCard } from '@/components/TestimonialCard'
 import { PainPoint } from '@/components/PainPoint'
 import { GrowthArrow } from '@/components/GrowthArrow'
 import { SectionDivider } from '@/components/SectionDivider'
+import { StickyScrollSection, type ScrollStep } from '@/components/StickyScrollSection'
+import { AppsMockupScroll } from '@/components/AppsMockupScroll'
+import { SitesMockupScroll } from '@/components/SitesMockupScroll'
 
 /* ── COLOR CONSTANTS ─────────────────────────────────────── */
 const C = {
@@ -59,6 +62,54 @@ const painPoints = [
     number: '03',
     title: 'Date exacte, dar doar dacă le ceri tu, persoanei potrivite',
     body: 'Producția, stocurile și vânzările — fiecare în sistemul lui. Să le aduni ia 2 ore și un om dedicat care face asta în fiecare luni dimineață.',
+  },
+]
+
+const APPS_STEPS: ScrollStep[] = [
+  {
+    label: 'Situația actuală',
+    title: 'Date care ajung după ce decizia n-a mai putut aștepta',
+    description:
+      'Producție, stocuri și vânzări — fiecare în fișierul lui. Raportul vine luni. Problema era vineri la 3.',
+    mockupState: 'before',
+  },
+  {
+    label: 'Discovery — săptămâna 1',
+    title: 'O săptămână ca să mapăm tot ce se întâmplă de fapt',
+    description:
+      'Nu pornim de la presupuneri. Analizăm cum circulă datele, unde se blochează, ce e introdus manual și ce poate fi automatizat. La final primești scope complet și preț fix.',
+    mockupState: 'discovery',
+  },
+  {
+    label: 'Aplicația livrată',
+    title: 'Dashboard în timp real. Date exacte, fără să întrebi pe nimeni.',
+    description:
+      'Producție, stocuri și vânzări vizibile dintr-un singur loc. Actualizat automat, accesat de pe orice dispozitiv, fără să mai suni pe nimeni.',
+    mockupState: 'after',
+  },
+]
+
+const SITES_STEPS: ScrollStep[] = [
+  {
+    label: 'Situația actuală',
+    title: 'Un site care există, dar nu lucrează pentru tine',
+    description:
+      'Pagini statice, copy generic, nicio direcție clară pentru vizitator. Timp mediu pe site: 18 secunde. Bounce rate: 91%. Telefonul nu sună mai des după ce ai pus site-ul.',
+    mockupState: 'before',
+  },
+  {
+    label: 'Design & construcție',
+    title: 'Structurăm mesajul. Construim vizualul. Scriem copy care convinge.',
+    description:
+      'Nu un template aplicat în grabă. Fiecare secțiune e gândită pentru publicul tău — ce caută, ce obiectează, de ce ar suna. Design modern, animații, mobil-first.',
+    mockupState: 'wireframe',
+  },
+  {
+    label: 'Site-ul livrat',
+    title: 'Prezență online care transformă vizitatorii în clienți',
+    description:
+      'Timp mediu pe site: 3 minute 24 de secunde. Bounce rate sub 22%. Un site care răspunde la întrebările clientului înainte ca el să le pună — și îl face să sune.',
+    mockupState: 'after',
   },
 ]
 
@@ -309,6 +360,34 @@ function makeTabVariants(shouldReduce: boolean) {
 const VP = { once: true, margin: '-80px' } as const
 
 /* ── SHARED COMPONENTS ───────────────────────────────────── */
+
+function StatsRow({ stats, accentColor }: {
+  stats: { value: string; label: string }[]
+  accentColor: string
+}) {
+  return (
+    <div
+      className="max-w-6xl mx-auto px-6 py-10"
+      style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}
+    >
+      <div className="flex flex-wrap gap-8 sm:gap-14">
+        {stats.map(({ value, label }) => (
+          <div key={label}>
+            <p
+              className="text-2xl sm:text-3xl font-bold tracking-tight mb-1"
+              style={{ color: accentColor }}
+            >
+              {value}
+            </p>
+            <p className="font-mono text-[9px] tracking-widest uppercase" style={{ color: '#8B97A860' }}>
+              {label}
+            </p>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
 
 function WhatsAppIcon({ className = 'w-4 h-4' }: { className?: string }) {
   return (
@@ -1070,13 +1149,29 @@ export default function Page() {
               animate="center"
               exit="exit"
             >
-              {/* dark → blue */}
-              <SectionDivider from={C.dark} to={C.blue0} />
-              <ProblemaSection />
-              {/* blue → dark */}
-              <SectionDivider from={C.blue0} to={C.darkAlt} flip />
+              <StickyScrollSection
+                id="apps-story"
+                eyebrow="Cum funcționează"
+                heading="De la Excel la vizibilitate în timp real"
+                steps={APPS_STEPS}
+                accent="blue"
+                renderMockup={(state) => <AppsMockupScroll state={state} />}
+                bg={C.dark}
+              />
+              <div style={{ background: C.dark }}>
+                <StatsRow
+                  stats={[
+                    { value: '6–10 săpt.', label: 'Termen livrare' },
+                    { value: '< 10.000 €', label: 'Investiție' },
+                    { value: '3 luni', label: 'Primii clienți economisiți' },
+                  ]}
+                  accentColor="#3B82F6"
+                />
+              </div>
+              {/* dark → dark (slight separator) */}
+              <SectionDivider from={C.dark} to={C.darkAlt} />
               <CeConstruimSection />
-              {/* dark → emerald (Growth Arrow in emerald section) */}
+              {/* dark → emerald */}
               <SectionDivider from={C.darkAlt} to={C.emerald0} />
               <div style={{ background: `linear-gradient(160deg, ${C.emerald0}, ${C.emerald1})` }}>
                 <GrowthArrow />
@@ -1094,7 +1189,25 @@ export default function Page() {
               animate="center"
               exit="exit"
             >
-              <SitesPropunereSection />
+              <StickyScrollSection
+                id="sites-story"
+                eyebrow="Cum funcționează"
+                heading="Un site care lucrează pentru tine, nu doar există"
+                steps={SITES_STEPS}
+                accent="emerald"
+                renderMockup={(state) => <SitesMockupScroll state={state} />}
+                bg={C.dark}
+              />
+              <div style={{ background: C.dark }}>
+                <StatsRow
+                  stats={[
+                    { value: '5–15 zile', label: 'Termen livrare' },
+                    { value: '500–3.000 €', label: 'Investiție' },
+                    { value: '+340%', label: 'Timp mediu pe site' },
+                  ]}
+                  accentColor="#10B981"
+                />
+              </div>
               {/* dark → blue */}
               <SectionDivider from={C.dark} to={C.blue0} />
               <PacheteSitesSection />
