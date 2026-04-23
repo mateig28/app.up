@@ -25,8 +25,9 @@ import { PainPoint } from '@/components/PainPoint'
 import { GrowthArrow } from '@/components/GrowthArrow'
 import { SectionDivider } from '@/components/SectionDivider'
 import { StickyScrollSection, type ScrollStep } from '@/components/StickyScrollSection'
-import { AppsMockupScroll } from '@/components/AppsMockupScroll'
-import { SitesMockupScroll } from '@/components/SitesMockupScroll'
+import { ScrollStats } from '@/components/ScrollStats'
+import { AppsMockup0, AppsMockup1, AppsMockup2, AppsMockup3, AppsMockup4 } from '@/components/AppsSteps'
+import { SitesMockup0, SitesMockup1, SitesMockup2, SitesMockup3, SitesMockup4 } from '@/components/SitesSteps'
 
 /* ── COLOR CONSTANTS ─────────────────────────────────────── */
 const C = {
@@ -67,49 +68,77 @@ const painPoints = [
 
 const APPS_STEPS: ScrollStep[] = [
   {
-    label: 'Situația actuală',
-    title: 'Date care ajung după ce decizia n-a mai putut aștepta',
+    label: '01 / SITUAȚIA ACTUALĂ',
+    title: 'Afli ce s-a întâmplat săptămâna trecută',
     description:
-      'Producție, stocuri și vânzări — fiecare în fișierul lui. Raportul vine luni. Problema era vineri la 3.',
-    mockupState: 'before',
+      'Directorul de producție trimite poze cu Excel-ul pe WhatsApp vineri seara. Tu iei decizii luni pe baza unor date de acum 7 zile. Nu știi ce stoc ai la depozitul din Cluj în momentul ăsta.',
+    mockup: <AppsMockup0 />,
   },
   {
-    label: 'Discovery — săptămâna 1',
-    title: 'O săptămână ca să mapăm tot ce se întâmplă de fapt',
+    label: '02 / PRIMA SĂPTĂMÂNĂ',
+    title: 'Înțelegem firma ta, nu doar problema',
     description:
-      'Nu pornim de la presupuneri. Analizăm cum circulă datele, unde se blochează, ce e introdus manual și ce poate fi automatizat. La final primești scope complet și preț fix.',
-    mockupState: 'discovery',
+      'O săptămână lucrăm alături de echipa ta. Vedem cum circulă informația, unde se pierde timpul, ce decizii se iau fără date. La final îți prezentăm exact ce construim, cât costă și când e gata.',
+    mockup: <AppsMockup1 />,
   },
   {
-    label: 'Aplicația livrată',
-    title: 'Dashboard în timp real. Date exacte, fără să întrebi pe nimeni.',
+    label: '03 / CONSTRUCȚIE',
+    title: 'Construim, testezi, ajustăm — săptămână cu săptămână',
     description:
-      'Producție, stocuri și vânzări vizibile dintr-un singur loc. Actualizat automat, accesat de pe orice dispozitiv, fără să mai suni pe nimeni.',
-    mockupState: 'after',
+      'Nu dispărem 3 luni. Fiecare săptămână ai acces la ce am construit. Feedback-ul tău intră direct în build.',
+    mockup: <AppsMockup2 />,
+  },
+  {
+    label: '04 / PREDARE',
+    title: 'Aplicația ta, codul tău, echipa ta pregătită',
+    description:
+      'Predăm tot: aplicația funcțională, documentația, training pentru echipă. Codul îți aparține complet — nu plătești abonament lunar, nu depinzi de noi ca să funcționeze.',
+    mockup: <AppsMockup3 />,
+  },
+  {
+    label: '05 / DUPĂ LIVRARE',
+    title: 'Deschizi aplicația și știi exact ce se întâmplă',
+    description:
+      'Stocul din Cluj, pontajul de azi, comenzile în așteptare — totul într-un singur loc, actualizat în timp real. Deciziile se iau cu date de acum 5 minute, nu de acum 7 zile.',
+    mockup: <AppsMockup4 />,
   },
 ]
 
 const SITES_STEPS: ScrollStep[] = [
   {
-    label: 'Situația actuală',
-    title: 'Un site care există, dar nu lucrează pentru tine',
+    label: '01 / SITUAȚIA ACTUALĂ',
+    title: 'Ai un site, dar nu îți aduce nimic',
     description:
-      'Pagini statice, copy generic, nicio direcție clară pentru vizitator. Timp mediu pe site: 18 secunde. Bounce rate: 91%. Telefonul nu sună mai des după ce ai pus site-ul.',
-    mockupState: 'before',
+      'Arată ca și cum a fost făcut acum 10 ani. Clienții vin pe el și pleacă în 30 de secunde. Nu apare în Google. Nu știi dacă cineva l-a văzut vreodată.',
+    mockup: <SitesMockup0 />,
   },
   {
-    label: 'Design & construcție',
-    title: 'Structurăm mesajul. Construim vizualul. Scriem copy care convinge.',
+    label: '02 / PRIMA DISCUȚIE',
+    title: 'Înțelegem ce vrei să comunici și cui',
     description:
-      'Nu un template aplicat în grabă. Fiecare secțiune e gândită pentru publicul tău — ce caută, ce obiectează, de ce ar suna. Design modern, animații, mobil-first.',
-    mockupState: 'wireframe',
+      'O discuție de o oră e suficientă. Înțelegem businessul tău, publicul tău, ce face un potențial client când ajunge pe site. Pleci cu un plan clar și un preț fix.',
+    mockup: <SitesMockup1 />,
   },
   {
-    label: 'Site-ul livrat',
-    title: 'Prezență online care transformă vizitatorii în clienți',
+    label: '03 / CONSTRUCȚIE',
+    title: 'Design și cod livrate în 5–15 zile lucrătoare',
     description:
-      'Timp mediu pe site: 3 minute 24 de secunde. Bounce rate sub 22%. Un site care răspunde la întrebările clientului înainte ca el să le pună — și îl face să sune.',
-    mockupState: 'after',
+      'Depinde de pachet — dar niciodată luni de zile. Fiecare etapă e vizibilă: vezi site-ul pe măsură ce îl construim, nu doar la final.',
+    mockup: <SitesMockup2 />,
+  },
+  {
+    label: '04 / LANSARE',
+    title: 'Site-ul live, optimizat, gata să fie găsit',
+    description:
+      'Lansăm pe domeniul tău. SEO de bază inclus în toate pachetele. Pe Google poți apărea din prima săptămână după lansare.',
+    mockup: <SitesMockup3 />,
+  },
+  {
+    label: '05 / DUPĂ LANSARE',
+    title: 'Mai mulți oameni te găsesc, mai mulți iau legătura',
+    description:
+      'Un site bun nu e o cheltuială — e primul om de vânzări care lucrează 24/7. Mentenanță lunară opțională dacă vrei să nu te gândești la nimic tehnic.',
+    mockup: <SitesMockup4 />,
   },
 ]
 
@@ -360,34 +389,6 @@ function makeTabVariants(shouldReduce: boolean) {
 const VP = { once: true, margin: '-80px' } as const
 
 /* ── SHARED COMPONENTS ───────────────────────────────────── */
-
-function StatsRow({ stats, accentColor }: {
-  stats: { value: string; label: string }[]
-  accentColor: string
-}) {
-  return (
-    <div
-      className="max-w-6xl mx-auto px-6 py-10"
-      style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}
-    >
-      <div className="flex flex-wrap gap-8 sm:gap-14">
-        {stats.map(({ value, label }) => (
-          <div key={label}>
-            <p
-              className="text-2xl sm:text-3xl font-bold tracking-tight mb-1"
-              style={{ color: accentColor }}
-            >
-              {value}
-            </p>
-            <p className="font-mono text-[9px] tracking-widest uppercase" style={{ color: '#8B97A860' }}>
-              {label}
-            </p>
-          </div>
-        ))}
-      </div>
-    </div>
-  )
-}
 
 function WhatsAppIcon({ className = 'w-4 h-4' }: { className?: string }) {
   return (
@@ -1151,23 +1152,19 @@ export default function Page() {
             >
               <StickyScrollSection
                 id="apps-story"
-                eyebrow="Cum funcționează"
-                heading="De la Excel la vizibilitate în timp real"
                 steps={APPS_STEPS}
-                accent="blue"
-                renderMockup={(state) => <AppsMockupScroll state={state} />}
+                accent="#3B82F6"
                 bg={C.dark}
               />
-              <div style={{ background: C.dark }}>
-                <StatsRow
-                  stats={[
-                    { value: '6–10 săpt.', label: 'Termen livrare' },
-                    { value: '< 10.000 €', label: 'Investiție' },
-                    { value: '3 luni', label: 'Primii clienți economisiți' },
-                  ]}
-                  accentColor="#3B82F6"
-                />
-              </div>
+              <ScrollStats
+                bg={C.dark}
+                accent="#3B82F6"
+                stats={[
+                  { value: '6–10 săptămâni', label: 'de la idee la aplicație funcțională', numericEnd: 10, suffix: ' săpt.' },
+                  { value: 'sub 10.000€', label: 'pentru un sistem complet, preț fix de la început' },
+                  { value: '3 luni', label: 'suport inclus după livrare, fără costuri suplimentare', numericEnd: 3, suffix: ' luni' },
+                ]}
+              />
               {/* dark → dark (slight separator) */}
               <SectionDivider from={C.dark} to={C.darkAlt} />
               <CeConstruimSection />
@@ -1191,23 +1188,19 @@ export default function Page() {
             >
               <StickyScrollSection
                 id="sites-story"
-                eyebrow="Cum funcționează"
-                heading="Un site care lucrează pentru tine, nu doar există"
                 steps={SITES_STEPS}
-                accent="emerald"
-                renderMockup={(state) => <SitesMockupScroll state={state} />}
+                accent="#10B981"
                 bg={C.dark}
               />
-              <div style={{ background: C.dark }}>
-                <StatsRow
-                  stats={[
-                    { value: '5–15 zile', label: 'Termen livrare' },
-                    { value: '500–3.000 €', label: 'Investiție' },
-                    { value: '+340%', label: 'Timp mediu pe site' },
-                  ]}
-                  accentColor="#10B981"
-                />
-              </div>
+              <ScrollStats
+                bg={C.dark}
+                accent="#10B981"
+                stats={[
+                  { value: '5–15 zile', label: 'de la discuție la site live', numericEnd: 15, suffix: ' zile' },
+                  { value: '500€ – 3.000€', label: 'preț fix per proiect, fără surprize' },
+                  { value: '+340%', label: 'creștere medie timp pe site față de designul anterior', numericEnd: 340, prefix: '+', suffix: '%' },
+                ]}
+              />
               {/* dark → blue */}
               <SectionDivider from={C.dark} to={C.blue0} />
               <PacheteSitesSection />
