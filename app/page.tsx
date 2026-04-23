@@ -476,7 +476,7 @@ function Nav() {
           href="https://wa.me/40700000000"
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 text-sm font-medium rounded-lg px-4 py-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-400 min-h-[36px]"
+          className="nav-cta inline-flex items-center gap-2 text-sm font-medium rounded-lg px-4 py-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-400 min-h-[44px]"
           style={{ background: '#3B82F6', color: '#fff' }}
           aria-label="Contactează-ne pe WhatsApp"
           whileHover={{ scale: 1.02 }}
@@ -565,12 +565,12 @@ function HeroSection({
               />
             </motion.div>
 
-            <motion.div variants={item} className="flex flex-col sm:flex-row gap-3">
+            <motion.div variants={item} className="cta-buttons-wrap flex flex-col sm:flex-row gap-3">
               <motion.a
                 href="https://wa.me/40700000000"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2.5 text-sm font-medium rounded-lg px-5 py-3 min-h-[44px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-400"
+                className="inline-flex items-center justify-center gap-2.5 text-sm font-medium rounded-lg px-5 py-3 min-h-[48px] sm:min-h-[44px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-400"
                 style={{ background: '#3B82F6', color: '#fff' }}
                 whileHover={{ scale: 1.02, background: '#2563EB' } as Parameters<typeof motion.a>[0]['whileHover']}
                 whileTap={{ scale: 0.98 }}
@@ -592,6 +592,7 @@ function HeroSection({
               initial={{ opacity: 0, y: shouldReduce ? 0 : 28 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: shouldReduce ? 0 : 0.4, ease: EASE }}
+              className="hero-mockup-wrap"
             >
               <BrowserMockup activeTab={activeTab} />
             </motion.div>
@@ -1059,7 +1060,7 @@ function CTASection() {
             nevoie și dacă putem livra.
           </p>
 
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-8">
+          <div className="cta-buttons-wrap flex flex-col sm:flex-row items-center justify-center gap-3 mb-8">
             <motion.a
               href="https://wa.me/40700000000"
               target="_blank"
@@ -1100,7 +1101,7 @@ function CTASection() {
 function FooterSection() {
   return (
     <footer className="border-t py-10" style={{ borderColor: '#1E2530', background: C.dark }}>
-      <div className="max-w-6xl mx-auto px-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+      <div className="footer-inner max-w-6xl mx-auto px-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
           <AppLogo />
           <p

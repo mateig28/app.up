@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef, useState } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import {
   useScroll,
   useTransform,
@@ -31,6 +31,14 @@ export function StickyScrollSection({
 }: StickyScrollSectionProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const [currentStep, setCurrentStep] = useState(0)
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768)
+    check()
+    window.addEventListener('resize', check)
+    return () => window.removeEventListener('resize', check)
+  }, [])
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -50,6 +58,48 @@ export function StickyScrollSection({
 
   const dotY = useTransform(scrollYProgress, [0, 1], [0, (steps.length - 1) * 80])
 
+  // ── MOBILE ──────────────────────────────────────────────────
+  if (isMobile) {
+    return (
+      <section style={{ padding: '60px 20px' }}>
+        <p style={{ fontFamily: 'var(--font-geist-mono)', fontSize: 11, letterSpacing: '0.12em', textTransform: 'uppercase', color: accent, marginBottom: 12 }}>
+          {eyebrow}
+        </p>
+        <h2 style={{ fontSize: 28, fontWeight: 600, color: '#F8FAFC', letterSpacing: '-0.02em', marginBottom: 0, lineHeight: 1.25 }}>
+          {heading}
+        </h2>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 48, marginTop: 40 }}>
+          {steps.map((step, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-60px' }}
+              transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+            >
+              {i > 0 && (
+                <div style={{ height: 1, background: '#1E2530', marginBottom: 48 }} />
+              )}
+              <p style={{ fontFamily: 'var(--font-geist-mono)', fontSize: 11, letterSpacing: '0.1em', textTransform: 'uppercase', color: accent, marginBottom: 10 }}>
+                {step.label}
+              </p>
+              <h3 style={{ fontSize: 22, fontWeight: 600, color: '#F8FAFC', marginBottom: 12, letterSpacing: '-0.01em', lineHeight: 1.3 }}>
+                {step.title}
+              </h3>
+              <p style={{ fontSize: 15, color: '#94A3B8', lineHeight: 1.75, marginBottom: 24 }}>
+                {step.description}
+              </p>
+              <div style={{ width: '100%', overflowX: 'hidden' }}>
+                {step.mockup}
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </section>
+    )
+  }
+
+  // ── DESKTOP — neatins ────────────────────────────────────────
   return (
     <section
       ref={containerRef}

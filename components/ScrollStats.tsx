@@ -38,7 +38,7 @@ function StatItem({ stat, accent }: { stat: Stat; accent: string }) {
     <div>
       <span
         ref={ref}
-        className="block font-mono font-bold"
+        className="scroll-stats-number block font-mono font-bold"
         style={{ fontSize: '2.8rem', color: accent, lineHeight: 1, letterSpacing: '-0.03em' }}
       >
         {display}
@@ -54,7 +54,7 @@ export function ScrollStats({ stats, accent, bg }: { stats: Stat[]; accent: stri
   return (
     <div style={{ background: bg ?? '#09090B', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
       <div className="max-w-5xl mx-auto px-6 py-14">
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-10">
+        <div className="scroll-stats-grid grid grid-cols-1 sm:grid-cols-3 gap-10">
           {stats.map((s) => (
             <StatItem key={s.label} stat={s} accent={accent} />
           ))}

@@ -131,3 +131,68 @@ details summary::-webkit-details-marker { display: none; }
   .svg-flow { animation: none; stroke-dasharray: none; }
   html { scroll-behavior: auto; }
 }
+
+/* ── Mobile responsive ───────────────────────────────────── */
+@media (max-width: 767px) {
+
+  /* Mockup: ascunde sidebar pe mobile */
+  .mockup-sidebar {
+    display: none !important;
+  }
+
+  /* Mockup: warning text lung din header — ascuns pe mobile */
+  .mockup-warning-hide {
+    display: none !important;
+  }
+
+  /* Mockup: KPI grid 3 col → 2 col pe mobile */
+  .mockup-kpi-3 {
+    grid-template-columns: 1fr 1fr !important;
+  }
+
+  /* ScrollStats: număr mai mic pe mobile */
+  .scroll-stats-number {
+    font-size: 2.2rem !important;
+  }
+
+  /* ScrollStats: centrat pe mobile */
+  .scroll-stats-grid {
+    text-align: center;
+  }
+
+  /* Hero: mockup max-height pe mobile */
+  .hero-mockup-wrap {
+    max-height: 280px;
+    overflow: hidden;
+  }
+
+  /* CTA final: butoane full-width pe mobile */
+  .cta-buttons-wrap {
+    flex-direction: column !important;
+    align-items: stretch !important;
+  }
+  .cta-buttons-wrap a,
+  .cta-buttons-wrap button {
+    width: 100% !important;
+    min-height: 48px !important;
+    justify-content: center !important;
+  }
+
+  /* Nav CTA — min touch target */
+  .nav-cta {
+    min-height: 44px !important;
+    padding: 8px 14px !important;
+  }
+
+  /* Footer centrat pe mobile */
+  .footer-inner {
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+  }
+
+  /* Previne scroll orizontal global */
+  body {
+    overflow-x: hidden;
+  }
+}

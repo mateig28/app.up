@@ -1,7 +1,6 @@
 export const appsMockups = [
   // Etapa 0 — Problema
   <div style={{ background: '#111', border: '1px solid #27272A', borderRadius: 12, overflow: 'hidden', fontFamily: 'monospace' }}>
-    {/* Browser bar */}
     <div style={{ background: '#1A1A1A', padding: '10px 16px', display: 'flex', alignItems: 'center', gap: 8, borderBottom: '1px solid #27272A' }}>
       <div style={{ display: 'flex', gap: 6 }}>
         <div style={{ width: 12, height: 12, borderRadius: '50%', background: '#EF4444' }} />
@@ -11,21 +10,18 @@ export const appsMockups = [
       <div style={{ flex: 1, background: '#111', borderRadius: 6, padding: '4px 12px', fontSize: 12, color: '#71717A', marginLeft: 8 }}>
         dashboard.firma.ro
       </div>
-      <span style={{ fontSize: 12, color: '#EF4444' }}>⚠ Ultima actualizare: 7 zile în urmă</span>
+      <span className="mockup-warning-hide" style={{ fontSize: 12, color: '#EF4444' }}>⚠ Ultima actualizare: 7 zile în urmă</span>
     </div>
-    {/* App content */}
     <div style={{ display: 'flex', minHeight: 320 }}>
-      {/* Sidebar */}
-      <div style={{ width: 180, borderRight: '1px solid #27272A', padding: '16px 0' }}>
+      <div className="mockup-sidebar" style={{ width: 180, borderRight: '1px solid #27272A', padding: '16px 0' }}>
         {['Dashboard', 'Producție', 'Stocuri', 'Vânzări', 'Pontaj'].map((item, i) => (
           <div key={item} style={{ padding: '10px 16px', fontSize: 13, color: i === 0 ? '#F8FAFC' : '#52525B', background: i === 0 ? '#1E1E1E' : 'transparent', borderLeft: i === 0 ? '2px solid #3B82F6' : '2px solid transparent' }}>
             {item}
           </div>
         ))}
       </div>
-      {/* Main */}
-      <div style={{ flex: 1, padding: 20 }}>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 12, marginBottom: 16 }}>
+      <div style={{ flex: 1, padding: 20, minWidth: 0 }}>
+        <div className="mockup-kpi-3" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 12, marginBottom: 16 }}>
           {[
             { label: 'STOC CLUJ', value: '?', sub: '△ date lipsă' },
             { label: 'PONTAJ AZI', value: '?', sub: 'neconfirmat' },
@@ -39,7 +35,7 @@ export const appsMockups = [
           ))}
         </div>
         <div style={{ background: '#1A1A1A', border: '1px solid #27272A', borderRadius: 8, padding: 16, height: 120, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <span style={{ fontSize: 12, color: '#EF4444', fontFamily: 'monospace' }}>Date indisponibile — raport manual în așteptare</span>
+          <span style={{ fontSize: 12, color: '#EF4444', fontFamily: 'monospace', textAlign: 'center' }}>Date indisponibile — raport manual în așteptare</span>
         </div>
       </div>
     </div>
@@ -56,12 +52,12 @@ export const appsMockups = [
       <div style={{ flex: 1, background: '#111', borderRadius: 6, padding: '4px 12px', fontSize: 12, color: '#71717A', marginLeft: 8 }}>dashboard.firma.ro</div>
     </div>
     <div style={{ display: 'flex', minHeight: 320 }}>
-      <div style={{ width: 180, borderRight: '1px solid #27272A', padding: '16px 0' }}>
+      <div className="mockup-sidebar" style={{ width: 180, borderRight: '1px solid #27272A', padding: '16px 0' }}>
         {['Dashboard', 'Producție', 'Stocuri', 'Vânzări', 'Pontaj'].map((item, i) => (
           <div key={item} style={{ padding: '10px 16px', fontSize: 13, color: i === 0 ? '#F8FAFC' : '#52525B' }}>{item}</div>
         ))}
       </div>
-      <div style={{ flex: 1, padding: 20 }}>
+      <div style={{ flex: 1, padding: 20, minWidth: 0 }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 16 }}>
           <span style={{ fontSize: 14, fontWeight: 600, color: '#F8FAFC' }}>Analiză în curs</span>
           <span style={{ fontSize: 12, color: '#3B82F6', fontFamily: 'monospace' }}>Săptămâna 1</span>
@@ -105,15 +101,15 @@ export const appsMockups = [
         <div style={{ width: 12, height: 12, borderRadius: '50%', background: '#22C55E' }} />
       </div>
       <div style={{ flex: 1, background: '#111', borderRadius: 6, padding: '4px 12px', fontSize: 12, color: '#71717A', marginLeft: 8 }}>dashboard.firma.ro</div>
-      <span style={{ fontSize: 11, color: '#F59E0B', fontFamily: 'monospace' }}>Build în curs — Săpt. 3</span>
+      <span className="mockup-warning-hide" style={{ fontSize: 11, color: '#F59E0B', fontFamily: 'monospace' }}>Build în curs — Săpt. 3</span>
     </div>
     <div style={{ display: 'flex', minHeight: 320 }}>
-      <div style={{ width: 180, borderRight: '1px solid #27272A', padding: '16px 0' }}>
+      <div className="mockup-sidebar" style={{ width: 180, borderRight: '1px solid #27272A', padding: '16px 0' }}>
         {['Dashboard', 'Producție', 'Stocuri', 'Vânzări', 'Pontaj'].map((item, i) => (
           <div key={item} style={{ padding: '10px 16px', fontSize: 13, color: i === 0 ? '#F8FAFC' : '#52525B' }}>{item}</div>
         ))}
       </div>
-      <div style={{ flex: 1, padding: 20 }}>
+      <div style={{ flex: 1, padding: 20, minWidth: 0 }}>
         {[
           { label: 'Dashboard principal', status: 'livrat', pct: 100 },
           { label: 'Modul stocuri', status: 'livrat', pct: 100 },
@@ -149,12 +145,12 @@ export const appsMockups = [
       <span style={{ fontSize: 11, color: '#22C55E', fontFamily: 'monospace' }}>● Predare completă</span>
     </div>
     <div style={{ display: 'flex', minHeight: 320 }}>
-      <div style={{ width: 180, borderRight: '1px solid #27272A', padding: '16px 0' }}>
+      <div className="mockup-sidebar" style={{ width: 180, borderRight: '1px solid #27272A', padding: '16px 0' }}>
         {['Dashboard', 'Producție', 'Stocuri', 'Vânzări', 'Pontaj'].map((item, i) => (
           <div key={item} style={{ padding: '10px 16px', fontSize: 13, color: i === 0 ? '#F8FAFC' : '#94A3B8', background: i === 0 ? '#1E1E1E' : 'transparent', borderLeft: i === 0 ? '2px solid #3B82F6' : '2px solid transparent' }}>{item}</div>
         ))}
       </div>
-      <div style={{ flex: 1, padding: 20 }}>
+      <div style={{ flex: 1, padding: 20, minWidth: 0 }}>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 14 }}>
           {[
             { label: 'STOC CLUJ', value: '847 buc', trend: '↑' },
@@ -190,12 +186,12 @@ export const appsMockups = [
       </span>
     </div>
     <div style={{ display: 'flex', minHeight: 320 }}>
-      <div style={{ width: 180, borderRight: '1px solid #27272A', padding: '16px 0' }}>
+      <div className="mockup-sidebar" style={{ width: 180, borderRight: '1px solid #27272A', padding: '16px 0' }}>
         {['Dashboard', 'Producție', 'Stocuri', 'Vânzări', 'Pontaj'].map((item, i) => (
           <div key={item} style={{ padding: '10px 16px', fontSize: 13, color: i === 0 ? '#F8FAFC' : '#94A3B8', background: i === 0 ? '#1E1E1E' : 'transparent', borderLeft: i === 0 ? '2px solid #3B82F6' : '2px solid transparent' }}>{item}</div>
         ))}
       </div>
-      <div style={{ flex: 1, padding: 20 }}>
+      <div style={{ flex: 1, padding: 20, minWidth: 0 }}>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 14 }}>
           {[
             { label: 'STOC CLUJ', value: '847 buc', trend: '↑ 12%' },
