@@ -403,8 +403,9 @@ function AppLogo({ size = 'sm' }: { size?: 'sm' | 'lg' }) {
   const textSize = size === 'lg' ? 'text-[20px]' : 'text-[15px]'
   return (
     <span className="inline-flex items-center gap-2.5" aria-label="Croit">
-      <svg width={dim} height={dim} viewBox="0 0 20 20" fill="none" aria-hidden="true">
-        <polygon points="0,20 0,0 13,0 20,7 20,20" fill="#C14E30" />
+      <svg width={size === 'lg' ? 36 : 26} height={size === 'lg' ? 28 : 20} viewBox="0 0 72 56" fill="none" aria-hidden="true">
+        <path d="M 44,8 A 24,24 0 1 0 44,48 L 44,40 A 16,16 0 1 1 44,16 Z" fill="#C14E30"/>
+        <path d="M 44,16 L 56,16 Q 68,16 68,26 Q 68,34 58,36 L 68,48 L 58,48 L 49,37 L 44,37 L 44,28 L 55,28 Q 59,28 59,26 Q 59,24 55,24 L 44,24 Z" fill="#C14E30"/>
       </svg>
       <span className={`${textSize} font-semibold tracking-tight leading-none select-none font-serif`} style={{ color: '#F2EDE4' }}>
         Croit
