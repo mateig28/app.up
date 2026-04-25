@@ -62,10 +62,10 @@ export function StickyScrollSection({
   if (isMobile) {
     return (
       <section style={{ padding: '60px 20px' }}>
-        <p style={{ fontFamily: 'var(--font-geist-mono)', fontSize: 11, letterSpacing: '0.12em', textTransform: 'uppercase', color: accent, marginBottom: 12 }}>
+        <p style={{ fontFamily: 'var(--font-jakarta)', fontSize: 11, letterSpacing: '0.12em', textTransform: 'uppercase', color: accent, marginBottom: 12 }}>
           {eyebrow}
         </p>
-        <h2 style={{ fontSize: 28, fontWeight: 600, color: '#F8FAFC', letterSpacing: '-0.02em', marginBottom: 0, lineHeight: 1.25 }}>
+        <h2 style={{ fontFamily: 'var(--font-cormorant)', fontSize: 28, fontWeight: 600, color: '#F2EDE4', letterSpacing: '-0.02em', marginBottom: 0, lineHeight: 1.25 }}>
           {heading}
         </h2>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 48, marginTop: 40 }}>
@@ -78,15 +78,15 @@ export function StickyScrollSection({
               transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
             >
               {i > 0 && (
-                <div style={{ height: 1, background: '#1E2530', marginBottom: 48 }} />
+                <div style={{ height: 1, background: '#2C2C28', marginBottom: 48 }} />
               )}
-              <p style={{ fontFamily: 'var(--font-geist-mono)', fontSize: 11, letterSpacing: '0.1em', textTransform: 'uppercase', color: accent, marginBottom: 10 }}>
+              <p style={{ fontFamily: 'var(--font-jakarta)', fontSize: 11, letterSpacing: '0.1em', textTransform: 'uppercase', color: accent, marginBottom: 10 }}>
                 {step.label}
               </p>
-              <h3 style={{ fontSize: 22, fontWeight: 600, color: '#F8FAFC', marginBottom: 12, letterSpacing: '-0.01em', lineHeight: 1.3 }}>
+              <h3 style={{ fontFamily: 'var(--font-cormorant)', fontSize: 22, fontWeight: 600, color: '#F2EDE4', marginBottom: 12, letterSpacing: '-0.01em', lineHeight: 1.3 }}>
                 {step.title}
               </h3>
-              <p style={{ fontSize: 15, color: '#94A3B8', lineHeight: 1.75, marginBottom: 24 }}>
+              <p style={{ fontSize: 15, color: '#8C8882', lineHeight: 1.75, marginBottom: 24 }}>
                 {step.description}
               </p>
               <div style={{ width: '100%', overflowX: 'hidden' }}>
@@ -99,7 +99,7 @@ export function StickyScrollSection({
     )
   }
 
-  // ── DESKTOP — neatins ────────────────────────────────────────
+  // ── DESKTOP ──────────────────────────────────────────────────
   return (
     <section
       ref={containerRef}
@@ -128,17 +128,17 @@ export function StickyScrollSection({
           }}
         >
           <div>
-            <p style={{ fontFamily: 'var(--font-geist-mono)', fontSize: 11, letterSpacing: '0.12em', textTransform: 'uppercase', color: accent, marginBottom: 12 }}>
+            <p style={{ fontFamily: 'var(--font-jakarta)', fontSize: 11, letterSpacing: '0.12em', textTransform: 'uppercase', color: accent, marginBottom: 12 }}>
               {eyebrow}
             </p>
-            <h2 style={{ fontSize: 36, fontWeight: 600, color: '#F8FAFC', letterSpacing: '-0.02em', marginBottom: 0 }}>
+            <h2 style={{ fontFamily: 'var(--font-cormorant)', fontSize: 36, fontWeight: 600, color: '#F2EDE4', letterSpacing: '-0.02em', marginBottom: 0 }}>
               {heading}
             </h2>
           </div>
 
           {/* Progress indicator */}
           <div style={{ display: 'flex', gap: 16, alignItems: 'flex-start' }}>
-            <div style={{ position: 'relative', width: 1, background: '#1E2530', flexShrink: 0, height: steps.length * 80 }}>
+            <div style={{ position: 'relative', width: 1, background: '#2C2C28', flexShrink: 0, height: steps.length * 80 }}>
               <motion.div
                 style={{
                   position: 'absolute',
@@ -161,13 +161,13 @@ export function StickyScrollSection({
                 exit={{ opacity: 0, y: -16 }}
                 transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
               >
-                <p style={{ fontFamily: 'var(--font-geist-mono)', fontSize: 11, letterSpacing: '0.1em', textTransform: 'uppercase', color: accent, marginBottom: 8 }}>
+                <p style={{ fontFamily: 'var(--font-jakarta)', fontSize: 11, letterSpacing: '0.1em', textTransform: 'uppercase', color: accent, marginBottom: 8 }}>
                   {steps[currentStep].label}
                 </p>
-                <h3 style={{ fontSize: 26, fontWeight: 600, color: '#F8FAFC', marginBottom: 12, letterSpacing: '-0.01em' }}>
+                <h3 style={{ fontFamily: 'var(--font-cormorant)', fontSize: 26, fontWeight: 600, color: '#F2EDE4', marginBottom: 12, letterSpacing: '-0.01em' }}>
                   {steps[currentStep].title}
                 </h3>
-                <p style={{ fontSize: 16, color: '#94A3B8', lineHeight: 1.75, maxWidth: 420 }}>
+                <p style={{ fontSize: 16, color: '#8C8882', lineHeight: 1.75, maxWidth: 420 }}>
                   {steps[currentStep].description}
                 </p>
               </motion.div>

@@ -24,16 +24,16 @@ function CardInner({
   featured, accentGradient, maintenance, ctaHref, onColoredSection,
 }: PackageCardProps) {
   const isBlue = accentGradient !== 'emerald'
-  const accentColor = isBlue ? '#3B82F6' : '#10B981'
+  const accentColor = isBlue ? '#C14E30' : '#E8805E'
   const gradient = isBlue
-    ? 'linear-gradient(135deg, #3B82F6, #06B6D4)'
-    : 'linear-gradient(135deg, #10B981, #06B6D4)'
+    ? 'linear-gradient(135deg, #C14E30, #E8805E)'
+    : 'linear-gradient(135deg, #E8805E, #C14E30)'
 
   const cardBg = featured
-    ? '#0A0B0E'
+    ? '#191916'
     : onColoredSection
       ? 'rgba(0,0,0,0.25)'
-      : '#0D1117'
+      : '#1F1F1B'
 
   const cardClass = featured
     ? 'relative flex flex-col h-full rounded-2xl p-6'
@@ -48,7 +48,7 @@ function CardInner({
     >
       {featured && (
         <div
-          className="absolute -top-3.5 left-6 font-mono text-[9px] tracking-widest uppercase px-2.5 py-1 rounded-full"
+          className="absolute -top-3.5 left-6 font-sans text-[9px] tracking-widest uppercase px-2.5 py-1 rounded-full"
           style={{ background: gradient, color: '#fff' }}
         >
           Cel mai ales
@@ -57,26 +57,26 @@ function CardInner({
 
       <div className="mb-5">
         <div className="flex items-baseline justify-between mb-1">
-          <span className="font-mono text-[10px] tracking-widest uppercase" style={{ color: accentColor }}>
+          <span className="font-sans text-[10px] tracking-widest uppercase" style={{ color: accentColor }}>
             {name}
           </span>
-          <span className="font-mono text-[10px]" style={{ color: '#8B97A8' }}>
+          <span className="font-sans text-[10px]" style={{ color: '#8C8882' }}>
             {duration}
           </span>
         </div>
-        <p className="text-xs mt-1" style={{ color: '#8B97A8' }}>{tagline}</p>
+        <p className="text-xs mt-1" style={{ color: '#8C8882' }}>{tagline}</p>
       </div>
 
-      <p className="text-2xl font-bold tracking-tight mb-2" style={{ color: '#F0F6FF' }}>
+      <p className="font-serif text-2xl font-semibold tracking-tight mb-2" style={{ color: '#F2EDE4' }}>
         {price}
       </p>
-      <p className="text-sm mb-5 leading-[1.75]" style={{ color: '#8B97A8' }}>
+      <p className="text-sm mb-5 leading-[1.75]" style={{ color: '#8C8882' }}>
         {description}
       </p>
 
       <ul className="space-y-2 mb-6 flex-1">
         {examples.map((ex) => (
-          <li key={ex} className="flex items-start gap-2 text-sm" style={{ color: '#8B97A8' }}>
+          <li key={ex} className="flex items-start gap-2 text-sm" style={{ color: '#8C8882' }}>
             <Check className="w-4 h-4 mt-0.5 shrink-0" style={{ color: accentColor }} aria-hidden="true" />
             {ex}
           </li>
@@ -85,8 +85,8 @@ function CardInner({
 
       <div className="mt-auto">
         <p
-          className="font-mono text-[9px] tracking-widest uppercase mb-3"
-          style={{ color: 'rgba(139,151,168,0.5)' }}
+          className="font-sans text-[9px] tracking-widest uppercase mb-3"
+          style={{ color: 'rgba(140,136,130,0.5)' }}
         >
           Proces
         </p>
@@ -94,12 +94,12 @@ function CardInner({
           {steps.map((s, i) => (
             <li key={s.label} className="flex justify-between items-center">
               <span className="flex items-center gap-2">
-                <span className="font-mono text-[9px]" style={{ color: 'rgba(139,151,168,0.4)' }}>
+                <span className="font-sans text-[9px]" style={{ color: 'rgba(140,136,130,0.4)' }}>
                   0{i + 1}
                 </span>
-                <span className="text-xs" style={{ color: '#8B97A8' }}>{s.label}</span>
+                <span className="text-xs" style={{ color: '#8C8882' }}>{s.label}</span>
               </span>
-              <span className="font-mono text-[9px]" style={{ color: 'rgba(139,151,168,0.5)' }}>
+              <span className="font-sans text-[9px]" style={{ color: 'rgba(140,136,130,0.5)' }}>
                 {s.duration}
               </span>
             </li>
@@ -107,7 +107,7 @@ function CardInner({
         </ol>
 
         {maintenance && (
-          <p className="text-xs mb-4" style={{ color: 'rgba(139,151,168,0.5)' }}>
+          <p className="text-xs mb-4" style={{ color: 'rgba(140,136,130,0.5)' }}>
             + Mentenanță opțională {maintenance}
           </p>
         )}

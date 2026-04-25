@@ -15,11 +15,11 @@ export function TabSwitcher({ tabs, activeTab, onTabChange, variant = 'blue' }: 
   const shouldReduce = useReducedMotion() ?? false
 
   const isBlue = variant === 'blue'
-  const accentColor = isBlue ? '#3B82F6' : '#10B981'
-  const pillBg = isBlue ? '#3B82F6' : '#10B981'
+  const accentColor = isBlue ? '#C14E30' : '#E8805E'
+  const pillBg = isBlue ? '#C14E30' : '#E8805E'
   const pillGlow = isBlue
-    ? '0 0 12px rgba(59,130,246,0.4)'
-    : '0 0 12px rgba(16,185,129,0.4)'
+    ? '0 0 12px rgba(193,78,48,0.4)'
+    : '0 0 12px rgba(232,128,94,0.4)'
 
   const handleKeyDown = (e: React.KeyboardEvent, index: number) => {
     let nextIndex = index
@@ -37,7 +37,7 @@ export function TabSwitcher({ tabs, activeTab, onTabChange, variant = 'blue' }: 
       role="tablist"
       aria-label="Selectează serviciul"
       className="relative inline-flex rounded-xl p-1 gap-0.5"
-      style={{ background: '#0D1117', border: '1px solid #1E2530' }}
+      style={{ background: '#1F1F1B', border: '1px solid #2C2C28' }}
     >
       {tabs.map((tab, i) => {
         const isActive = activeTab === tab.id
@@ -52,7 +52,7 @@ export function TabSwitcher({ tabs, activeTab, onTabChange, variant = 'blue' }: 
             onKeyDown={(e) => handleKeyDown(e, i)}
             className="relative px-6 py-2.5 text-sm font-medium rounded-lg transition-colors duration-150 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 min-h-[40px] min-w-[140px]"
             style={{
-              color: isActive ? '#F0F6FF' : '#8B97A8',
+              color: isActive ? '#F2EDE4' : '#8C8882',
               outlineColor: accentColor,
             }}
           >

@@ -9,22 +9,22 @@ html {
 }
 
 body {
-  background-color: #08090A;
-  color: #F0F6FF;
+  background-color: #191916;
+  color: #F2EDE4;
 }
 
 /* cursor: none is applied via JS in CursorFollower only when active */
 
 /* ── Focus ───────────────────────────────────────────────── */
 :focus-visible {
-  outline: 2px solid #3B82F6;
+  outline: 2px solid #C14E30;
   outline-offset: 3px;
   border-radius: 4px;
 }
 
 /* ── Gradient text ───────────────────────────────────────── */
 .gradient-text {
-  background: linear-gradient(90deg, #3B82F6, #06B6D4, #10B981);
+  background: linear-gradient(90deg, #C14E30, #E8805E, #C14E30);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -32,7 +32,7 @@ body {
 }
 
 .gradient-text-blue {
-  background: linear-gradient(135deg, #3B82F6, #06B6D4);
+  background: linear-gradient(135deg, #C14E30, #E8805E);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -40,7 +40,7 @@ body {
 }
 
 .gradient-text-emerald {
-  background: linear-gradient(135deg, #06B6D4, #10B981);
+  background: linear-gradient(135deg, #E8805E, #C14E30);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -49,27 +49,27 @@ body {
 
 /* ── Nav ─────────────────────────────────────────────────── */
 .nav-scrolled {
-  background: rgba(8, 9, 10, 0.92);
+  background: rgba(25, 25, 22, 0.92);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border-bottom: 1px solid #1E2530;
+  border-bottom: 1px solid #2C2C28;
 }
 
 /* ── Cards ───────────────────────────────────────────────── */
 .card-dark {
-  background: #0D1117;
-  border: 1px solid #1E2530;
+  background: #1F1F1B;
+  border: 1px solid #2C2C28;
   transition: border-color 0.2s ease;
 }
-.card-dark:hover { border-color: #3B82F6; }
+.card-dark:hover { border-color: #C14E30; }
 
 .card-colored {
   background: rgba(0, 0, 0, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   transition: border-color 0.2s ease;
 }
-.card-colored-blue:hover  { border-color: rgba(59, 130, 246, 0.5); }
-.card-colored-emerald:hover { border-color: rgba(16, 185, 129, 0.5); }
+.card-colored-blue:hover    { border-color: rgba(193, 78, 48, 0.5); }
+.card-colored-emerald:hover { border-color: rgba(232, 128, 94, 0.5); }
 
 /* ── Animated gradient border for featured cards ─────────── */
 @keyframes spin-border {
@@ -79,14 +79,14 @@ body {
 
 .gradient-spin-blue {
   position: absolute;
-  background: conic-gradient(#3B82F6, #06B6D4, #10B981, #06B6D4, #3B82F6);
+  background: conic-gradient(#C14E30, #E8805E, #C14E30, #E8805E, #C14E30);
   animation: spin-border 5s linear infinite;
   transform-origin: center;
 }
 
 .gradient-spin-emerald {
   position: absolute;
-  background: conic-gradient(#10B981, #06B6D4, #3B82F6, #06B6D4, #10B981);
+  background: conic-gradient(#E8805E, #C14E30, #E8805E, #C14E30, #E8805E);
   animation: spin-border 5s linear infinite;
   transform-origin: center;
 }
@@ -95,14 +95,14 @@ body {
 .cursor-aura {
   width: 32px;
   height: 32px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(242, 237, 228, 0.18);
   transition: width 0.2s ease, height 0.2s ease, border-color 0.2s ease, background 0.2s ease;
 }
 .cursor-aura.cursor-expanded {
   width: 56px;
   height: 56px;
-  border-color: rgba(59, 130, 246, 0.5);
-  background: rgba(59, 130, 246, 0.08);
+  border-color: rgba(193, 78, 48, 0.5);
+  background: rgba(193, 78, 48, 0.07);
 }
 
 /* ── SVG flow lines ──────────────────────────────────────── */
@@ -121,8 +121,8 @@ details summary::-webkit-details-marker { display: none; }
 
 /* ── Scrollbar ───────────────────────────────────────────── */
 ::-webkit-scrollbar { width: 5px; }
-::-webkit-scrollbar-track { background: #08090A; }
-::-webkit-scrollbar-thumb { background: #1E2530; border-radius: 3px; }
+::-webkit-scrollbar-track { background: #191916; }
+::-webkit-scrollbar-thumb { background: #2C2C28; border-radius: 3px; }
 
 /* ── Reduced motion ──────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {

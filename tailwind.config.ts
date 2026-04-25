@@ -8,16 +8,18 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['var(--font-geist-sans)', 'system-ui', 'sans-serif'],
-        mono: ['var(--font-geist-mono)', 'ui-monospace', 'monospace'],
+        sans:  ['var(--font-jakarta)', 'system-ui', 'sans-serif'],
+        serif: ['var(--font-cormorant)', 'Georgia', 'serif'],
+        mono:  ['var(--font-jakarta)', 'system-ui', 'sans-serif'],
       },
       colors: {
-        'accent-blue':    '#3B82F6',
-        'accent-cyan':    '#06B6D4',
-        'accent-emerald': '#10B981',
-        'dark-base':      '#08090A',
-        'dark-alt':       '#0D1117',
-        'dark-border':    '#1E2530',
+        'terra':        '#C14E30',
+        'terra-light':  '#E8805E',
+        'dark-base':    '#191916',
+        'dark-alt':     '#1F1F1B',
+        'dark-border':  '#2C2C28',
+        'cream':        '#F2EDE4',
+        'grey':         '#8C8882',
       },
     },
   },

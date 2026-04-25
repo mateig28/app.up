@@ -79,7 +79,7 @@ export function CursorFollower() {
           translateY: '-50%',
           willChange: 'transform',
         }}
-        className="fixed top-0 left-0 w-2 h-2 rounded-full bg-[#60A5FA]"
+        className="fixed top-0 left-0 w-2 h-2 rounded-full bg-[#C14E30]"
       />
       {/* Aura — laggy */}
       <motion.div

@@ -1,26 +1,29 @@
 import type { Metadata } from 'next'
-import { Geist, Geist_Mono } from 'next/font/google'
+import { Cormorant_Garamond, Plus_Jakarta_Sans } from 'next/font/google'
 import './globals.css'
 import { CursorFollower } from '@/components/CursorFollower'
 import { LenisProvider } from '@/components/LenisProvider'
 
-const geistSans = Geist({
+const cormorant = Cormorant_Garamond({
   subsets: ['latin'],
-  variable: '--font-geist-sans',
+  weight: ['300', '600'],
+  style: ['normal', 'italic'],
+  variable: '--font-cormorant',
   display: 'swap',
 })
 
-const geistMono = Geist_Mono({
+const jakarta = Plus_Jakarta_Sans({
   subsets: ['latin'],
-  variable: '--font-geist-mono',
+  weight: ['300', '400', '500', '600'],
+  variable: '--font-jakarta',
   display: 'swap',
 })
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://app.up.ro'),
-  title: 'app.up — Aplicații interne și site-uri web pentru firme românești',
+  metadataBase: new URL('https://croit.ro'),
+  title: 'Croit — Digital pe măsura ta',
   description:
-    'Construim aplicații interne custom pentru producție și distribuție, și site-uri de prezentare profesionale. Preț fix, termen fix. Livrare în 3–10 săptămâni.',
+    'Croit construiește aplicații interne și site-uri de prezentare pentru firme românești. Livrăm în termen fix, la preț fix. De la Excel la vizibilitate în timp real.',
   keywords: [
     'aplicații interne custom',
     'dashboard producție România',
@@ -28,18 +31,19 @@ export const metadata: Metadata = {
     'software custom firme',
     'digitalizare producție',
     'site web profesional rapid',
+    'Croit',
   ],
   openGraph: {
-    title: 'app.up — Aplicații interne și site-uri web pentru firme românești',
+    title: 'Croit — Digital pe măsura ta',
     description:
       'Aplicații interne pentru producție și distribuție. Site-uri de prezentare profesionale. Preț fix, termen fix.',
     type: 'website',
     locale: 'ro_RO',
-    siteName: 'app.up',
+    siteName: 'Croit',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'app.up — Aplicații interne și site-uri web',
+    title: 'Croit — Digital pe măsura ta',
     description: 'Preț fix, termen fix. Livrare în 3–10 săptămâni.',
   },
   robots: { index: true, follow: true },
@@ -48,7 +52,7 @@ export const metadata: Metadata = {
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'ProfessionalService',
-  name: 'app.up',
+  name: 'Croit',
   description:
     'Agenție digitală care construiește aplicații interne custom și site-uri de prezentare pentru firme românești.',
   areaServed: { '@type': 'Country', name: 'Romania' },
@@ -59,20 +63,20 @@ const jsonLd = {
     'Site-uri de prezentare Next.js',
     'Landing pages',
   ],
-  url: 'https://app.up.ro',
-  email: 'contact@app.up',
+  url: 'https://croit.ro',
+  email: 'contact@croit.ro',
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="ro" className={`${geistSans.variable} ${geistMono.variable}`}>
+    <html lang="ro" className={`${cormorant.variable} ${jakarta.variable}`}>
       <head>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className="font-sans antialiased" style={{ background: '#08090A', color: '#F0F6FF' }}>
+      <body className="font-sans antialiased" style={{ background: '#191916', color: '#F2EDE4' }}>
         <LenisProvider>
           <CursorFollower />
           {children}

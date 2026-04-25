@@ -31,12 +31,12 @@ import { SitesMockup0, SitesMockup1, SitesMockup2, SitesMockup3, SitesMockup4 } 
 
 /* ── COLOR CONSTANTS ─────────────────────────────────────── */
 const C = {
-  dark:    '#08090A',
-  darkAlt: '#0D1117',
-  blue0:   '#0F2444',
-  blue1:   '#0A1628',
-  emerald0:'#052E16',
-  emerald1:'#022C1A',
+  dark:     '#191916',
+  darkAlt:  '#1F1F1B',
+  terra0:   '#2A1509',
+  terra1:   '#1E0E06',
+  warm0:    '#221208',
+  warm1:    '#170C05',
 }
 
 /* ── TYPES ───────────────────────────────────────────────── */
@@ -147,25 +147,25 @@ const appTypes = [
     Icon: Monitor,
     title: 'Dashboard live pentru producție',
     body: 'Status pe ture, productivitate per linie, pontaj digital. Datele intră de la operatori — tu le vezi pe loc, fără să întrebi pe nimeni.',
-    color: '#3B82F6',
+    color: '#C14E30',
   },
   {
     Icon: Package,
     title: 'Evidența stocurilor pe mai multe depozite',
     body: 'Un singur loc unde vezi tot — nu mai suni la Cluj ca să afli ce ai în magazie. Alerte automate la stoc minim, intrări și ieșiri validate.',
-    color: '#10B981',
+    color: '#E8805E',
   },
   {
     Icon: Users,
     title: 'CRM intern pentru agenții de vânzări',
     body: 'Toți agenții tăi, toate ofertele și clienții, într-un singur loc — nu în telefoanele fiecăruia. Agentul introduce date pe mobil, directorul vede live pe desktop.',
-    color: '#06B6D4',
+    color: '#C14E30',
   },
   {
     Icon: BarChart2,
     title: 'Rapoarte săptămânale automate',
     body: 'Luni dimineața ai raportul gata — nu mai aștepți până miercuri să strângi datele. Format consistent, trimis automat pe email.',
-    color: '#3B82F6',
+    color: '#E8805E',
   },
 ]
 
@@ -399,23 +399,15 @@ function WhatsAppIcon({ className = 'w-4 h-4' }: { className?: string }) {
 }
 
 function AppLogo({ size = 'sm' }: { size?: 'sm' | 'lg' }) {
-  const dim = size === 'lg' ? 24 : 17
-  const textSize = size === 'lg' ? 'text-[20px]' : 'text-[14px]'
+  const dim = size === 'lg' ? 24 : 18
+  const textSize = size === 'lg' ? 'text-[20px]' : 'text-[15px]'
   return (
-    <span className="inline-flex items-center gap-2" aria-label="app.up">
+    <span className="inline-flex items-center gap-2.5" aria-label="Croit">
       <svg width={dim} height={dim} viewBox="0 0 20 20" fill="none" aria-hidden="true">
-        <defs>
-          <linearGradient id="logoGrad" x1="0" y1="1" x2="1" y2="0">
-            <stop offset="0%" stopColor="#3B82F6" />
-            <stop offset="100%" stopColor="#10B981" />
-          </linearGradient>
-        </defs>
-        <line x1="3" y1="17" x2="15" y2="5" stroke="url(#logoGrad)" strokeWidth="2.5" strokeLinecap="round" />
-        <line x1="7" y1="5" x2="15" y2="5" stroke="url(#logoGrad)" strokeWidth="2.5" strokeLinecap="round" />
-        <line x1="15" y1="5" x2="15" y2="13" stroke="url(#logoGrad)" strokeWidth="2.5" strokeLinecap="round" />
+        <polygon points="0,20 0,0 13,0 20,7 20,20" fill="#C14E30" />
       </svg>
-      <span className={`${textSize} font-semibold tracking-tight leading-none select-none`} style={{ color: '#F0F6FF' }}>
-        app.<span className="font-mono font-bold gradient-text-blue">up</span>
+      <span className={`${textSize} font-semibold tracking-tight leading-none select-none font-serif`} style={{ color: '#F2EDE4' }}>
+        Croit
       </span>
     </span>
   )
@@ -438,14 +430,14 @@ function Nav() {
     >
       <div className="max-w-6xl mx-auto px-6 h-14 flex items-center justify-between">
         <div>
-          <a href="/" aria-label="app.up — pagina principală">
+          <a href="/" aria-label="Croit — pagina principală">
             <AppLogo />
           </a>
           <p
-            className="font-mono text-[9px] tracking-widest uppercase ml-0.5 mt-0.5 hidden sm:block"
-            style={{ color: 'rgba(139,151,168,0.45)' }}
+            className="font-sans text-[9px] tracking-widest uppercase ml-0.5 mt-0.5 hidden sm:block"
+            style={{ color: 'rgba(140,136,130,0.45)' }}
           >
-            Construim digital. Livrăm la timp.
+            Digital pe măsura ta.
           </p>
         </div>
 
@@ -460,10 +452,10 @@ function Nav() {
               <li key={l.href}>
                 <a
                   href={l.href}
-                  className="text-sm px-3 py-2 rounded-lg transition-colors duration-150 focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue-400"
-                  style={{ color: '#8B97A8' }}
-                  onMouseEnter={(e) => ((e.target as HTMLElement).style.color = '#F0F6FF')}
-                  onMouseLeave={(e) => ((e.target as HTMLElement).style.color = '#8B97A8')}
+                  className="text-sm px-3 py-2 rounded-lg transition-colors duration-150 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#C14E30]"
+                  style={{ color: '#8C8882' }}
+                  onMouseEnter={(e) => ((e.target as HTMLElement).style.color = '#F2EDE4')}
+                  onMouseLeave={(e) => ((e.target as HTMLElement).style.color = '#8C8882')}
                 >
                   {l.label}
                 </a>
@@ -476,13 +468,13 @@ function Nav() {
           href="https://wa.me/40700000000"
           target="_blank"
           rel="noopener noreferrer"
-          className="nav-cta inline-flex items-center gap-2 text-sm font-medium rounded-lg px-4 py-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-400 min-h-[44px]"
-          style={{ background: '#3B82F6', color: '#fff' }}
+          className="nav-cta inline-flex items-center gap-2 text-sm font-medium rounded-lg px-4 py-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C14E30] min-h-[44px]"
+          style={{ background: '#C14E30', color: '#F2EDE4' }}
           aria-label="Contactează-ne pe WhatsApp"
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
-          onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = '#2563EB' }}
-          onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = '#3B82F6' }}
+          onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = '#A63D22' }}
+          onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = '#C14E30' }}
         >
           <WhatsAppIcon />
           <span className="hidden sm:inline">Vorbește cu noi</span>
@@ -517,7 +509,7 @@ function HeroSection({
         aria-hidden="true"
         style={{
           background:
-            'radial-gradient(ellipse 60% 60% at 15% 50%, rgba(59,130,246,0.06) 0%, transparent 70%), radial-gradient(ellipse 60% 60% at 85% 50%, rgba(16,185,129,0.05) 0%, transparent 70%)',
+            'radial-gradient(ellipse 60% 60% at 15% 50%, rgba(193,78,48,0.06) 0%, transparent 70%), radial-gradient(ellipse 60% 60% at 85% 50%, rgba(232,128,94,0.04) 0%, transparent 70%)',
         }}
       />
 
@@ -527,8 +519,8 @@ function HeroSection({
           <motion.div variants={container} initial="hidden" animate="visible">
             <motion.p
               variants={item}
-              className="font-mono text-[10px] tracking-[0.2em] uppercase mb-8"
-              style={{ color: '#3B82F6' }}
+              className="font-sans text-[10px] tracking-[0.2em] uppercase mb-8"
+              style={{ color: '#C14E30' }}
             >
               Agenție digitală · România
             </motion.p>
@@ -536,8 +528,8 @@ function HeroSection({
             <motion.h1
               id="hero-heading"
               variants={item}
-              className="text-[2.6rem] sm:text-5xl lg:text-[3.5rem] font-bold tracking-tight leading-[1.08] mb-8"
-              style={{ color: '#F0F6FF' }}
+              className="font-serif text-[2.6rem] sm:text-5xl lg:text-[3.5rem] font-semibold tracking-tight leading-[1.08] mb-8"
+              style={{ color: '#F2EDE4' }}
             >
               Software care{' '}
               <span className="gradient-text-blue">clarifică.</span>
@@ -549,7 +541,7 @@ function HeroSection({
             <motion.p
               variants={item}
               className="text-base sm:text-lg leading-[1.75] mb-8 max-w-md"
-              style={{ color: '#8B97A8' }}
+              style={{ color: '#8C8882' }}
             >
               Aplicații interne pentru firme din producție și distribuție.
               Site-uri de prezentare care atrag clienți noi. Preț fix, termen
@@ -570,9 +562,9 @@ function HeroSection({
                 href="https://wa.me/40700000000"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2.5 text-sm font-medium rounded-lg px-5 py-3 min-h-[48px] sm:min-h-[44px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-400"
-                style={{ background: '#3B82F6', color: '#fff' }}
-                whileHover={{ scale: 1.02, background: '#2563EB' } as Parameters<typeof motion.a>[0]['whileHover']}
+                className="inline-flex items-center justify-center gap-2.5 text-sm font-medium rounded-lg px-5 py-3 min-h-[48px] sm:min-h-[44px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C14E30]"
+                style={{ background: '#C14E30', color: '#F2EDE4' }}
+                whileHover={{ scale: 1.02, background: '#A63D22' } as Parameters<typeof motion.a>[0]['whileHover']}
                 whileTap={{ scale: 0.98 }}
                 transition={{ duration: 0.15 }}
               >
@@ -620,25 +612,25 @@ function ProblemaSection() {
   return (
     <section
       aria-labelledby="problema-heading"
-      style={{ background: `linear-gradient(160deg, ${C.blue0}, ${C.blue1})` }}
+      style={{ background: `linear-gradient(160deg, ${C.terra0}, ${C.terra1})` }}
       className="py-20 sm:py-28"
     >
       <div className="max-w-6xl mx-auto px-6">
         <motion.div variants={section} initial="hidden" whileInView="visible" viewport={VP} className="mb-14">
-          <p className="font-mono text-[10px] tracking-widest uppercase mb-5" style={{ color: '#60A5FA' }}>
+          <p className="font-sans text-[10px] tracking-widest uppercase mb-5" style={{ color: '#E8805E' }}>
             Problema
           </p>
           <h2
             id="problema-heading"
-            className="text-2xl sm:text-[2rem] font-bold tracking-tight max-w-xl mb-4 leading-tight"
-            style={{ color: '#E8F4FF' }}
+            className="font-serif text-2xl sm:text-[2rem] font-semibold tracking-tight max-w-xl mb-4 leading-tight"
+            style={{ color: '#F2EDE4' }}
           >
             Firmele din producție și distribuție au date.
             <br />
             Problema e că le primesc{' '}
             <span className="gradient-text-blue">prea târziu.</span>
           </h2>
-          <p className="text-sm sm:text-base max-w-lg" style={{ color: 'rgba(232,244,255,0.65)' }}>
+          <p className="text-sm sm:text-base max-w-lg" style={{ color: 'rgba(242,237,228,0.65)' }}>
             Nu e o problemă de volum. E o problemă de când ajung.
           </p>
         </motion.div>
@@ -675,19 +667,19 @@ function CeConstruimSection() {
     >
       <div className="max-w-6xl mx-auto px-6">
         <motion.div variants={section} initial="hidden" whileInView="visible" viewport={VP} className="mb-14">
-          <p className="font-mono text-[10px] tracking-widest uppercase mb-5" style={{ color: '#3B82F6' }}>
+          <p className="font-sans text-[10px] tracking-widest uppercase mb-5" style={{ color: '#C14E30' }}>
             Ce construim
           </p>
           <h2
             id="ce-construim-heading"
-            className="text-2xl sm:text-[2rem] font-bold tracking-tight max-w-xl mb-4 leading-tight"
-            style={{ color: '#F0F6FF' }}
+            className="font-serif text-2xl sm:text-[2rem] font-semibold tracking-tight max-w-xl mb-4 leading-tight"
+            style={{ color: '#F2EDE4' }}
           >
             Aplicații pentru procesele care consumă{' '}
             <br className="hidden sm:block" />
             cel mai mult timp.
           </h2>
-          <p className="text-sm sm:text-base max-w-lg" style={{ color: '#8B97A8' }}>
+          <p className="text-sm sm:text-base max-w-lg" style={{ color: '#8C8882' }}>
             Nu generice. Construite pe specificațiile tale, cu logica procesului tău.
           </p>
         </motion.div>
@@ -707,10 +699,10 @@ function CeConstruimSection() {
               >
                 <Icon className="w-5 h-5" style={{ color }} aria-hidden="true" />
               </div>
-              <h3 className="text-base font-semibold mb-2 leading-snug" style={{ color: '#F0F6FF' }}>
+              <h3 className="text-base font-semibold mb-2 leading-snug" style={{ color: '#F2EDE4' }}>
                 {title}
               </h3>
-              <p className="text-sm leading-[1.75]" style={{ color: '#8B97A8' }}>
+              <p className="text-sm leading-[1.75]" style={{ color: '#8C8882' }}>
                 {body}
               </p>
             </motion.div>
@@ -731,24 +723,24 @@ function PacheteAppsSection() {
     <section
       id="pachete"
       aria-labelledby="pachete-apps-heading"
-      style={{ background: `linear-gradient(160deg, ${C.emerald0}, ${C.emerald1})` }}
+      style={{ background: `linear-gradient(160deg, ${C.warm0}, ${C.warm1})` }}
       className="py-20 sm:py-28"
     >
       <div className="max-w-6xl mx-auto px-6">
         <motion.div variants={section} initial="hidden" whileInView="visible" viewport={VP} className="mb-14">
-          <p className="font-mono text-[10px] tracking-widest uppercase mb-5" style={{ color: '#34D399' }}>
+          <p className="font-sans text-[10px] tracking-widest uppercase mb-5" style={{ color: '#E8805E' }}>
             Pachete aplicații
           </p>
           <h2
             id="pachete-apps-heading"
-            className="text-2xl sm:text-[2rem] font-bold tracking-tight max-w-2xl mb-4 leading-tight"
-            style={{ color: '#ECFDF5' }}
+            className="font-serif text-2xl sm:text-[2rem] font-semibold tracking-tight max-w-2xl mb-4 leading-tight"
+            style={{ color: '#F2EDE4' }}
           >
             Scope fix, preț fix, termen fix.
             <br />
             Stabilite după o săptămână de discovery.
           </h2>
-          <p className="text-sm sm:text-base max-w-lg" style={{ color: 'rgba(236,253,245,0.6)' }}>
+          <p className="text-sm sm:text-base max-w-lg" style={{ color: 'rgba(242,237,228,0.6)' }}>
             Nu scriem o linie de cod înainte să știm exact ce construim.
             Discovery-ul e plătit și creditat integral în proiect dacă continuăm.
           </p>
@@ -783,19 +775,19 @@ function SitesPropunereSection() {
       Icon: Zap,
       title: 'Livrare în 5, 10 sau 15 zile',
       body: 'Termen fix din prima discuție. Nu "undeva în jurul a două luni" — dată clară în contract, respectată.',
-      color: '#3B82F6',
+      color: '#C14E30',
     },
     {
       Icon: Globe,
       title: 'Design care iese în față',
       body: 'Animații moderne, vizual personalizat, cod curat. Site-ul tău e cel mai bun portofoliu al nostru.',
-      color: '#10B981',
+      color: '#E8805E',
     },
     {
       Icon: Lock,
       title: 'Preț fix, fără surprize',
       body: 'Știi prețul exact înainte să înceapă munca. Fără ore suplimentare neagreate, fără factură surpriză.',
-      color: '#06B6D4',
+      color: '#C14E30',
     },
   ]
 
@@ -807,18 +799,18 @@ function SitesPropunereSection() {
     >
       <div className="max-w-6xl mx-auto px-6">
         <motion.div variants={section} initial="hidden" whileInView="visible" viewport={VP} className="mb-14">
-          <p className="font-mono text-[10px] tracking-widest uppercase mb-5" style={{ color: '#10B981' }}>
-            De ce app.up
+          <p className="font-sans text-[10px] tracking-widest uppercase mb-5" style={{ color: '#E8805E' }}>
+            De ce Croit
           </p>
           <h2
             id="sites-propunere-heading"
-            className="text-2xl sm:text-[2rem] font-bold tracking-tight max-w-xl mb-4 leading-tight"
-            style={{ color: '#F0F6FF' }}
+            className="font-serif text-2xl sm:text-[2rem] font-semibold tracking-tight max-w-xl mb-4 leading-tight"
+            style={{ color: '#F2EDE4' }}
           >
             Un site bun nu durează luni de zile
             <br className="hidden sm:block" /> și nu costă o avere.
           </h2>
-          <p className="text-sm sm:text-base max-w-lg" style={{ color: '#8B97A8' }}>
+          <p className="text-sm sm:text-base max-w-lg" style={{ color: '#8C8882' }}>
             Construim site-uri profesionale cu animații moderne.
             Livrăm mai repede decât oricine — fără să sacrificăm calitatea.
           </p>
@@ -839,10 +831,10 @@ function SitesPropunereSection() {
               >
                 <Icon className="w-5 h-5" style={{ color }} aria-hidden="true" />
               </div>
-              <h3 className="text-base font-semibold mb-2 leading-snug" style={{ color: '#F0F6FF' }}>
+              <h3 className="text-base font-semibold mb-2 leading-snug" style={{ color: '#F2EDE4' }}>
                 {title}
               </h3>
-              <p className="text-sm leading-[1.75]" style={{ color: '#8B97A8' }}>
+              <p className="text-sm leading-[1.75]" style={{ color: '#8C8882' }}>
                 {body}
               </p>
             </motion.div>
@@ -862,24 +854,24 @@ function PacheteSitesSection() {
   return (
     <section
       aria-labelledby="pachete-sites-heading"
-      style={{ background: `linear-gradient(160deg, ${C.blue0}, ${C.blue1})` }}
+      style={{ background: `linear-gradient(160deg, ${C.terra0}, ${C.terra1})` }}
       className="py-20 sm:py-28"
     >
       <div className="max-w-6xl mx-auto px-6">
         <motion.div variants={section} initial="hidden" whileInView="visible" viewport={VP} className="mb-14">
-          <p className="font-mono text-[10px] tracking-widest uppercase mb-5" style={{ color: '#60A5FA' }}>
+          <p className="font-sans text-[10px] tracking-widest uppercase mb-5" style={{ color: '#E8805E' }}>
             Pachete site-uri
           </p>
           <h2
             id="pachete-sites-heading"
-            className="text-2xl sm:text-[2rem] font-bold tracking-tight max-w-xl mb-4 leading-tight"
-            style={{ color: '#E8F4FF' }}
+            className="font-serif text-2xl sm:text-[2rem] font-semibold tracking-tight max-w-xl mb-4 leading-tight"
+            style={{ color: '#F2EDE4' }}
           >
             Alegi pachetul, știi data livrării.
             <br />
             Fără calcule de ore și estimări vagi.
           </h2>
-          <p className="text-sm sm:text-base max-w-lg" style={{ color: 'rgba(232,244,255,0.6)' }}>
+          <p className="text-sm sm:text-base max-w-lg" style={{ color: 'rgba(242,237,228,0.6)' }}>
             Fiecare pachet include opțional mentenanță lunară — hosting, actualizări
             de securitate și modificări minore oricând ai nevoie.
           </p>
@@ -918,13 +910,13 @@ function FAQSection() {
     >
       <div className="max-w-6xl mx-auto px-6">
         <motion.div variants={section} initial="hidden" whileInView="visible" viewport={VP} className="mb-14">
-          <p className="font-mono text-[10px] tracking-widest uppercase mb-5" style={{ color: '#8B97A8' }}>
+          <p className="font-sans text-[10px] tracking-widest uppercase mb-5" style={{ color: '#8C8882' }}>
             Întrebări frecvente
           </p>
           <h2
             id="faq-heading"
-            className="text-2xl sm:text-[2rem] font-bold tracking-tight max-w-xl leading-tight"
-            style={{ color: '#F0F6FF' }}
+            className="font-serif text-2xl sm:text-[2rem] font-semibold tracking-tight max-w-xl leading-tight"
+            style={{ color: '#F2EDE4' }}
           >
             Ce întreabă antreprenorii înainte să înceapă o colaborare.
           </h2>
@@ -949,22 +941,22 @@ function TestimonialeSection() {
   return (
     <section
       aria-labelledby="testimoniale-heading"
-      style={{ background: `linear-gradient(160deg, ${C.emerald0}, ${C.emerald1})` }}
+      style={{ background: `linear-gradient(160deg, ${C.warm0}, ${C.warm1})` }}
       className="py-20 sm:py-28"
     >
       <div className="max-w-6xl mx-auto px-6">
         <motion.div variants={section} initial="hidden" whileInView="visible" viewport={VP} className="mb-14">
-          <p className="font-mono text-[10px] tracking-widest uppercase mb-5" style={{ color: '#34D399' }}>
+          <p className="font-sans text-[10px] tracking-widest uppercase mb-5" style={{ color: '#E8805E' }}>
             Clienți
           </p>
           <h2
             id="testimoniale-heading"
-            className="text-2xl sm:text-[2rem] font-bold tracking-tight max-w-xl mb-3 leading-tight"
-            style={{ color: '#ECFDF5' }}
+            className="font-serif text-2xl sm:text-[2rem] font-semibold tracking-tight max-w-xl mb-3 leading-tight"
+            style={{ color: '#F2EDE4' }}
           >
             Ce spun cei cu care am lucrat.
           </h2>
-          <p className="text-sm" style={{ color: 'rgba(236,253,245,0.45)' }}>
+          <p className="text-sm" style={{ color: 'rgba(242,237,228,0.45)' }}>
             Testimonialele clienților noștri vor apărea aici în curând.
           </p>
         </motion.div>
@@ -1002,17 +994,17 @@ function EchipaSection() {
     >
       <div className="max-w-6xl mx-auto px-6">
         <motion.div variants={section} initial="hidden" whileInView="visible" viewport={VP} className="max-w-2xl">
-          <p className="font-mono text-[10px] tracking-widest uppercase mb-5" style={{ color: '#8B97A8' }}>
+          <p className="font-sans text-[10px] tracking-widest uppercase mb-5" style={{ color: '#8C8882' }}>
             Echipa
           </p>
           <h2
             id="echipa-heading"
-            className="text-2xl sm:text-[2rem] font-bold tracking-tight mb-8 leading-tight"
-            style={{ color: '#F0F6FF' }}
+            className="font-serif text-2xl sm:text-[2rem] font-semibold tracking-tight mb-8 leading-tight"
+            style={{ color: '#F2EDE4' }}
           >
             Tehnici, nu consultanți.
           </h2>
-          <p className="text-sm sm:text-base leading-[1.8]" style={{ color: '#8B97A8' }}>
+          <p className="text-sm sm:text-base leading-[1.8]" style={{ color: '#8C8882' }}>
             Suntem o echipă mică cu experiență în software pentru producție,
             logistică și prezentare online. Am construit aplicații interne
             înainte de a construi site-uri — știm cum gândesc atât directorii
@@ -1039,22 +1031,22 @@ function CTASection() {
       aria-labelledby="cta-heading"
       className="py-24 sm:py-32 relative overflow-hidden"
       style={{
-        background: `linear-gradient(135deg, ${C.blue0} 0%, ${C.dark} 50%, ${C.emerald0} 100%)`,
+        background: `linear-gradient(135deg, ${C.terra0} 0%, ${C.dark} 50%, ${C.warm0} 100%)`,
       }}
     >
       <div className="relative max-w-6xl mx-auto px-6 text-center">
         <motion.div variants={section} initial="hidden" whileInView="visible" viewport={VP}>
           <h2
             id="cta-heading"
-            className="text-2xl sm:text-4xl font-bold tracking-tight max-w-2xl mx-auto leading-tight mb-5"
-            style={{ color: '#F0F6FF' }}
+            className="font-serif text-2xl sm:text-4xl font-semibold tracking-tight max-w-2xl mx-auto leading-tight mb-5"
+            style={{ color: '#F2EDE4' }}
           >
             Gata să construim ceva{' '}
             <span className="gradient-text">împreună?</span>
           </h2>
           <p
             className="text-sm sm:text-base max-w-md mx-auto mb-10 leading-[1.75]"
-            style={{ color: '#8B97A8' }}
+            style={{ color: '#8C8882' }}
           >
             O discuție de 30 de minute e suficientă ca să înțelegem ce ai
             nevoie și dacă putem livra.
@@ -1065,9 +1057,9 @@ function CTASection() {
               href="https://wa.me/40700000000"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2.5 text-sm font-medium rounded-lg px-6 py-3 min-h-[44px] w-full sm:w-auto focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-400"
-              style={{ background: '#3B82F6', color: '#fff' }}
-              whileHover={{ scale: 1.02, background: '#2563EB' } as Parameters<typeof motion.a>[0]['whileHover']}
+              className="inline-flex items-center justify-center gap-2.5 text-sm font-medium rounded-lg px-6 py-3 min-h-[44px] w-full sm:w-auto focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C14E30]"
+              style={{ background: '#C14E30', color: '#F2EDE4' }}
+              whileHover={{ scale: 1.02, background: '#A63D22' } as Parameters<typeof motion.a>[0]['whileHover']}
               whileTap={{ scale: 0.98 }}
               transition={{ duration: 0.15 }}
             >
@@ -1078,15 +1070,15 @@ function CTASection() {
               <Phone className="w-4 h-4" aria-hidden="true" />
               +40 7XX XXX XXX
             </Button>
-            <Button variant="ghost" href="mailto:contact@app.up" className="w-full sm:w-auto">
+            <Button variant="ghost" href="mailto:contact@croit.ro" className="w-full sm:w-auto">
               <Mail className="w-4 h-4" aria-hidden="true" />
-              contact@app.up
+              contact@croit.ro
             </Button>
           </div>
 
           <p
-            className="font-mono text-[10px] tracking-widest uppercase"
-            style={{ color: 'rgba(139,151,168,0.35)' }}
+            className="font-sans text-[10px] tracking-widest uppercase"
+            style={{ color: 'rgba(140,136,130,0.35)' }}
           >
             Răspundem în maxim 24 de ore în zilele lucrătoare.
           </p>
@@ -1100,19 +1092,19 @@ function CTASection() {
 
 function FooterSection() {
   return (
-    <footer className="border-t py-10" style={{ borderColor: '#1E2530', background: C.dark }}>
+    <footer className="border-t py-10" style={{ borderColor: '#2C2C28', background: C.dark }}>
       <div className="footer-inner max-w-6xl mx-auto px-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
           <AppLogo />
           <p
-            className="font-mono text-[9px] tracking-widest uppercase mt-2"
-            style={{ color: 'rgba(139,151,168,0.35)' }}
+            className="font-sans text-[9px] tracking-widest uppercase mt-2"
+            style={{ color: 'rgba(140,136,130,0.35)' }}
           >
-            Construim digital. Livrăm la timp.
+            Digital pe măsura ta.
           </p>
         </div>
-        <p className="font-mono text-[10px]" style={{ color: 'rgba(139,151,168,0.3)' }}>
-          © 2026 app.up
+        <p className="font-sans text-[10px]" style={{ color: 'rgba(140,136,130,0.3)' }}>
+          © 2026 Croit
         </p>
       </div>
     </footer>
@@ -1155,28 +1147,25 @@ export default function Page() {
                 eyebrow="APLICAȚII INTERNE"
                 heading="De la Excel la vizibilitate în timp real"
                 steps={APPS_STEPS}
-                accent="#3B82F6"
+                accent="#C14E30"
               />
               <ScrollStats
                 bg={C.dark}
-                accent="#3B82F6"
+                accent="#C14E30"
                 stats={[
                   { value: '6–10 săptămâni', label: 'de la idee la aplicație funcțională', numericEnd: 10, suffix: ' săpt.' },
                   { value: 'sub 10.000€', label: 'pentru un sistem complet, preț fix de la început' },
                   { value: '3 luni', label: 'suport inclus după livrare, fără costuri suplimentare', numericEnd: 3, suffix: ' luni' },
                 ]}
               />
-              {/* dark → dark (slight separator) */}
               <SectionDivider from={C.dark} to={C.darkAlt} />
               <CeConstruimSection />
-              {/* dark → emerald */}
-              <SectionDivider from={C.darkAlt} to={C.emerald0} />
-              <div style={{ background: `linear-gradient(160deg, ${C.emerald0}, ${C.emerald1})` }}>
+              <SectionDivider from={C.darkAlt} to={C.warm0} />
+              <div style={{ background: `linear-gradient(160deg, ${C.warm0}, ${C.warm1})` }}>
                 <GrowthArrow />
               </div>
               <PacheteAppsSection />
-              {/* emerald → dark */}
-              <SectionDivider from={C.emerald0} to={C.darkAlt} flip />
+              <SectionDivider from={C.warm0} to={C.darkAlt} flip />
             </motion.div>
           ) : (
             <motion.div
@@ -1191,32 +1180,28 @@ export default function Page() {
                 eyebrow="SITE-URI WEB"
                 heading="Un site care lucrează pentru tine, nu doar există"
                 steps={SITES_STEPS}
-                accent="#10B981"
+                accent="#E8805E"
               />
               <ScrollStats
                 bg={C.dark}
-                accent="#10B981"
+                accent="#E8805E"
                 stats={[
                   { value: '5–15 zile', label: 'de la discuție la site live', numericEnd: 15, suffix: ' zile' },
                   { value: '500€ – 3.000€', label: 'preț fix per proiect, fără surprize' },
                   { value: '+340%', label: 'creștere medie timp pe site față de designul anterior', numericEnd: 340, prefix: '+', suffix: '%' },
                 ]}
               />
-              {/* dark → blue */}
-              <SectionDivider from={C.dark} to={C.blue0} />
+              <SectionDivider from={C.dark} to={C.terra0} />
               <PacheteSitesSection />
-              {/* blue → dark */}
-              <SectionDivider from={C.blue0} to={C.darkAlt} flip />
+              <SectionDivider from={C.terra0} to={C.darkAlt} flip />
             </motion.div>
           )}
         </AnimatePresence>
 
         <FAQSection />
-        {/* dark → emerald */}
-        <SectionDivider from={C.darkAlt} to={C.emerald0} />
+        <SectionDivider from={C.darkAlt} to={C.warm0} />
         <TestimonialeSection />
-        {/* emerald → dark */}
-        <SectionDivider from={C.emerald0} to={C.dark} flip />
+        <SectionDivider from={C.warm0} to={C.dark} flip />
         <EchipaSection />
         <CTASection />
       </main>

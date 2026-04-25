@@ -38,12 +38,12 @@ function StatItem({ stat, accent }: { stat: Stat; accent: string }) {
     <div>
       <span
         ref={ref}
-        className="scroll-stats-number block font-mono font-bold"
+        className="scroll-stats-number block font-serif font-semibold"
         style={{ fontSize: '2.8rem', color: accent, lineHeight: 1, letterSpacing: '-0.03em' }}
       >
         {display}
       </span>
-      <p className="mt-2 text-sm leading-snug" style={{ color: '#94A3B8', maxWidth: '14rem' }}>
+      <p className="mt-2 text-sm leading-snug" style={{ color: '#8C8882', maxWidth: '14rem' }}>
         {stat.label}
       </p>
     </div>
@@ -52,7 +52,7 @@ function StatItem({ stat, accent }: { stat: Stat; accent: string }) {
 
 export function ScrollStats({ stats, accent, bg }: { stats: Stat[]; accent: string; bg?: string }) {
   return (
-    <div style={{ background: bg ?? '#09090B', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
+    <div style={{ background: bg ?? '#191916', borderTop: '1px solid rgba(242,237,228,0.05)' }}>
       <div className="max-w-5xl mx-auto px-6 py-14">
         <div className="scroll-stats-grid grid grid-cols-1 sm:grid-cols-3 gap-10">
           {stats.map((s) => (
