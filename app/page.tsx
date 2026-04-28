@@ -1,82 +1,423 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { motion, useReducedMotion } from 'framer-motion'
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
+import {
+  ArrowRight,
+  Phone,
+  Mail,
+  Monitor,
+  Package,
+  Users,
+  BarChart2,
+  Zap,
+  Globe,
+  Lock,
+} from 'lucide-react'
+import { Button } from '@/components/Button'
+import { TabSwitcher } from '@/components/TabSwitcher'
+import { BrowserMockup } from '@/components/BrowserMockup'
+import { HeroAnimation } from '@/components/HeroAnimation'
+import { PackageCard, type PackageCardProps } from '@/components/PackageCard'
+import { FAQItem } from '@/components/FAQItem'
+import { TestimonialCard } from '@/components/TestimonialCard'
+import { PainPoint } from '@/components/PainPoint'
+import { GrowthArrow } from '@/components/GrowthArrow'
+import { SectionDivider } from '@/components/SectionDivider'
+import { StickyScrollSection } from '@/components/StickyScrollSection'
+import { ScrollStats } from '@/components/ScrollStats'
+import { appsMockups } from '@/components/AppsMockups'
+import { SitesMockup0, SitesMockup1, SitesMockup2, SitesMockup3, SitesMockup4 } from '@/components/SitesSteps'
 
-/* ── COLORS ──────────────────────────────────────────────── */
-const dark    = '#191916'
-const offWhite= '#FAF7F2'
-const terra   = '#C14E30'
-const terraLt = '#E8805E'
-const cream   = '#F2EDE4'
-const grey    = '#8C8882'
-const greyLt  = '#E4E0D8'
-const darkText= '#191916'
+/* ── COLOR CONSTANTS ─────────────────────────────────────── */
+const C = {
+  dark:     '#191916',
+  darkAlt:  '#1F1F1B',
+  terra0:   '#2A1509',
+  terra1:   '#1E0E06',
+  warm0:    '#221208',
+  warm1:    '#170C05',
+}
 
-/* ── ANIMATION ───────────────────────────────────────────── */
+/* ── TYPES ───────────────────────────────────────────────── */
+type TabId = 'apps' | 'sites'
+
+/* ── DATA ────────────────────────────────────────────────── */
+const TABS = [
+  { id: 'apps',  label: 'Aplicații interne' },
+  { id: 'sites', label: 'Site-uri web' },
+]
+
+const painPoints = [
+  {
+    number: '01',
+    title: 'Rapoartele vin luni dimineața, deciziile n-au putut aștepta',
+    body: 'Directorul de producție primește situația din săptămâna trecută luni la 9. Problema era vineri la 3. Dacă ar fi știut atunci, se rezolva.',
+  },
+  {
+    number: '02',
+    title: 'Situația stocurilor — o întrebare fără răspuns în timp real',
+    body: 'Managerul de logistică știe ce era în depozit ieri seara. Comenzile de azi nu sunt încă introduse. Numărul real există undeva, pe hârtie, la cineva.',
+  },
+  {
+    number: '03',
+    title: 'Date exacte, dar doar dacă le ceri tu, persoanei potrivite',
+    body: 'Producția, stocurile și vânzările — fiecare în sistemul lui. Să le aduni ia 2 ore și un om dedicat care face asta în fiecare luni dimineață.',
+  },
+]
+
+const APPS_STEPS = [
+  {
+    label: '01 / SITUAȚIA ACTUALĂ',
+    title: 'Afli ce s-a întâmplat săptămâna trecută',
+    description:
+      'Directorul de producție trimite poze cu Excel-ul pe WhatsApp vineri seara. Tu iei decizii luni pe baza unor date de acum 7 zile. Nu știi ce stoc ai la depozitul din Cluj în momentul ăsta.',
+    mockup: appsMockups[0],
+  },
+  {
+    label: '02 / PRIMA SĂPTĂMÂNĂ',
+    title: 'Înțelegem firma ta, nu doar problema',
+    description:
+      'O săptămână lucrăm alături de echipa ta. Vedem cum circulă informația, unde se pierde timpul, ce decizii se iau fără date. La final îți prezentăm exact ce construim, cât costă și când e gata.',
+    mockup: appsMockups[1],
+  },
+  {
+    label: '03 / CONSTRUCȚIE',
+    title: 'Construim, testezi, ajustăm — săptămână cu săptămână',
+    description:
+      'Nu dispărem 3 luni. Fiecare săptămână ai acces la ce am construit. Feedback-ul tău intră direct în build.',
+    mockup: appsMockups[2],
+  },
+  {
+    label: '04 / PREDARE',
+    title: 'Aplicația ta, codul tău, echipa ta pregătită',
+    description:
+      'Predăm tot: aplicația funcțională, documentația, training pentru echipă. Codul îți aparține complet — nu plătești abonament lunar, nu depinzi de noi ca să funcționeze.',
+    mockup: appsMockups[3],
+  },
+  {
+    label: '05 / DUPĂ LIVRARE',
+    title: 'Deschizi aplicația și știi exact ce se întâmplă',
+    description:
+      'Stocul din Cluj, pontajul de azi, comenzile în așteptare — totul într-un singur loc, actualizat în timp real. Deciziile se iau cu date de acum 5 minute, nu de acum 7 zile.',
+    mockup: appsMockups[4],
+  },
+]
+
+const SITES_STEPS = [
+  {
+    label: '01 / SITUAȚIA ACTUALĂ',
+    title: 'Ai un site, dar nu îți aduce nimic',
+    description:
+      'Arată ca și cum a fost făcut acum 10 ani. Clienții vin pe el și pleacă în 30 de secunde. Nu apare în Google. Nu știi dacă cineva l-a văzut vreodată.',
+    mockup: <SitesMockup0 />,
+  },
+  {
+    label: '02 / PRIMA DISCUȚIE',
+    title: 'Înțelegem ce vrei să comunici și cui',
+    description:
+      'O discuție de o oră e suficientă. Înțelegem businessul tău, publicul tău, ce face un potențial client când ajunge pe site. Pleci cu un plan clar și un preț fix.',
+    mockup: <SitesMockup1 />,
+  },
+  {
+    label: '03 / CONSTRUCȚIE',
+    title: 'Design și cod livrate în 5–15 zile lucrătoare',
+    description:
+      'Depinde de pachet — dar niciodată luni de zile. Fiecare etapă e vizibilă: vezi site-ul pe măsură ce îl construim, nu doar la final.',
+    mockup: <SitesMockup2 />,
+  },
+  {
+    label: '04 / LANSARE',
+    title: 'Site-ul live, optimizat, gata să fie găsit',
+    description:
+      'Lansăm pe domeniul tău. SEO de bază inclus în toate pachetele. Pe Google poți apărea din prima săptămână după lansare.',
+    mockup: <SitesMockup3 />,
+  },
+  {
+    label: '05 / DUPĂ LANSARE',
+    title: 'Mai mulți oameni te găsesc, mai mulți iau legătura',
+    description:
+      'Un site bun nu e o cheltuială — e primul om de vânzări care lucrează 24/7. Mentenanță lunară opțională dacă vrei să nu te gândești la nimic tehnic.',
+    mockup: <SitesMockup4 />,
+  },
+]
+
+const appTypes = [
+  {
+    Icon: Monitor,
+    title: 'Dashboard live pentru producție',
+    body: 'Status pe ture, productivitate per linie, pontaj digital. Datele intră de la operatori — tu le vezi pe loc, fără să întrebi pe nimeni.',
+    color: '#C14E30',
+  },
+  {
+    Icon: Package,
+    title: 'Evidența stocurilor pe mai multe depozite',
+    body: 'Un singur loc unde vezi tot — nu mai suni la Cluj ca să afli ce ai în magazie. Alerte automate la stoc minim, intrări și ieșiri validate.',
+    color: '#E8805E',
+  },
+  {
+    Icon: Users,
+    title: 'CRM intern pentru agenții de vânzări',
+    body: 'Toți agenții tăi, toate ofertele și clienții, într-un singur loc — nu în telefoanele fiecăruia. Agentul introduce date pe mobil, directorul vede live pe desktop.',
+    color: '#C14E30',
+  },
+  {
+    Icon: BarChart2,
+    title: 'Rapoarte săptămânale automate',
+    body: 'Luni dimineața ai raportul gata — nu mai aștepți până miercuri să strângi datele. Format consistent, trimis automat pe email.',
+    color: '#E8805E',
+  },
+]
+
+const appsPackages: PackageCardProps[] = [
+  {
+    name: 'Small',
+    tagline: 'Pentru un singur proces',
+    duration: '3 săptămâni',
+    price: 'de la 3.000 €',
+    description: 'Un proces digitalizat, un instrument care funcționează din prima zi.',
+    examples: [
+      'Pontaj digital per tură',
+      'Raport de producție zilnic automat',
+      'Mini-dashboard cu 3–5 indicatori live',
+    ],
+    steps: [
+      { label: 'Discovery', duration: '3 zile' },
+      { label: 'Construcție', duration: '2 săpt.' },
+      { label: 'Predare & training', duration: '2 zile' },
+    ],
+    featured: false,
+    accentGradient: 'blue',
+    ctaHref: '#contact',
+    onColoredSection: true,
+  },
+  {
+    name: 'Medium',
+    tagline: 'Pentru un departament',
+    duration: '6 săptămâni',
+    price: 'de la 6.000 €',
+    description: 'Un departament întreg digitalizat — producție, logistică sau vânzări.',
+    examples: [
+      'CRM intern pentru echipa de vânzări',
+      'Sistem de stocuri pe mai multe depozite',
+      'Portal de comenzi pentru clienți recurenți',
+    ],
+    steps: [
+      { label: 'Discovery', duration: '1 săpt.' },
+      { label: 'Prototip', duration: '1 săpt.' },
+      { label: 'Construcție', duration: '3 săpt.' },
+      { label: 'Predare & training', duration: '1 săpt.' },
+    ],
+    featured: true,
+    accentGradient: 'blue',
+    ctaHref: '#contact',
+    onColoredSection: true,
+  },
+  {
+    name: 'Large',
+    tagline: 'Pentru toată firma',
+    duration: '10 săptămâni',
+    price: 'de la 10.000 €',
+    description: 'Producție, stocuri și vânzări conectate — vizibilitate completă din același loc.',
+    examples: [
+      'Platformă cu producție, stocuri și vânzări integrate',
+      'Sistem simplu de raportare automată',
+      'Urmărire distribuție în timp real',
+    ],
+    steps: [
+      { label: 'Discovery', duration: '2 săpt.' },
+      { label: 'Prototip', duration: '1 săpt.' },
+      { label: 'Construcție', duration: '6 săpt.' },
+      { label: 'Predare & training', duration: '1 săpt.' },
+    ],
+    featured: false,
+    accentGradient: 'blue',
+    ctaHref: '#contact',
+    onColoredSection: true,
+  },
+]
+
+const sitesPackages: PackageCardProps[] = [
+  {
+    name: 'Starter',
+    tagline: '1–3 pagini',
+    duration: '5 zile lucrătoare',
+    price: '500 € – 1.000 €',
+    description: 'Prezență online clară și rapidă, gata să fie văzută de clienți noi.',
+    examples: [
+      '1–3 pagini optimizate pentru mobil',
+      'Design personalizat',
+      'Animații moderne',
+      'Formular de contact',
+    ],
+    steps: [
+      { label: 'Brief & design', duration: '2 zile' },
+      { label: 'Construcție', duration: '2 zile' },
+      { label: 'Predare', duration: '1 zi' },
+    ],
+    featured: false,
+    accentGradient: 'emerald',
+    maintenance: 'de la 49 €/lună',
+    ctaHref: '#contact',
+    onColoredSection: true,
+  },
+  {
+    name: 'Business',
+    tagline: 'Site complet',
+    duration: '10 zile lucrătoare',
+    price: '1.000 € – 2.000 €',
+    description: 'Site profesional cu toate secțiunile de care ai nevoie ca să câștigi credibilitate.',
+    examples: [
+      'Oricâte secțiuni ai nevoie',
+      'Animații avansate',
+      'Formular de contact integrat',
+      'SEO de bază configurat',
+    ],
+    steps: [
+      { label: 'Brief & design', duration: '3 zile' },
+      { label: 'Construcție', duration: '5 zile' },
+      { label: 'Revizii & predare', duration: '2 zile' },
+    ],
+    featured: true,
+    accentGradient: 'emerald',
+    maintenance: 'de la 79 €/lună',
+    ctaHref: '#contact',
+    onColoredSection: true,
+  },
+  {
+    name: 'Premium',
+    tagline: 'Site complex',
+    duration: '15 zile lucrătoare',
+    price: '2.000 € – 3.000 €',
+    description: 'Animații avansate, integrări, SEO complet — pentru cine vrea să iasă în față.',
+    examples: [
+      'Animații avansate personalizate',
+      'Integrare newsletter sau CRM',
+      'SEO tehnic complet',
+      'Blog sau pagini multiple',
+    ],
+    steps: [
+      { label: 'Brief & design', duration: '4 zile' },
+      { label: 'Construcție', duration: '8 zile' },
+      { label: 'Revizii & predare', duration: '3 zile' },
+    ],
+    featured: false,
+    accentGradient: 'emerald',
+    maintenance: 'de la 129 €/lună',
+    ctaHref: '#contact',
+    onColoredSection: true,
+  },
+]
+
+const faqData = [
+  {
+    question: 'Cât costă un proiect de aplicație internă?',
+    answer:
+      'Nu dăm prețuri ferme înainte de discovery — complexitatea variază prea mult. Ceea ce garantăm: după o săptămână de discovery (plătită și creditată integral dacă continuăm), primești un scope complet și un preț fix. Fără ajustări pe parcurs.',
+  },
+  {
+    question: 'Cât durează livrarea unei aplicații interne?',
+    answer:
+      '3 săptămâni pentru pachetul Small, 6 pentru Medium, 10 pentru Large. Termenul se stabilește la semnarea contractului și nu se modifică fără acordul tău explicit.',
+  },
+  {
+    question: 'Al cui e codul aplicației?',
+    answer:
+      'Al tău, 100%, din prima zi. Codul stă pe serverele tale sau pe un hosting la alegerea ta, documentat. Nu ești legat de noi. Dacă mâine decizi să lucrezi cu altcineva sau să angajezi un programator în firmă, ai tot ce îți trebuie.',
+  },
+  {
+    question: 'Funcționează cu ce avem deja în firmă?',
+    answer:
+      'Nu înlocuim ce aveți deja — completăm ce lipsește. Ne conectăm la ERP-ul vostru, la fișierele Excel sau la orice alt program care poate exporta date.',
+  },
+  {
+    question: 'Cât durează un site de prezentare?',
+    answer:
+      '5 zile lucrătoare pentru pachetul Starter, 10 pentru Business, 15 pentru Premium. Termenul e fix de la prima discuție — nu "undeva în jurul a două săptămâni".',
+  },
+  {
+    question: 'Ce include mentenanța lunară pentru site?',
+    answer:
+      'Hosting, actualizări de securitate și modificări minore — oricând ai nevoie. Dacă vrei secțiuni noi sau redesign, discutăm un proiect separat.',
+  },
+  {
+    question: 'Pot modifica eu site-ul după ce îl primesc?',
+    answer:
+      'Da. Codul e al tău, documentat. Dacă vrei să faci modificări singur sau cu ajutorul altcuiva, ai tot accesul necesar. Putem și noi, dacă preferi să nu te ocupi.',
+  },
+  {
+    question: 'De ce să vă aleg pe voi?',
+    answer:
+      'Preț fix, termen fix, fără surprize. Discovery-ul structurat ne forțează pe amândoi să clarificăm exact ce se construiește înainte să înceapă munca. Codul rămâne al tău. Dacă la livrare ceva lipsește față de ce s-a agreat, îl adăugăm fără cost suplimentar.',
+  },
+]
+
+/* ── ANIMATION HELPERS ───────────────────────────────────── */
+
 const EASE = [0.16, 1, 0.3, 1] as const
-const VP   = { once: true, margin: '-60px' } as const
 
-function fadeUp(reduce: boolean) {
+function makeVariants(shouldReduce: boolean) {
+  const y = shouldReduce ? 0 : 24
   return {
-    hidden:  { opacity: 0, y: reduce ? 0 : 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.55, ease: EASE } },
+    container: {
+      hidden: {},
+      visible: { transition: { staggerChildren: shouldReduce ? 0 : 0.08 } },
+    },
+    item: {
+      hidden: { opacity: 0, y },
+      visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: EASE } },
+    },
+    section: {
+      hidden: { opacity: 0, y },
+      visible: { opacity: 1, y: 0, transition: { duration: 0.55, ease: EASE } },
+    },
   }
 }
 
-/* ── LOGO COMPONENTS ─────────────────────────────────────── */
+function makeTabVariants(shouldReduce: boolean) {
+  return {
+    enter: (dir: number) => ({ x: shouldReduce ? 0 : dir * 60, opacity: 0 }),
+    center: { x: 0, opacity: 1, transition: { duration: 0.35, ease: EASE } },
+    exit: (dir: number) => ({
+      x: shouldReduce ? 0 : dir * -60,
+      opacity: 0,
+      transition: { duration: 0.2, ease: 'easeIn' as const },
+    }),
+  }
+}
 
-function CRMark({ w, h }: { w: number; h: number }) {
+const VP = { once: true, margin: '-80px' } as const
+
+/* ── SHARED COMPONENTS ───────────────────────────────────── */
+
+function WhatsAppIcon({ className = 'w-4 h-4' }: { className?: string }) {
   return (
-    <svg width={w} height={h} viewBox="0 0 72 56" fill="none" aria-hidden="true">
-      <path d="M 44,4 A 24,24 0 1 0 44,52 L 44,43 A 15,15 0 1 1 44,13 Z" fill={terra} />
-      <path d="M 44,13 L 56,13 Q 70,13 70,25 Q 70,34 60,36 L 70,52 L 59,52 L 50,37 L 44,37 L 44,28 L 55,28 Q 60,28 60,25 Q 60,22 55,22 L 44,22 Z" fill={terra} />
+    <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden="true">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" />
     </svg>
   )
 }
 
-function NavLogo() {
+function AppLogo({ size = 'sm' }: { size?: 'sm' | 'lg' }) {
+  const dim = size === 'lg' ? 24 : 18
+  const textSize = size === 'lg' ? 'text-[20px]' : 'text-[15px]'
   return (
-    <span className="inline-flex items-center gap-3.5" aria-label="Croit">
-      <CRMark w={32} h={25} />
-      <span style={{ width: 1, height: 22, background: '#3A3A36', flexShrink: 0 }} />
-      <span
-        className="font-sans uppercase tracking-[0.38em] text-[13px] leading-none select-none"
-        style={{ color: cream, fontWeight: 300, letterSpacing: '0.38em' }}
-      >
+    <span className="inline-flex items-center gap-2.5" aria-label="Croit">
+      <svg width={size === 'lg' ? 36 : 26} height={size === 'lg' ? 28 : 20} viewBox="0 0 72 56" fill="none" aria-hidden="true">
+        <path d="M 44,8 A 24,24 0 1 0 44,48 L 44,40 A 16,16 0 1 1 44,16 Z" fill="#C14E30"/>
+        <path d="M 44,16 L 56,16 Q 68,16 68,26 Q 68,34 58,36 L 68,48 L 58,48 L 49,37 L 44,37 L 44,28 L 55,28 Q 59,28 59,26 Q 59,24 55,24 L 44,24 Z" fill="#C14E30"/>
+      </svg>
+      <span className={`${textSize} font-semibold tracking-tight leading-none select-none font-serif`} style={{ color: '#F2EDE4' }}>
         Croit
       </span>
     </span>
   )
 }
 
-function FooterLogo() {
-  return (
-    <div className="inline-flex flex-col items-center gap-3">
-      <CRMark w={52} h={40} />
-      <span style={{ width: 56, height: 0.5, background: '#333' }} />
-      <span
-        className="font-sans uppercase tracking-[0.45em] text-[12px] leading-none select-none"
-        style={{ color: cream, fontWeight: 300 }}
-      >
-        Croit
-      </span>
-    </div>
-  )
-}
-
 /* ── NAV ─────────────────────────────────────────────────── */
-
-const NAV_LINKS = [
-  { href: '#servicii',   label: 'Servicii' },
-  { href: '#cum-lucram', label: 'Cum lucrăm' },
-  { href: '#de-ce',      label: 'De ce Croit' },
-  { href: '#contact',    label: 'Contact' },
-]
 
 function Nav() {
   const [scrolled, setScrolled] = useState(false)
-  const [menuOpen, setMenuOpen] = useState(false)
 
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 12)
@@ -86,29 +427,36 @@ function Nav() {
 
   return (
     <header
-      className="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
-      style={{
-        background: scrolled ? 'rgba(25,25,22,0.95)' : 'transparent',
-        borderBottom: scrolled ? `1px solid rgba(44,44,40,0.8)` : '1px solid transparent',
-        backdropFilter: scrolled ? 'blur(12px)' : 'none',
-      }}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? 'nav-scrolled' : 'bg-transparent'}`}
     >
-      <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-        <a href="/" aria-label="Croit — pagina principală">
-          <NavLogo />
-        </a>
+      <div className="max-w-6xl mx-auto px-6 h-14 flex items-center justify-between">
+        <div>
+          <a href="/" aria-label="Croit — pagina principală">
+            <AppLogo />
+          </a>
+          <p
+            className="font-sans text-[9px] tracking-widest uppercase ml-0.5 mt-0.5 hidden sm:block"
+            style={{ color: 'rgba(140,136,130,0.45)' }}
+          >
+            Digital pe măsura ta.
+          </p>
+        </div>
 
-        {/* Desktop nav */}
-        <nav aria-label="Navigare principală" className="hidden md:block">
-          <ul className="flex items-center gap-1 list-none m-0 p-0">
-            {NAV_LINKS.map((l) => (
+        <nav aria-label="Navigare principală">
+          <ul className="hidden md:flex items-center gap-0.5 list-none m-0 p-0">
+            {[
+              { href: '#servicii', label: 'Servicii' },
+              { href: '#pachete', label: 'Pachete' },
+              { href: '#faq', label: 'FAQ' },
+              { href: '#contact', label: 'Contact' },
+            ].map((l) => (
               <li key={l.href}>
                 <a
                   href={l.href}
-                  className="text-sm px-4 py-2 rounded transition-colors duration-150"
-                  style={{ color: grey }}
-                  onMouseEnter={(e) => ((e.target as HTMLElement).style.color = cream)}
-                  onMouseLeave={(e) => ((e.target as HTMLElement).style.color = grey)}
+                  className="text-sm px-3 py-2 rounded-lg transition-colors duration-150 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#C14E30]"
+                  style={{ color: '#8C8882' }}
+                  onMouseEnter={(e) => ((e.target as HTMLElement).style.color = '#F2EDE4')}
+                  onMouseLeave={(e) => ((e.target as HTMLElement).style.color = '#8C8882')}
                 >
                   {l.label}
                 </a>
@@ -117,715 +465,625 @@ function Nav() {
           </ul>
         </nav>
 
-        {/* CTA */}
-        <a
-          href="#contact"
-          className="hidden md:inline-flex items-center text-sm font-medium px-5 py-2.5 rounded transition-colors duration-150 min-h-[40px]"
-          style={{ background: terra, color: cream, borderRadius: 5 }}
-          onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.background = '#8F3520')}
-          onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.background = terra)}
+        <motion.a
+          href="https://wa.me/40700000000"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="nav-cta inline-flex items-center gap-2 text-sm font-medium rounded-lg px-4 py-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C14E30] min-h-[44px]"
+          style={{ background: '#C14E30', color: '#F2EDE4' }}
+          aria-label="Contactează-ne pe WhatsApp"
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+          onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = '#A63D22' }}
+          onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = '#C14E30' }}
         >
-          Solicită ofertă
-        </a>
-
-        {/* Mobile hamburger */}
-        <button
-          className="md:hidden flex flex-col gap-1.5 p-2"
-          onClick={() => setMenuOpen(!menuOpen)}
-          aria-label="Deschide meniu"
-        >
-          <span style={{ width: 22, height: 1.5, background: cream, display: 'block', transition: 'transform 0.2s', transform: menuOpen ? 'rotate(45deg) translate(0,5px)' : 'none' }} />
-          <span style={{ width: 22, height: 1.5, background: cream, display: 'block', opacity: menuOpen ? 0 : 1, transition: 'opacity 0.2s' }} />
-          <span style={{ width: 22, height: 1.5, background: cream, display: 'block', transition: 'transform 0.2s', transform: menuOpen ? 'rotate(-45deg) translate(0,-5px)' : 'none' }} />
-        </button>
+          <WhatsAppIcon />
+          <span className="hidden sm:inline">Vorbește cu noi</span>
+        </motion.a>
       </div>
-
-      {/* Mobile menu */}
-      {menuOpen && (
-        <div style={{ background: 'rgba(25,25,22,0.98)', borderTop: `1px solid ${greyLt}22` }} className="md:hidden px-6 pb-6 pt-3">
-          {NAV_LINKS.map((l) => (
-            <a
-              key={l.href}
-              href={l.href}
-              onClick={() => setMenuOpen(false)}
-              className="block py-3 text-sm border-b"
-              style={{ color: grey, borderColor: '#2C2C2820' }}
-            >
-              {l.label}
-            </a>
-          ))}
-          <a
-            href="#contact"
-            onClick={() => setMenuOpen(false)}
-            className="mt-4 inline-flex items-center text-sm font-medium px-5 py-2.5 rounded w-full justify-center"
-            style={{ background: terra, color: cream, borderRadius: 5 }}
-          >
-            Solicită ofertă
-          </a>
-        </div>
-      )}
     </header>
   )
 }
 
 /* ── HERO ────────────────────────────────────────────────── */
 
-function HeroSection() {
-  const reduce = useReducedMotion() ?? false
-  const v = fadeUp(reduce)
-
-  return (
-    <section
-      id="hero"
-      aria-labelledby="hero-heading"
-      className="relative min-h-screen flex items-center pt-16 overflow-hidden"
-      style={{ background: dark }}
-    >
-      {/* Subtle bg accent */}
-      <div
-        aria-hidden="true"
-        className="absolute inset-0 pointer-events-none"
-        style={{ background: `radial-gradient(ellipse 55% 55% at 80% 50%, rgba(193,78,48,0.05) 0%, transparent 70%)` }}
-      />
-
-      {/* Abstract geometric hero visual */}
-      <div aria-hidden="true" className="absolute right-0 top-0 bottom-0 pointer-events-none hidden lg:flex items-center" style={{ width: '45%' }}>
-        <svg width="100%" height="100%" viewBox="0 0 480 600" fill="none" style={{ opacity: 0.06 }}>
-          <circle cx="240" cy="300" r="200" stroke={terra} strokeWidth="1"/>
-          <circle cx="240" cy="300" r="140" stroke={terra} strokeWidth="0.75"/>
-          <circle cx="240" cy="300" r="80" stroke={terra} strokeWidth="0.5"/>
-          <line x1="40" y1="300" x2="440" y2="300" stroke={terra} strokeWidth="0.5"/>
-          <line x1="240" y1="100" x2="240" y2="500" stroke={terra} strokeWidth="0.5"/>
-          <circle cx="240" cy="300" r="4" fill={terra} style={{ opacity: 0.4 }}/>
-          <circle cx="380" cy="220" r="2.5" fill={terra} style={{ opacity: 0.3 }}/>
-          <circle cx="130" cy="380" r="2" fill={terra} style={{ opacity: 0.25 }}/>
-        </svg>
-      </div>
-
-      <div className="relative max-w-6xl mx-auto px-6 w-full py-24">
-        <div className="max-w-2xl">
-          <motion.p
-            variants={v} initial="hidden" animate="visible"
-            className="font-sans uppercase text-[11px] tracking-[0.18em] mb-8"
-            style={{ color: terra }}
-          >
-            Brașov, România — Agenție digitală
-          </motion.p>
-
-          <motion.h1
-            id="hero-heading"
-            variants={v} initial="hidden" animate="visible"
-            transition={{ delay: 0.08 }}
-            className="font-serif leading-[1.1] tracking-tight mb-8"
-            style={{ color: cream, fontSize: 'clamp(2.6rem, 5vw, 4.2rem)', fontWeight: 300 }}
-          >
-            Site-uri și sisteme digitale{' '}
-            <em style={{ color: terraLt, fontStyle: 'italic' }}>croite</em>{' '}
-            pe afacerea ta.
-          </motion.h1>
-
-          <motion.p
-            variants={v} initial="hidden" animate="visible"
-            transition={{ delay: 0.16 }}
-            className="font-sans text-[17px] leading-[1.75] mb-10 max-w-lg"
-            style={{ color: grey, fontWeight: 300 }}
-          >
-            Construim aplicații interne pentru firme din producție și distribuție,
-            și site-uri profesionale pentru oricine vrea prezență online serioasă.
-            Fără promisiuni goale. Cu livrare garantată în 2–4 săptămâni.
-          </motion.p>
-
-          <motion.div
-            variants={v} initial="hidden" animate="visible"
-            transition={{ delay: 0.24 }}
-            className="flex flex-col sm:flex-row gap-3"
-          >
-            <a
-              href="#contact"
-              className="inline-flex items-center justify-center text-sm font-medium px-6 py-3 min-h-[46px] transition-colors duration-150"
-              style={{ background: terra, color: cream, borderRadius: 5 }}
-              onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.background = '#8F3520')}
-              onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.background = terra)}
-            >
-              Solicită o ofertă gratuită
-            </a>
-            <a
-              href="#cum-lucram"
-              className="inline-flex items-center justify-center text-sm font-medium px-6 py-3 min-h-[46px] transition-colors duration-150"
-              style={{ background: 'transparent', color: cream, border: `1px solid rgba(193,78,48,0.5)`, borderRadius: 5 }}
-              onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.borderColor = terra; (e.currentTarget as HTMLElement).style.color = cream }}
-              onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(193,78,48,0.5)' }}
-            >
-              Vezi cum lucrăm
-            </a>
-          </motion.div>
-        </div>
-      </div>
-    </section>
-  )
-}
-
-/* ── PENTRU CINE ─────────────────────────────────────────── */
-
-function PentruCineSection() {
-  const reduce = useReducedMotion() ?? false
-  const v = fadeUp(reduce)
-
-  const cards = [
-    {
-      icon: (
-        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true">
-          <rect x="2" y="8" width="24" height="18" rx="1.5" stroke={terra} strokeWidth="1.5"/>
-          <path d="M8 8V5a6 6 0 0 1 12 0v3" stroke={terra} strokeWidth="1.5" strokeLinecap="round"/>
-          <circle cx="14" cy="17" r="2.5" stroke={terra} strokeWidth="1.2"/>
-        </svg>
-      ),
-      title: 'Firme din producție și distribuție',
-      text: 'Ai 10–70 de angajați și gestionezi încă stocurile pe hârtie sau în WhatsApp. Știi că pierzi bani, dar nu știi exact unde. Îți construim un sistem simplu care îți arată totul în timp real — fără training de săptămâni, fără surprize.',
-      tag: 'Aplicații interne custom',
-    },
-    {
-      icon: (
-        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true">
-          <rect x="2" y="5" width="24" height="18" rx="2" stroke={terra} strokeWidth="1.5"/>
-          <path d="M2 10h24" stroke={terra} strokeWidth="1.2"/>
-          <circle cx="6" cy="7.5" r="1" fill={terra}/>
-          <circle cx="9.5" cy="7.5" r="1" fill={terra}/>
-          <circle cx="13" cy="7.5" r="1" fill={terra}/>
-        </svg>
-      ),
-      title: 'Firme mici, freelanceri și persoane publice',
-      text: 'Vrei o prezență online profesională care să reprezinte ce faci cu adevărat. Nu un template generic. Un site gândit pentru tine, livrat în 2 săptămâni, la un preț corect.',
-      tag: 'Site-uri de prezentare',
-    },
-  ]
-
-  return (
-    <section
-      id="pentru-cine"
-      aria-labelledby="pentru-cine-heading"
-      className="py-24 sm:py-32"
-      style={{ background: offWhite }}
-    >
-      <div className="max-w-6xl mx-auto px-6">
-        <motion.div variants={v} initial="hidden" whileInView="visible" viewport={VP} className="mb-16">
-          <p className="font-sans text-[11px] tracking-[0.14em] uppercase mb-5" style={{ color: terra }}>
-            Pentru cine
-          </p>
-          <h2
-            id="pentru-cine-heading"
-            className="font-serif leading-tight tracking-tight mb-6"
-            style={{ color: darkText, fontSize: 'clamp(2rem, 3.5vw, 3rem)', fontWeight: 300, maxWidth: '38rem' }}
-          >
-            Tehnologie care funcționează,
-            pentru oameni care conduc afaceri reale.
-          </h2>
-          <p className="font-sans text-base leading-[1.75] max-w-xl" style={{ color: '#4A4744', fontWeight: 300 }}>
-            Nu suntem o agenție care vinde tehnologie de dragul tehnologiei.
-            Suntem oameni care înțeleg că un sistem bun nu se simte —
-            se vede în timp salvat, erori evitate și bani recuperați.
-          </p>
-        </motion.div>
-
-        <div className="grid sm:grid-cols-2 gap-6">
-          {cards.map((c) => (
-            <motion.div
-              key={c.title}
-              variants={v} initial="hidden" whileInView="visible" viewport={VP}
-              className="rounded-lg p-8"
-              style={{ background: '#fff', border: `1px solid ${greyLt}` }}
-            >
-              <div className="mb-5">{c.icon}</div>
-              <h3 className="font-serif text-xl mb-3 leading-snug" style={{ color: darkText, fontWeight: 300 }}>
-                {c.title}
-              </h3>
-              <p className="font-sans text-sm leading-[1.8] mb-5" style={{ color: '#4A4744', fontWeight: 300 }}>
-                {c.text}
-              </p>
-              <span
-                className="inline-block font-sans text-[11px] tracking-[0.12em] uppercase px-3 py-1.5 rounded"
-                style={{ background: `${terra}12`, color: terra, border: `1px solid ${terra}30` }}
-              >
-                {c.tag}
-              </span>
-            </motion.div>
-          ))}
-        </div>
-      </div>
-    </section>
-  )
-}
-
-/* ── SERVICII ────────────────────────────────────────────── */
-
-function ServiciiSection() {
-  const reduce = useReducedMotion() ?? false
-  const v = fadeUp(reduce)
-
-  const appsItems = [
-    { title: 'Tracker stocuri și pierderi', text: 'Angajații raportează de pe telefon. Tu vezi totul pe un dashboard în timp real.' },
-    { title: 'Sistem de task-uri și sales', text: 'Urmărești lead-uri, task-uri și notițe de echipă într-un singur loc. Nimic nu se mai pierde.' },
-    { title: 'Dashboard operațional', text: 'KPI-uri zilnice, rapoarte automate, alerte când ceva iese din parametri.' },
-    { title: 'Aplicație custom', text: 'Ai o nevoie specifică? Scoping în 48h, ofertă clară, livrare în termen.' },
-  ]
-
-  const sitesItems = [
-    { title: 'Site de prezentare', text: '5–10 pagini, design personalizat, SEO de bază, formular de contact. Gata în 10–14 zile.' },
-    { title: 'Landing page', text: 'O pagină puternică pentru campanie, produs sau serviciu specific. Gata în 5–7 zile.' },
-    { title: 'Site cu funcționalități', text: 'Booking, formulare avansate, blog, magazin mic. Scoping detaliat, ofertă fixă.' },
-  ]
+function HeroSection({
+  activeTab,
+  onTabChange,
+}: {
+  activeTab: TabId
+  onTabChange: (t: string) => void
+}) {
+  const shouldReduce = useReducedMotion() ?? false
+  const { container, item } = makeVariants(shouldReduce)
 
   return (
     <section
       id="servicii"
-      aria-labelledby="servicii-heading"
-      className="py-24 sm:py-32"
-      style={{ background: dark }}
+      aria-labelledby="hero-heading"
+      className="relative min-h-screen flex items-center overflow-hidden pt-20 pb-0"
+      style={{ background: C.dark }}
+    >
+      {/* Radial gradient hints */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        aria-hidden="true"
+        style={{
+          background:
+            'radial-gradient(ellipse 60% 60% at 15% 50%, rgba(193,78,48,0.06) 0%, transparent 70%), radial-gradient(ellipse 60% 60% at 85% 50%, rgba(232,128,94,0.04) 0%, transparent 70%)',
+        }}
+      />
+
+      <div className="relative max-w-6xl mx-auto px-6 w-full py-16">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+          {/* Copy */}
+          <motion.div variants={container} initial="hidden" animate="visible">
+            <motion.p
+              variants={item}
+              className="font-sans text-[10px] tracking-[0.2em] uppercase mb-8"
+              style={{ color: '#C14E30' }}
+            >
+              Agenție digitală · România
+            </motion.p>
+
+            <motion.h1
+              id="hero-heading"
+              variants={item}
+              className="font-serif text-[2.6rem] sm:text-5xl lg:text-[3.5rem] font-semibold tracking-tight leading-[1.08] mb-8"
+              style={{ color: '#F2EDE4' }}
+            >
+              Software care{' '}
+              <span className="gradient-text-blue">clarifică.</span>
+              <br />
+              Design care{' '}
+              <span className="gradient-text-emerald">convinge.</span>
+            </motion.h1>
+
+            <motion.p
+              variants={item}
+              className="text-base sm:text-lg leading-[1.75] mb-8 max-w-md"
+              style={{ color: '#8C8882' }}
+            >
+              Aplicații interne pentru firme din producție și distribuție.
+              Site-uri de prezentare care atrag clienți noi. Preț fix, termen
+              fix — de la primul apel.
+            </motion.p>
+
+            <motion.div variants={item} className="mb-8">
+              <TabSwitcher
+                tabs={TABS}
+                activeTab={activeTab}
+                onTabChange={onTabChange}
+                variant="blue"
+              />
+            </motion.div>
+
+            <motion.div variants={item} className="cta-buttons-wrap flex flex-col sm:flex-row gap-3">
+              <motion.a
+                href="https://wa.me/40700000000"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-2.5 text-sm font-medium rounded-lg px-5 py-3 min-h-[48px] sm:min-h-[44px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C14E30]"
+                style={{ background: '#C14E30', color: '#F2EDE4' }}
+                whileHover={{ scale: 1.02, background: '#A63D22' } as Parameters<typeof motion.a>[0]['whileHover']}
+                whileTap={{ scale: 0.98 }}
+                transition={{ duration: 0.15 }}
+              >
+                <WhatsAppIcon />
+                Vorbește cu noi pe WhatsApp
+              </motion.a>
+              <Button variant="ghost" href="#pachete">
+                Vezi pachetele
+                <ArrowRight className="w-4 h-4" aria-hidden="true" />
+              </Button>
+            </motion.div>
+          </motion.div>
+
+          {/* Visual */}
+          <div className="grid grid-rows-[auto_auto] gap-6">
+            <motion.div
+              initial={{ opacity: 0, y: shouldReduce ? 0 : 28 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: shouldReduce ? 0 : 0.4, ease: EASE }}
+              className="hero-mockup-wrap"
+            >
+              <BrowserMockup activeTab={activeTab} />
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: shouldReduce ? 0 : 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: shouldReduce ? 0 : 0.6, ease: EASE }}
+              className="hidden lg:block"
+            >
+              <HeroAnimation activeTab={activeTab} />
+            </motion.div>
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+/* ── PROBLEMA (Apps) ─────────────────────────────────────── */
+
+function ProblemaSection() {
+  const shouldReduce = useReducedMotion() ?? false
+  const { container, item, section } = makeVariants(shouldReduce)
+
+  return (
+    <section
+      aria-labelledby="problema-heading"
+      style={{ background: `linear-gradient(160deg, ${C.terra0}, ${C.terra1})` }}
+      className="py-20 sm:py-28"
     >
       <div className="max-w-6xl mx-auto px-6">
-        <motion.div variants={v} initial="hidden" whileInView="visible" viewport={VP} className="mb-16">
-          <p className="font-sans text-[11px] tracking-[0.14em] uppercase mb-5" style={{ color: terra }}>
+        <motion.div variants={section} initial="hidden" whileInView="visible" viewport={VP} className="mb-14">
+          <p className="font-sans text-[10px] tracking-widest uppercase mb-5" style={{ color: '#E8805E' }}>
+            Problema
+          </p>
+          <h2
+            id="problema-heading"
+            className="font-serif text-2xl sm:text-[2rem] font-semibold tracking-tight max-w-xl mb-4 leading-tight"
+            style={{ color: '#F2EDE4' }}
+          >
+            Firmele din producție și distribuție au date.
+            <br />
+            Problema e că le primesc{' '}
+            <span className="gradient-text-blue">prea târziu.</span>
+          </h2>
+          <p className="text-sm sm:text-base max-w-lg" style={{ color: 'rgba(242,237,228,0.65)' }}>
+            Nu e o problemă de volum. E o problemă de când ajung.
+          </p>
+        </motion.div>
+
+        <motion.div
+          variants={container}
+          initial="hidden"
+          whileInView="visible"
+          viewport={VP}
+          className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4"
+        >
+          {painPoints.map((p) => (
+            <motion.div key={p.number} variants={item} className="h-full">
+              <PainPoint {...p} />
+            </motion.div>
+          ))}
+        </motion.div>
+      </div>
+    </section>
+  )
+}
+
+/* ── CE CONSTRUIM (Apps) ─────────────────────────────────── */
+
+function CeConstruimSection() {
+  const shouldReduce = useReducedMotion() ?? false
+  const { container, item, section } = makeVariants(shouldReduce)
+
+  return (
+    <section
+      aria-labelledby="ce-construim-heading"
+      style={{ background: C.darkAlt }}
+      className="py-20 sm:py-28"
+    >
+      <div className="max-w-6xl mx-auto px-6">
+        <motion.div variants={section} initial="hidden" whileInView="visible" viewport={VP} className="mb-14">
+          <p className="font-sans text-[10px] tracking-widest uppercase mb-5" style={{ color: '#C14E30' }}>
             Ce construim
           </p>
           <h2
-            id="servicii-heading"
-            className="font-serif leading-tight tracking-tight"
-            style={{ color: cream, fontSize: 'clamp(2rem, 3.5vw, 3rem)', fontWeight: 300 }}
+            id="ce-construim-heading"
+            className="font-serif text-2xl sm:text-[2rem] font-semibold tracking-tight max-w-xl mb-4 leading-tight"
+            style={{ color: '#F2EDE4' }}
           >
-            Două servicii. Un singur standard.
+            Aplicații pentru procesele care consumă{' '}
+            <br className="hidden sm:block" />
+            cel mai mult timp.
           </h2>
-        </motion.div>
-
-        <div className="grid lg:grid-cols-2 gap-0 relative">
-          {/* Separator */}
-          <div
-            aria-hidden="true"
-            className="hidden lg:block absolute inset-y-0 left-1/2 -translate-x-1/2"
-            style={{ width: 1, background: '#2C2C28' }}
-          />
-
-          {/* Apps */}
-          <motion.div variants={v} initial="hidden" whileInView="visible" viewport={VP} className="lg:pr-16 pb-12 lg:pb-0">
-            <h3 className="font-serif text-2xl mb-3 leading-snug" style={{ color: cream, fontWeight: 300, fontStyle: 'italic' }}>
-              Sisteme interne<br />pentru producție și distribuție
-            </h3>
-            <p className="font-sans text-sm leading-[1.75] mb-8" style={{ color: grey, fontWeight: 300 }}>
-              Aplicații simple, livrate în 3–4 săptămâni, care digitalizează procesele manuale din firma ta. Fără ERP complicat. Fără luni de implementare.
-            </p>
-            <ul className="space-y-5 mb-8">
-              {appsItems.map((item) => (
-                <li key={item.title} className="flex gap-3.5">
-                  <span className="mt-1.5 flex-shrink-0 w-1.5 h-1.5 rounded-full" style={{ background: terra }} />
-                  <div>
-                    <p className="font-sans text-sm font-medium mb-0.5" style={{ color: cream }}>{item.title}</p>
-                    <p className="font-sans text-sm" style={{ color: grey, fontWeight: 300 }}>{item.text}</p>
-                  </div>
-                </li>
-              ))}
-            </ul>
-            <div style={{ borderTop: `1px solid #2C2C28`, paddingTop: '1.5rem' }}>
-              <p className="font-sans text-[13px]" style={{ color: grey }}>
-                <span style={{ color: terraLt }}>Implementare:</span> 1.200 – 5.000 EUR
-              </p>
-              <p className="font-sans text-[13px] mt-1" style={{ color: grey }}>
-                <span style={{ color: terraLt }}>Mentenanță opțională:</span> 150 – 400 EUR/lună
-              </p>
-            </div>
-          </motion.div>
-
-          {/* Sites */}
-          <motion.div variants={v} initial="hidden" whileInView="visible" viewport={VP} className="lg:pl-16 pt-12 lg:pt-0" style={{ borderTop: `1px solid #2C2C28` }}>
-            <div className="lg:border-t-0" style={{ borderTop: 'none' }}>
-              <h3 className="font-serif text-2xl mb-3 leading-snug" style={{ color: cream, fontWeight: 300, fontStyle: 'italic' }}>
-                Site-uri de prezentare<br />profesionale și rapide
-              </h3>
-              <p className="font-sans text-sm leading-[1.75] mb-8" style={{ color: grey, fontWeight: 300 }}>
-                Site-uri livrate în 2 săptămâni. Mobile-first, optimizate pentru Google, cu CMS simplu pe care îl poți actualiza singur.
-              </p>
-              <ul className="space-y-5 mb-8">
-                {sitesItems.map((item) => (
-                  <li key={item.title} className="flex gap-3.5">
-                    <span className="mt-1.5 flex-shrink-0 w-1.5 h-1.5 rounded-full" style={{ background: terraLt }} />
-                    <div>
-                      <p className="font-sans text-sm font-medium mb-0.5" style={{ color: cream }}>{item.title}</p>
-                      <p className="font-sans text-sm" style={{ color: grey, fontWeight: 300 }}>{item.text}</p>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-              <div style={{ borderTop: `1px solid #2C2C28`, paddingTop: '1.5rem' }}>
-                <p className="font-sans text-[13px]" style={{ color: grey }}>
-                  <span style={{ color: terraLt }}>Site prezentare:</span> 600 – 1.800 EUR
-                </p>
-                <p className="font-sans text-[13px] mt-1" style={{ color: grey }}>
-                  <span style={{ color: terraLt }}>Mentenanță opțională:</span> 80 – 150 EUR/lună
-                </p>
-              </div>
-            </div>
-          </motion.div>
-        </div>
-      </div>
-    </section>
-  )
-}
-
-/* ── CUM LUCRĂM ──────────────────────────────────────────── */
-
-function CumLucramSection() {
-  const reduce = useReducedMotion() ?? false
-  const v = fadeUp(reduce)
-
-  const steps = [
-    {
-      num: '01',
-      title: 'Înțelegem problema',
-      text: 'Un apel de 30–60 minute în care ascultăm. Nu vindem nimic. Vrem să înțelegem business-ul tău înainte să propunem orice soluție.',
-      label: 'Discovery',
-    },
-    {
-      num: '02',
-      title: 'Ofertă clară în scris',
-      text: 'Scope fix, preț fix, termen fix. Fără costuri ascunse, fără "depinde". Dacă nu e potrivit pentru tine, îți spunem direct.',
-      label: 'Propunere',
-    },
-    {
-      num: '03',
-      title: 'Construim și comunicăm',
-      text: 'Sprint de 2–4 săptămâni cu update-uri regulate. Ești implicat cât vrei — mai mult sau mai puțin, tu decizi.',
-      label: 'Build',
-    },
-    {
-      num: '04',
-      title: 'Livrăm și rămânem',
-      text: 'Training, documentație, suport post-livrare. Nu dispărem după ce transferăm fișierele.',
-      label: 'Livrare',
-    },
-  ]
-
-  return (
-    <section
-      id="cum-lucram"
-      aria-labelledby="cum-lucram-heading"
-      className="py-24 sm:py-32"
-      style={{ background: offWhite }}
-    >
-      <div className="max-w-6xl mx-auto px-6">
-        <motion.div variants={v} initial="hidden" whileInView="visible" viewport={VP} className="mb-16">
-          <p className="font-sans text-[11px] tracking-[0.14em] uppercase mb-5" style={{ color: terra }}>
-            Procesul
-          </p>
-          <h2
-            id="cum-lucram-heading"
-            className="font-serif leading-tight tracking-tight mb-4"
-            style={{ color: darkText, fontSize: 'clamp(2rem, 3.5vw, 3rem)', fontWeight: 300 }}
-          >
-            Simplu, transparent,
-            <br />fără surprize.
-          </h2>
-          <p className="font-sans text-base leading-[1.75] max-w-lg" style={{ color: '#4A4744', fontWeight: 300 }}>
-            De la primul apel la livrare, știi exact ce urmează și când.
-            Nu dispărem după contract.
+          <p className="text-sm sm:text-base max-w-lg" style={{ color: '#8C8882' }}>
+            Nu generice. Construite pe specificațiile tale, cu logica procesului tău.
           </p>
         </motion.div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
-          {steps.map((s) => (
-            <motion.div key={s.num} variants={v} initial="hidden" whileInView="visible" viewport={VP}>
-              <div
-                className="font-serif mb-4 leading-none"
-                style={{ fontSize: '3.5rem', color: terra, fontWeight: 300, opacity: 0.3 }}
-              >
-                {s.num}
-              </div>
-              <p className="font-sans text-[11px] tracking-[0.12em] uppercase mb-2" style={{ color: terra }}>
-                {s.label}
-              </p>
-              <h3 className="font-sans text-base font-medium mb-3 leading-snug" style={{ color: darkText }}>
-                {s.title}
-              </h3>
-              <p className="font-sans text-sm leading-[1.75]" style={{ color: '#4A4744', fontWeight: 300 }}>
-                {s.text}
-              </p>
-            </motion.div>
-          ))}
-        </div>
-      </div>
-    </section>
-  )
-}
-
-/* ── DE CE CROIT ─────────────────────────────────────────── */
-
-function DeCeCroitSection() {
-  const reduce = useReducedMotion() ?? false
-  const v = fadeUp(reduce)
-
-  const cards = [
-    {
-      title: 'Spunem adevărul',
-      text: 'Dacă ceva nu se poate face în bugetul sau termenul tău, îți spunem imediat. Nu pierdem timp cu promisiuni pe care nu le putem ține.',
-    },
-    {
-      title: 'De 3–5x mai rapid',
-      text: 'Folosim instrumente AI de ultimă generație care ne permit să livrăm în săptămâni ceea ce altădată dura luni. Economiile se transferă parțial la tine.',
-    },
-    {
-      title: 'Înțelegem industria ta',
-      text: 'Am stat în fabrici și am văzut cum arată haosul operațional de zi cu zi. Nu vindem soluții generice — construim pe problema ta specifică.',
-    },
-    {
-      title: 'Rămânem oameni',
-      text: 'Ai un număr de telefon real. Primești răspuns în aceeași zi. Nu ești un ticket într-un sistem de suport.',
-    },
-  ]
-
-  return (
-    <section
-      id="de-ce"
-      aria-labelledby="de-ce-heading"
-      className="py-24 sm:py-32"
-      style={{ background: dark }}
-    >
-      <div className="max-w-6xl mx-auto px-6">
-        <motion.div variants={v} initial="hidden" whileInView="visible" viewport={VP} className="mb-16">
-          <p className="font-sans text-[11px] tracking-[0.14em] uppercase mb-5" style={{ color: terra }}>
-            De ce noi
-          </p>
-          <h2
-            id="de-ce-heading"
-            className="font-serif leading-tight tracking-tight"
-            style={{ color: cream, fontSize: 'clamp(2rem, 3.5vw, 3rem)', fontWeight: 300 }}
-          >
-            Nu facem magie.
-            <br />Facem cod bun, livrat la timp.
-          </h2>
-        </motion.div>
-
-        <div className="grid sm:grid-cols-2 gap-5 mb-16">
-          {cards.map((c) => (
-            <motion.div
-              key={c.title}
-              variants={v} initial="hidden" whileInView="visible" viewport={VP}
-              className="p-8 rounded-lg"
-              style={{ background: '#1F1F1B', border: `1px solid rgba(193,78,48,0.15)` }}
-            >
-              <h3 className="font-sans text-base font-medium mb-3" style={{ color: cream }}>{c.title}</h3>
-              <p className="font-sans text-sm leading-[1.8]" style={{ color: grey, fontWeight: 300 }}>{c.text}</p>
-            </motion.div>
-          ))}
-        </div>
-
-        {/* Pull quote */}
-        <motion.blockquote
-          variants={v} initial="hidden" whileInView="visible" viewport={VP}
-          className="text-center max-w-2xl mx-auto"
-          style={{ borderTop: `1px solid #2C2C28`, paddingTop: '3rem' }}
+        <motion.div
+          variants={container}
+          initial="hidden"
+          whileInView="visible"
+          viewport={VP}
+          className="grid sm:grid-cols-2 gap-4"
         >
-          <p
-            className="font-serif leading-snug tracking-tight"
-            style={{ color: cream, fontSize: 'clamp(1.4rem, 2.5vw, 2rem)', fontWeight: 300, fontStyle: 'italic' }}
-          >
-            „Un sistem bun nu se simte.
-            <br />Se vede în timp salvat, erori evitate și bani recuperați."
-          </p>
-        </motion.blockquote>
+          {appTypes.map(({ Icon, title, body, color }) => (
+            <motion.div key={title} variants={item} className="card-dark rounded-2xl p-6">
+              <div
+                className="inline-flex items-center justify-center w-10 h-10 rounded-xl mb-4"
+                style={{ background: `${color}14`, border: `1px solid ${color}30` }}
+              >
+                <Icon className="w-5 h-5" style={{ color }} aria-hidden="true" />
+              </div>
+              <h3 className="text-base font-semibold mb-2 leading-snug" style={{ color: '#F2EDE4' }}>
+                {title}
+              </h3>
+              <p className="text-sm leading-[1.75]" style={{ color: '#8C8882' }}>
+                {body}
+              </p>
+            </motion.div>
+          ))}
+        </motion.div>
       </div>
     </section>
   )
 }
 
-/* ── CONTACT ─────────────────────────────────────────────── */
+/* ── PACHETE APPS ────────────────────────────────────────── */
 
-function ContactSection() {
-  const reduce = useReducedMotion() ?? false
-  const v = fadeUp(reduce)
-  const [sent, setSent] = useState(false)
-  const [form, setForm] = useState({
-    name: '', email: '', phone: '', type: '', message: '',
-  })
+function PacheteAppsSection() {
+  const shouldReduce = useReducedMotion() ?? false
+  const { container, item, section } = makeVariants(shouldReduce)
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    setSent(true)
-  }
+  return (
+    <section
+      id="pachete"
+      aria-labelledby="pachete-apps-heading"
+      style={{ background: `linear-gradient(160deg, ${C.warm0}, ${C.warm1})` }}
+      className="py-20 sm:py-28"
+    >
+      <div className="max-w-6xl mx-auto px-6">
+        <motion.div variants={section} initial="hidden" whileInView="visible" viewport={VP} className="mb-14">
+          <p className="font-sans text-[10px] tracking-widest uppercase mb-5" style={{ color: '#E8805E' }}>
+            Pachete aplicații
+          </p>
+          <h2
+            id="pachete-apps-heading"
+            className="font-serif text-2xl sm:text-[2rem] font-semibold tracking-tight max-w-2xl mb-4 leading-tight"
+            style={{ color: '#F2EDE4' }}
+          >
+            Scope fix, preț fix, termen fix.
+            <br />
+            Stabilite după o săptămână de discovery.
+          </h2>
+          <p className="text-sm sm:text-base max-w-lg" style={{ color: 'rgba(242,237,228,0.6)' }}>
+            Nu scriem o linie de cod înainte să știm exact ce construim.
+            Discovery-ul e plătit și creditat integral în proiect dacă continuăm.
+          </p>
+        </motion.div>
 
-  const inputStyle: React.CSSProperties = {
-    width: '100%',
-    background: '#fff',
-    border: `1px solid ${greyLt}`,
-    borderRadius: 4,
-    padding: '0.75rem 1rem',
-    fontSize: '0.875rem',
-    color: darkText,
-    outline: 'none',
-    fontFamily: 'var(--font-jakarta)',
-    fontWeight: 300,
-  }
+        <motion.div
+          variants={container}
+          initial="hidden"
+          whileInView="visible"
+          viewport={VP}
+          className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 items-start"
+        >
+          {appsPackages.map((pkg) => (
+            <motion.div key={pkg.name} variants={item} className="h-full">
+              <PackageCard {...pkg} />
+            </motion.div>
+          ))}
+        </motion.div>
+      </div>
+    </section>
+  )
+}
 
-  const labelStyle: React.CSSProperties = {
-    display: 'block',
-    fontSize: '0.75rem',
-    fontWeight: 500,
-    letterSpacing: '0.06em',
-    marginBottom: '0.4rem',
-    color: '#4A4744',
-  }
+/* ── PROPUNERE SITES ─────────────────────────────────────── */
+
+function SitesPropunereSection() {
+  const shouldReduce = useReducedMotion() ?? false
+  const { container, item, section } = makeVariants(shouldReduce)
+
+  const diferentiatori = [
+    {
+      Icon: Zap,
+      title: 'Livrare în 5, 10 sau 15 zile',
+      body: 'Termen fix din prima discuție. Nu "undeva în jurul a două luni" — dată clară în contract, respectată.',
+      color: '#C14E30',
+    },
+    {
+      Icon: Globe,
+      title: 'Design care iese în față',
+      body: 'Animații moderne, vizual personalizat, cod curat. Site-ul tău e cel mai bun portofoliu al nostru.',
+      color: '#E8805E',
+    },
+    {
+      Icon: Lock,
+      title: 'Preț fix, fără surprize',
+      body: 'Știi prețul exact înainte să înceapă munca. Fără ore suplimentare neagreate, fără factură surpriză.',
+      color: '#C14E30',
+    },
+  ]
+
+  return (
+    <section
+      aria-labelledby="sites-propunere-heading"
+      style={{ background: C.dark }}
+      className="py-20 sm:py-28"
+    >
+      <div className="max-w-6xl mx-auto px-6">
+        <motion.div variants={section} initial="hidden" whileInView="visible" viewport={VP} className="mb-14">
+          <p className="font-sans text-[10px] tracking-widest uppercase mb-5" style={{ color: '#E8805E' }}>
+            De ce Croit
+          </p>
+          <h2
+            id="sites-propunere-heading"
+            className="font-serif text-2xl sm:text-[2rem] font-semibold tracking-tight max-w-xl mb-4 leading-tight"
+            style={{ color: '#F2EDE4' }}
+          >
+            Un site bun nu durează luni de zile
+            <br className="hidden sm:block" /> și nu costă o avere.
+          </h2>
+          <p className="text-sm sm:text-base max-w-lg" style={{ color: '#8C8882' }}>
+            Construim site-uri profesionale cu animații moderne.
+            Livrăm mai repede decât oricine — fără să sacrificăm calitatea.
+          </p>
+        </motion.div>
+
+        <motion.div
+          variants={container}
+          initial="hidden"
+          whileInView="visible"
+          viewport={VP}
+          className="grid sm:grid-cols-3 gap-4"
+        >
+          {diferentiatori.map(({ Icon, title, body, color }) => (
+            <motion.div key={title} variants={item} className="card-dark rounded-2xl p-6">
+              <div
+                className="inline-flex items-center justify-center w-10 h-10 rounded-xl mb-4"
+                style={{ background: `${color}14`, border: `1px solid ${color}30` }}
+              >
+                <Icon className="w-5 h-5" style={{ color }} aria-hidden="true" />
+              </div>
+              <h3 className="text-base font-semibold mb-2 leading-snug" style={{ color: '#F2EDE4' }}>
+                {title}
+              </h3>
+              <p className="text-sm leading-[1.75]" style={{ color: '#8C8882' }}>
+                {body}
+              </p>
+            </motion.div>
+          ))}
+        </motion.div>
+      </div>
+    </section>
+  )
+}
+
+/* ── PACHETE SITES ───────────────────────────────────────── */
+
+function PacheteSitesSection() {
+  const shouldReduce = useReducedMotion() ?? false
+  const { container, item, section } = makeVariants(shouldReduce)
+
+  return (
+    <section
+      aria-labelledby="pachete-sites-heading"
+      style={{ background: `linear-gradient(160deg, ${C.terra0}, ${C.terra1})` }}
+      className="py-20 sm:py-28"
+    >
+      <div className="max-w-6xl mx-auto px-6">
+        <motion.div variants={section} initial="hidden" whileInView="visible" viewport={VP} className="mb-14">
+          <p className="font-sans text-[10px] tracking-widest uppercase mb-5" style={{ color: '#E8805E' }}>
+            Pachete site-uri
+          </p>
+          <h2
+            id="pachete-sites-heading"
+            className="font-serif text-2xl sm:text-[2rem] font-semibold tracking-tight max-w-xl mb-4 leading-tight"
+            style={{ color: '#F2EDE4' }}
+          >
+            Alegi pachetul, știi data livrării.
+            <br />
+            Fără calcule de ore și estimări vagi.
+          </h2>
+          <p className="text-sm sm:text-base max-w-lg" style={{ color: 'rgba(242,237,228,0.6)' }}>
+            Fiecare pachet include opțional mentenanță lunară — hosting, actualizări
+            de securitate și modificări minore oricând ai nevoie.
+          </p>
+        </motion.div>
+
+        <motion.div
+          variants={container}
+          initial="hidden"
+          whileInView="visible"
+          viewport={VP}
+          className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 items-start"
+        >
+          {sitesPackages.map((pkg) => (
+            <motion.div key={pkg.name} variants={item} className="h-full">
+              <PackageCard {...pkg} />
+            </motion.div>
+          ))}
+        </motion.div>
+      </div>
+    </section>
+  )
+}
+
+/* ── FAQ ─────────────────────────────────────────────────── */
+
+function FAQSection() {
+  const shouldReduce = useReducedMotion() ?? false
+  const { section } = makeVariants(shouldReduce)
+
+  return (
+    <section
+      id="faq"
+      aria-labelledby="faq-heading"
+      style={{ background: C.darkAlt }}
+      className="py-20 sm:py-28"
+    >
+      <div className="max-w-6xl mx-auto px-6">
+        <motion.div variants={section} initial="hidden" whileInView="visible" viewport={VP} className="mb-14">
+          <p className="font-sans text-[10px] tracking-widest uppercase mb-5" style={{ color: '#8C8882' }}>
+            Întrebări frecvente
+          </p>
+          <h2
+            id="faq-heading"
+            className="font-serif text-2xl sm:text-[2rem] font-semibold tracking-tight max-w-xl leading-tight"
+            style={{ color: '#F2EDE4' }}
+          >
+            Ce întreabă antreprenorii înainte să înceapă o colaborare.
+          </h2>
+        </motion.div>
+
+        <motion.div variants={section} initial="hidden" whileInView="visible" viewport={VP} className="max-w-2xl">
+          {faqData.map((f) => (
+            <FAQItem key={f.question} question={f.question} answer={f.answer} />
+          ))}
+        </motion.div>
+      </div>
+    </section>
+  )
+}
+
+/* ── TESTIMONIALE ────────────────────────────────────────── */
+
+function TestimonialeSection() {
+  const shouldReduce = useReducedMotion() ?? false
+  const { container, item, section } = makeVariants(shouldReduce)
+
+  return (
+    <section
+      aria-labelledby="testimoniale-heading"
+      style={{ background: `linear-gradient(160deg, ${C.warm0}, ${C.warm1})` }}
+      className="py-20 sm:py-28"
+    >
+      <div className="max-w-6xl mx-auto px-6">
+        <motion.div variants={section} initial="hidden" whileInView="visible" viewport={VP} className="mb-14">
+          <p className="font-sans text-[10px] tracking-widest uppercase mb-5" style={{ color: '#E8805E' }}>
+            Clienți
+          </p>
+          <h2
+            id="testimoniale-heading"
+            className="font-serif text-2xl sm:text-[2rem] font-semibold tracking-tight max-w-xl mb-3 leading-tight"
+            style={{ color: '#F2EDE4' }}
+          >
+            Ce spun cei cu care am lucrat.
+          </h2>
+          <p className="text-sm" style={{ color: 'rgba(242,237,228,0.45)' }}>
+            Testimonialele clienților noștri vor apărea aici în curând.
+          </p>
+        </motion.div>
+
+        <motion.div
+          variants={container}
+          initial="hidden"
+          whileInView="visible"
+          viewport={VP}
+          className="grid sm:grid-cols-3 gap-4"
+        >
+          {[0, 1, 2].map((i) => (
+            <motion.div key={i} variants={item}>
+              <TestimonialCard index={i} />
+            </motion.div>
+          ))}
+        </motion.div>
+      </div>
+    </section>
+  )
+}
+
+/* ── ECHIPA ──────────────────────────────────────────────── */
+
+function EchipaSection() {
+  const shouldReduce = useReducedMotion() ?? false
+  const { section } = makeVariants(shouldReduce)
+
+  return (
+    <section
+      id="echipa"
+      aria-labelledby="echipa-heading"
+      style={{ background: C.dark }}
+      className="py-20 sm:py-28"
+    >
+      <div className="max-w-6xl mx-auto px-6">
+        <motion.div variants={section} initial="hidden" whileInView="visible" viewport={VP} className="max-w-2xl">
+          <p className="font-sans text-[10px] tracking-widest uppercase mb-5" style={{ color: '#8C8882' }}>
+            Echipa
+          </p>
+          <h2
+            id="echipa-heading"
+            className="font-serif text-2xl sm:text-[2rem] font-semibold tracking-tight mb-8 leading-tight"
+            style={{ color: '#F2EDE4' }}
+          >
+            Tehnici, nu consultanți.
+          </h2>
+          <p className="text-sm sm:text-base leading-[1.8]" style={{ color: '#8C8882' }}>
+            Suntem o echipă mică cu experiență în software pentru producție,
+            logistică și prezentare online. Am construit aplicații interne
+            înainte de a construi site-uri — știm cum gândesc atât directorii
+            de fabrică, cât și antreprenorii care vor să fie găsiți online. Nu
+            vindem produse generice adaptate forțat. Fiecare proiect începe cu
+            o săptămână de discovery în care mapăm procesele reale, nu cele din
+            organigramă. Scriem cod, nu slide-uri.
+          </p>
+        </motion.div>
+      </div>
+    </section>
+  )
+}
+
+/* ── CTA FINAL ───────────────────────────────────────────── */
+
+function CTASection() {
+  const shouldReduce = useReducedMotion() ?? false
+  const { section } = makeVariants(shouldReduce)
 
   return (
     <section
       id="contact"
-      aria-labelledby="contact-heading"
-      className="py-24 sm:py-32"
-      style={{ background: offWhite }}
+      aria-labelledby="cta-heading"
+      className="py-24 sm:py-32 relative overflow-hidden"
+      style={{
+        background: `linear-gradient(135deg, ${C.terra0} 0%, ${C.dark} 50%, ${C.warm0} 100%)`,
+      }}
     >
-      <div className="max-w-6xl mx-auto px-6">
-        <div className="grid lg:grid-cols-2 gap-16 items-start">
-          {/* Left */}
-          <motion.div variants={v} initial="hidden" whileInView="visible" viewport={VP}>
-            <p className="font-sans text-[11px] tracking-[0.14em] uppercase mb-5" style={{ color: terra }}>
-              Hai să vorbim
-            </p>
-            <h2
-              id="contact-heading"
-              className="font-serif leading-tight tracking-tight mb-6"
-              style={{ color: darkText, fontSize: 'clamp(2rem, 3.5vw, 3rem)', fontWeight: 300 }}
+      <div className="relative max-w-6xl mx-auto px-6 text-center">
+        <motion.div variants={section} initial="hidden" whileInView="visible" viewport={VP}>
+          <h2
+            id="cta-heading"
+            className="font-serif text-2xl sm:text-4xl font-semibold tracking-tight max-w-2xl mx-auto leading-tight mb-5"
+            style={{ color: '#F2EDE4' }}
+          >
+            Gata să construim ceva{' '}
+            <span className="gradient-text">împreună?</span>
+          </h2>
+          <p
+            className="text-sm sm:text-base max-w-md mx-auto mb-10 leading-[1.75]"
+            style={{ color: '#8C8882' }}
+          >
+            O discuție de 30 de minute e suficientă ca să înțelegem ce ai
+            nevoie și dacă putem livra.
+          </p>
+
+          <div className="cta-buttons-wrap flex flex-col sm:flex-row items-center justify-center gap-3 mb-8">
+            <motion.a
+              href="https://wa.me/40700000000"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2.5 text-sm font-medium rounded-lg px-6 py-3 min-h-[44px] w-full sm:w-auto focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C14E30]"
+              style={{ background: '#C14E30', color: '#F2EDE4' }}
+              whileHover={{ scale: 1.02, background: '#A63D22' } as Parameters<typeof motion.a>[0]['whileHover']}
+              whileTap={{ scale: 0.98 }}
+              transition={{ duration: 0.15 }}
             >
-              Primul apel e gratuit
-              <br />și fără angajament.
-            </h2>
-            <p className="font-sans text-base leading-[1.75] mb-10 max-w-sm" style={{ color: '#4A4744', fontWeight: 300 }}>
-              Povestiți-ne despre afacerea ta și despre ce te doare cel mai tare.
-              Noi îți spunem sincer dacă putem ajuta și cum.
-              Nu vindem în primul apel — ascultăm.
-            </p>
+              <WhatsAppIcon />
+              WhatsApp
+            </motion.a>
+            <Button variant="ghost" href="tel:+40700000000" className="w-full sm:w-auto">
+              <Phone className="w-4 h-4" aria-hidden="true" />
+              +40 7XX XXX XXX
+            </Button>
+            <Button variant="ghost" href="mailto:contact@croit.ro" className="w-full sm:w-auto">
+              <Mail className="w-4 h-4" aria-hidden="true" />
+              contact@croit.ro
+            </Button>
+          </div>
 
-            <div className="space-y-4">
-              {[
-                { icon: '✉', label: 'contact@croit.ro', href: 'mailto:contact@croit.ro' },
-                { icon: '☎', label: '+40 740 000 000', href: 'tel:+40740000000' },
-                { icon: '◉', label: 'Brașov, România', href: undefined },
-              ].map((c) => (
-                <div key={c.label} className="flex items-center gap-3">
-                  <span style={{ color: terra, fontSize: '1rem', width: 20, textAlign: 'center' }}>{c.icon}</span>
-                  {c.href ? (
-                    <a href={c.href} className="font-sans text-sm transition-colors duration-150" style={{ color: '#4A4744', fontWeight: 300 }}
-                      onMouseEnter={(e) => ((e.target as HTMLElement).style.color = terra)}
-                      onMouseLeave={(e) => ((e.target as HTMLElement).style.color = '#4A4744')}
-                    >{c.label}</a>
-                  ) : (
-                    <span className="font-sans text-sm" style={{ color: '#4A4744', fontWeight: 300 }}>{c.label}</span>
-                  )}
-                </div>
-              ))}
-            </div>
-          </motion.div>
-
-          {/* Right — form */}
-          <motion.div variants={v} initial="hidden" whileInView="visible" viewport={VP}>
-            {sent ? (
-              <div
-                className="rounded-lg p-10 text-center"
-                style={{ background: '#fff', border: `1px solid ${greyLt}` }}
-              >
-                <div className="mb-4 text-4xl" aria-hidden="true">✓</div>
-                <h3 className="font-serif text-2xl mb-3" style={{ color: darkText, fontWeight: 300 }}>
-                  Mesaj trimis!
-                </h3>
-                <p className="font-sans text-sm" style={{ color: '#4A4744', fontWeight: 300 }}>
-                  Răspundem în maximum 24 de ore în zilele lucrătoare.
-                </p>
-              </div>
-            ) : (
-              <form
-                onSubmit={handleSubmit}
-                className="rounded-lg p-8 space-y-5"
-                style={{ background: '#fff', border: `1px solid ${greyLt}` }}
-                noValidate
-              >
-                <div className="grid sm:grid-cols-2 gap-4">
-                  <div>
-                    <label style={labelStyle}>Nume și prenume *</label>
-                    <input
-                      required
-                      type="text"
-                      value={form.name}
-                      onChange={(e) => setForm({ ...form, name: e.target.value })}
-                      style={inputStyle}
-                      onFocus={(e) => (e.target.style.borderColor = terra)}
-                      onBlur={(e) => (e.target.style.borderColor = greyLt)}
-                    />
-                  </div>
-                  <div>
-                    <label style={labelStyle}>Email *</label>
-                    <input
-                      required
-                      type="email"
-                      value={form.email}
-                      onChange={(e) => setForm({ ...form, email: e.target.value })}
-                      style={inputStyle}
-                      onFocus={(e) => (e.target.style.borderColor = terra)}
-                      onBlur={(e) => (e.target.style.borderColor = greyLt)}
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <label style={labelStyle}>Telefon <span style={{ fontWeight: 300 }}>(opțional)</span></label>
-                  <input
-                    type="tel"
-                    value={form.phone}
-                    onChange={(e) => setForm({ ...form, phone: e.target.value })}
-                    style={inputStyle}
-                    onFocus={(e) => (e.target.style.borderColor = terra)}
-                    onBlur={(e) => (e.target.style.borderColor = greyLt)}
-                  />
-                </div>
-
-                <div>
-                  <label style={labelStyle}>Tipul proiectului</label>
-                  <select
-                    value={form.type}
-                    onChange={(e) => setForm({ ...form, type: e.target.value })}
-                    style={{ ...inputStyle, appearance: 'none', backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M2 4l4 4 4-4' stroke='%238C8882' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 12px center', paddingRight: '2.5rem', cursor: 'pointer' }}
-                    onFocus={(e) => (e.target.style.borderColor = terra)}
-                    onBlur={(e) => (e.target.style.borderColor = greyLt)}
-                  >
-                    <option value="">— Selectează —</option>
-                    <option value="app">Aplicație internă</option>
-                    <option value="site">Site web</option>
-                    <option value="other">Nu știu încă</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label style={labelStyle}>Descrie pe scurt ce ai nevoie</label>
-                  <textarea
-                    rows={4}
-                    value={form.message}
-                    onChange={(e) => setForm({ ...form, message: e.target.value })}
-                    style={{ ...inputStyle, resize: 'vertical', minHeight: '100px' }}
-                    onFocus={(e) => (e.target.style.borderColor = terra)}
-                    onBlur={(e) => (e.target.style.borderColor = greyLt)}
-                  />
-                </div>
-
-                <button
-                  type="submit"
-                  className="w-full py-3 text-sm font-medium transition-colors duration-150 rounded"
-                  style={{ background: terra, color: cream, borderRadius: 5 }}
-                  onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.background = '#8F3520')}
-                  onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.background = terra)}
-                >
-                  Trimite mesajul
-                </button>
-
-                <p className="text-center font-sans text-[12px]" style={{ color: grey }}>
-                  Răspundem în maximum 24 de ore în zilele lucrătoare.
-                </p>
-              </form>
-            )}
-          </motion.div>
-        </div>
+          <p
+            className="font-sans text-[10px] tracking-widest uppercase"
+            style={{ color: 'rgba(140,136,130,0.35)' }}
+          >
+            Răspundem în maxim 24 de ore în zilele lucrătoare.
+          </p>
+        </motion.div>
       </div>
     </section>
   )
@@ -834,61 +1092,21 @@ function ContactSection() {
 /* ── FOOTER ──────────────────────────────────────────────── */
 
 function FooterSection() {
-  const cols = [
-    {
-      title: 'Servicii',
-      links: ['Aplicații interne', 'Site-uri de prezentare', 'Landing pages', 'Mentenanță și suport'],
-    },
-    {
-      title: 'Companie',
-      links: ['Despre noi', 'Cum lucrăm', 'De ce Croit', 'Contact'],
-    },
-    {
-      title: 'Contact',
-      links: ['contact@croit.ro', '+40 740 000 000', 'Brașov, România'],
-    },
-  ]
-
   return (
-    <footer style={{ background: dark, borderTop: `1px solid #2C2C28` }}>
-      <div className="max-w-6xl mx-auto px-6 py-16">
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
-          {/* Logo col */}
-          <div>
-            <FooterLogo />
-            <p
-              className="font-sans text-[12px] mt-5"
-              style={{ color: grey, fontWeight: 300 }}
-            >
-              Digital pe măsura ta.
-            </p>
-          </div>
-
-          {/* Link cols */}
-          {cols.map((col) => (
-            <div key={col.title}>
-              <p
-                className="font-sans text-[11px] tracking-[0.14em] uppercase mb-4"
-                style={{ color: terra }}
-              >
-                {col.title}
-              </p>
-              <ul className="space-y-2.5">
-                {col.links.map((l) => (
-                  <li key={l}>
-                    <span className="font-sans text-sm" style={{ color: grey, fontWeight: 300 }}>{l}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
-
-        <div style={{ borderTop: `1px solid #2C2C28`, paddingTop: '1.5rem' }}>
-          <p className="font-sans text-[12px]" style={{ color: 'rgba(140,136,130,0.4)' }}>
-            © 2025 Croit. Toate drepturile rezervate.
+    <footer className="border-t py-10" style={{ borderColor: '#2C2C28', background: C.dark }}>
+      <div className="footer-inner max-w-6xl mx-auto px-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div>
+          <AppLogo />
+          <p
+            className="font-sans text-[9px] tracking-widest uppercase mt-2"
+            style={{ color: 'rgba(140,136,130,0.35)' }}
+          >
+            Digital pe măsura ta.
           </p>
         </div>
+        <p className="font-sans text-[10px]" style={{ color: 'rgba(140,136,130,0.3)' }}>
+          © 2026 Croit
+        </p>
       </div>
     </footer>
   )
@@ -897,16 +1115,96 @@ function FooterSection() {
 /* ── PAGE ────────────────────────────────────────────────── */
 
 export default function Page() {
+  const [activeTab, setActiveTab] = useState<TabId>('apps')
+  const [direction, setDirection] = useState(0)
+  const shouldReduce = useReducedMotion() ?? false
+  const tabVariants = makeTabVariants(shouldReduce)
+
+  const handleTabChange = (tab: string) => {
+    const tabs: TabId[] = ['apps', 'sites']
+    const currIdx = tabs.indexOf(activeTab)
+    const nextIdx = tabs.indexOf(tab as TabId)
+    setDirection(nextIdx > currIdx ? 1 : -1)
+    setActiveTab(tab as TabId)
+  }
+
   return (
     <>
       <Nav />
       <main>
-        <HeroSection />
-        <PentruCineSection />
-        <ServiciiSection />
-        <CumLucramSection />
-        <DeCeCroitSection />
-        <ContactSection />
+        <HeroSection activeTab={activeTab} onTabChange={handleTabChange} />
+
+        <AnimatePresence mode="wait" initial={false} custom={direction}>
+          {activeTab === 'apps' ? (
+            <motion.div
+              key="apps-content"
+              custom={direction}
+              variants={tabVariants}
+              initial="enter"
+              animate="center"
+              exit="exit"
+            >
+              <StickyScrollSection
+                eyebrow="APLICAȚII INTERNE"
+                heading="De la Excel la vizibilitate în timp real"
+                steps={APPS_STEPS}
+                accent="#C14E30"
+              />
+              <ScrollStats
+                bg={C.dark}
+                accent="#C14E30"
+                stats={[
+                  { value: '6–10 săptămâni', label: 'de la idee la aplicație funcțională', numericEnd: 10, suffix: ' săpt.' },
+                  { value: 'sub 10.000€', label: 'pentru un sistem complet, preț fix de la început' },
+                  { value: '3 luni', label: 'suport inclus după livrare, fără costuri suplimentare', numericEnd: 3, suffix: ' luni' },
+                ]}
+              />
+              <SectionDivider from={C.dark} to={C.darkAlt} />
+              <CeConstruimSection />
+              <SectionDivider from={C.darkAlt} to={C.warm0} />
+              <div style={{ background: `linear-gradient(160deg, ${C.warm0}, ${C.warm1})` }}>
+                <GrowthArrow />
+              </div>
+              <PacheteAppsSection />
+              <SectionDivider from={C.warm0} to={C.darkAlt} flip />
+            </motion.div>
+          ) : (
+            <motion.div
+              key="sites-content"
+              custom={direction}
+              variants={tabVariants}
+              initial="enter"
+              animate="center"
+              exit="exit"
+            >
+              <StickyScrollSection
+                eyebrow="SITE-URI WEB"
+                heading="Un site care lucrează pentru tine, nu doar există"
+                steps={SITES_STEPS}
+                accent="#E8805E"
+              />
+              <ScrollStats
+                bg={C.dark}
+                accent="#E8805E"
+                stats={[
+                  { value: '5–15 zile', label: 'de la discuție la site live', numericEnd: 15, suffix: ' zile' },
+                  { value: '500€ – 3.000€', label: 'preț fix per proiect, fără surprize' },
+                  { value: '+340%', label: 'creștere medie timp pe site față de designul anterior', numericEnd: 340, prefix: '+', suffix: '%' },
+                ]}
+              />
+              <SectionDivider from={C.dark} to={C.terra0} />
+              <PacheteSitesSection />
+              <SectionDivider from={C.terra0} to={C.darkAlt} flip />
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        <FAQSection />
+        <SectionDivider from={C.darkAlt} to={C.warm0} />
+        <TestimonialeSection />
+        <SectionDivider from={C.warm0} to={C.dark} flip />
+        <EchipaSection />
+        <CTASection />
       </main>
       <FooterSection />
     </>
